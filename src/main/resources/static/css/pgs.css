@@ -1,0 +1,41 @@
+body {
+    background: url('/Projeto_Qualy_Mentos_Ima.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+.topbar {
+    background-color: #216125;
+    padding: 10px;
+}
+
+.topbar a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logo {
+    font-family: 'Georgia', serif;
+    font-size: 24px;
+    color: white;
+}
+
+.content-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 60px auto;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #216125;
+}

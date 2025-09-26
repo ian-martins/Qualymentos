@@ -1,0 +1,83 @@
+package TrabAgro.Qualymentos.Qualymentos.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import TrabAgro.Qualymentos.Qualymentos.dto.LoginUserRequestDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.RegisterUserRequestDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.ResponseUserDTO;
+import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
+import TrabAgro.Qualymentos.Qualymentos.infra.security.TokenService;
+import TrabAgro.Qualymentos.Qualymentos.repository.UsuarioRepository;
+import jakarta.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+public class AuthController {
+    private final UsuarioRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
+
+    @GetMapping("/cadastro")
+    public String cadastro() {
+        return "pg_cadastro";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "pg_login";
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public ResponseEntity login(@RequestBody LoginUserRequestDTO loginRequestDTO, HttpServletResponse response) {
+        Usuario user = this.userRepository.findByEmail(loginRequestDTO.email())
+                .orElseThrow(() -> new RuntimeException("User not Found"));
+
+        if (passwordEncoder.matches(loginRequestDTO.senha(), user.getSenha())) {
+            String token = this.tokenService.generateToken(user);
+            jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setSecure(false); // Em produção, deve ser true para HTTPS
+            jwtCookie.setPath("/");
+            jwtCookie.setMaxAge(2 * 60 * 60);
+
+            response.addCookie(jwtCookie);
+
+            // Retorna também o nome + token no corpo (opcional)
+            return ResponseEntity.ok(new ResponseUserDTO(user.getNome(), token));
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public ResponseEntity register(@RequestBody RegisterUserRequestDTO registerRequestDTO) {
+        var present = this.userRepository.findByEmail(registerRequestDTO.email());
+
+        if (present.isEmpty()) {
+            Usuario user = new Usuario();
+            user.setSenha(passwordEncoder.encode(registerRequestDTO.senha()));
+            user.setNome(registerRequestDTO.nome());
+            user.setEmail(registerRequestDTO.email());
+            this.userRepository.save(user);
+
+            String token = this.tokenService.generateToken(user);
+            return ResponseEntity.ok(new ResponseUserDTO(user.getNome(), token));
+        }
+
+        return ResponseEntity.badRequest().build();
+
+    }
+
+}

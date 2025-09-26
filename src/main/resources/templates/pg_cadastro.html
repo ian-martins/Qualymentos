@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QualyMentos - Cadastro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/pgs.css}">
+
+</head>
+
+<body>
+    <div class="topbar d-flex justify-content-between align-items-center px-3">
+        <div class="logo">Qualy<strong>Mentos</strong></div>
+        <div class="d-flex align-items-center">
+            <input type="text" class="form-control form-control-sm me-2" placeholder="Buscar...">
+            <a href="Teste_JavaScript.html">Início</a>
+            <a href="cadastro">Cadastro</a>
+            <a href="login">Login</a>
+            <a href="Trabalhe_Conosco.html">Trabalhe Conosco</a>
+            <a href="blog_tela.html">Blog</a>
+            <a href="quem_somos.html">Quem somos nós?</a>
+            <a href="faq_tela.html">FAQ+</a>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <h3>Cadastro</h3>
+        <form id="form-cadastro">
+            <input name="nome" type="text" class="form-control" placeholder="Nome">
+            <input name="email" type="email" class="form-control" placeholder="Email">
+            <input name="senha" type="password" class="form-control" placeholder="Senha">
+
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success px-4">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        const formCadastro = document.getElementById('form-cadastro');
+
+        formCadastro.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const dados = Object.fromEntries(new FormData(formCadastro).entries());
+
+            try {
+                const resp = await fetch("http://localhost:8080/auth/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (resp.ok) {
+                    alert("Usuário cadastrado com sucesso!");
+                    // window.location.href = "/";
+
+                    formCadastro.reset();
+                } else {
+                    const erro = await resp.text();
+                    alert("Erro ao cadastrar: " + erro);
+                }
+            } catch (err) {
+                alert("Erro de conexão com o servidor: " + err.message);
+            }
+        })
+    </script>
+</body>
+
+</html>
