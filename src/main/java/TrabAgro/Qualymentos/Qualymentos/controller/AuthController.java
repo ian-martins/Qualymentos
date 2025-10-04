@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import TrabAgro.Qualymentos.Qualymentos.dto.LoginUserRequestDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.RegisterUserRequestDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.ResponseUserDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.user.LoginUserRequestDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.user.RegisterUserRequestDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.user.ResponseUserDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.infra.security.TokenService;
 import TrabAgro.Qualymentos.Qualymentos.repository.UsuarioRepository;
@@ -29,7 +29,7 @@ public class AuthController {
 
     @GetMapping("/cadastro")
     public String cadastro() {
-        return "pg_cadastro";
+        return "page_cadastro";
     }
 
     @GetMapping("/login")

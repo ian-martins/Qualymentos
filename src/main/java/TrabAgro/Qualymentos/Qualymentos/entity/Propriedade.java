@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -24,18 +25,31 @@ public class Propriedade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "local")
-    private String local;
+    @Column(name = "codigo_rural", nullable = false, unique = true)
+    private String codigoRural;
 
-    @Column(name = "tamanho")
-    private Double tamanho;
+    @Column(name = "area", nullable = false)
+    private String areaTotal;
+    
+    @Column(name = "municipio", nullable = false)
+    private String municipio;
+
+    @Column(name = "estado", nullable = false)
+    private String estado;
+
+    @Column(name = "tipo_solo", nullable = false)
+    private String tipoSolo;
+
+    @Column(name = "tipo_producao", nullable = false)
+    private String tipoProducao;
+    
+    @Column(name = "tipo_cultura")
+    private String tipoCultura;
 
     @ManyToOne
-    @Column(name = "proprietario")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-
-
 }
