@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -15,36 +15,17 @@
     <div class="topbar d-flex justify-content-between align-items-center px-3">
         <div class="logo">Qualy<strong>Mentos</strong></div>
         <div class="d-flex align-items-center">
+
             <a href="/user">voltar ao inicio</a>
         </div>
     </div>
+
     <div class="content-box">
-        <h3>Cadastro de Fazendas</h3>
+        <h3>Cadastro de Produtos</h3>
         <form id="form-cadastro">
-            <input name="nome" type="text" class="form-control" placeholder="Nome da Fazenda" required>
-            <input name="codigoRural" type="text" class="form-control" placeholder="Codigo Rural" required>
-            <input name="areaTotal" type="text" class="form-control" placeholder="Tamanho (em hectares)" required>
-            <input name="municipio" type="text" class="form-control" placeholder="Cidade" required>
-            <input name="estado" type="text" class="form-control" placeholder="Estado" required>
-
-            <br>
-            <h5>Características do Solo e Cultivo</h5>
-
-            <select name="tipoSolo" class="form-control" required>
-                <option selected disabled>Tipo de solo</option>
-                <option value="Solo A">Solo A</option>
-                <option value="Solo B">Solo B</option>
-                <option value="Solo C">Solo C</option>
-            </select>
-
-            <input name="tipoProducao" type="text" class="form-control" placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
-
-            <select name="tipoCultura" class="form-control" required>
-                <option selected disabled>Sistema de produção</option>
-                <option value="Tipo A">Tipo A</option>
-                <option value="Tipo B">Tipo B</option>
-                <option value="Tipo C">Tipo C</option>
-            </select>
+            <input name="tipoGrao" type="text" class="form-control" placeholder="Tipo de Grão" required>
+            <input name="areaPlantada" type="text" class="form-control" placeholder="Area Plantada" required>
+            <input name="dataPlantio" type="date" class="form-control" placeholder="Periodo do plantio" required>
 
             <div class="text-center mt-3">
                 <button type="submit" class="btn btn-success px-4">
@@ -54,7 +35,8 @@
         </form>
     </div>
 
-    <script>
+    <script script th:inline="javascript">
+        let url = /*[[@{/user/{id}/AddGrao(id=${propriedade.id})}]]*/ "";
         const formCadastro = document.getElementById('form-cadastro');
 
         formCadastro.addEventListener('submit', async(e) => {
@@ -63,7 +45,7 @@
             const dados = Object.fromEntries(new FormData(formCadastro).entries());
 
             try {
-                const resp = await fetch("http://localhost:8080/user/cdpropriedade", {
+                const resp = await fetch(url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -72,9 +54,9 @@
                 });
 
                 if (resp.ok) {
-                    alert("propriedade cadastrada com sucesso!");
-                    // window.location.href = "/";
-
+                    alert("Grao cadastrado com sucesso!");
+                    /*                     window.location.href = "/user";
+                     */
                     formCadastro.reset();
                 } else {
                     const erro = await resp.text();

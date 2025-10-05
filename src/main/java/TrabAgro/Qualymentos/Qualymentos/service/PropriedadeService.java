@@ -1,5 +1,6 @@
 package TrabAgro.Qualymentos.Qualymentos.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -34,6 +35,22 @@ public class PropriedadeService {
         propriedadeRepository.save(newPropriedade);
 
         return Optional.of(ResponsePropriedadeDTO.fromEntity(newPropriedade));
+    }
+
+    public boolean propriedadeValida(Propriedade propriedade) {
+        if (!propriedadeRepository.existsById(propriedade.getId())) {
+            throw new IllegalArgumentException("Propriedade com ID " + propriedade.getId() + " não encontrada.");
+        }
+        return true;
+    }
+
+    public List<Propriedade> getAllP(Usuario usuario) {
+        return propriedadeRepository.findByUsuario(usuario);
+    }
+
+    public Propriedade getById(Long id) {
+        return propriedadeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Propriedade com ID " + id + " não encontrada."));
     }
 
 }

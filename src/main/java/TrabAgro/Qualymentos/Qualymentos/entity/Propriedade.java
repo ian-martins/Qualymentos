@@ -28,7 +28,7 @@ public class Propriedade {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "codigo_rural", nullable = false, unique = true)
+    @Column(name = "codigo_rural", nullable = false, unique = false)
     private String codigoRural;
 
     @Column(name = "area", nullable = false)
