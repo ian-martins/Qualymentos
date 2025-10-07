@@ -27,6 +27,7 @@ body {
     padding: 30px;
     border-radius: 10px;
     max-width: 600px;
+    text-align: center;
     margin: 60px auto;
 }
 
@@ -37,7 +38,7 @@ body {
     display: flex;
     flex-direction: column;
     max-width: 500px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .form-control {
@@ -54,4 +55,9 @@ h5 {
     text-align: center;
     margin-bottom: 30px;
     color: #216125;
+}
+
+.checkmark {
+    font-size: 60px;
+    color: green;
 }

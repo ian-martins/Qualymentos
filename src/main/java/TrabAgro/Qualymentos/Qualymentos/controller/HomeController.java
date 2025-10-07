@@ -14,4 +14,9 @@ public class HomeController {
     public String home() {
         return "home";
     }  
+
+    @GetMapping("/cadastro_sucesso")
+    public String cs() {
+        return "cadastro_sucesso";
+    }  
 }

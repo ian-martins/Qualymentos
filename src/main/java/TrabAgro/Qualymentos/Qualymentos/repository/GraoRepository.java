@@ -11,5 +11,7 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 @Repository
 public interface GraoRepository extends JpaRepository<Grao, Long> {
     List<Grao> findByPropriedade(Propriedade propriedade);
+    void deleteAllByPropriedade(Propriedade propriedade);
+    boolean existsByPropriedadeId(Long id);
 
 }

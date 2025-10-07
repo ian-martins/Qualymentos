@@ -14,17 +14,40 @@
     <div class="topbar d-flex justify-content-between align-items-center px-3">
         <div class="logo">Qualy<strong>Mentos</strong></div>
         <div class="d-flex align-items-center">
-
+            <input type="text" class="form-control form-control-sm me-2" placeholder="Buscar...">
+            <a href="/home">Início</a>
             <a href="user/cdpropriedade">Adicionar propriedade</a>
-            <!-- <a href="user/cdproduto">registro de plantio</a> -->
-        </div>
+            <a href="Trabalhe_Conosco.html">Trabalhe Conosco</a>
+            <a href="blog_tela.html">Blog</a>
+            <a href="quem_somos.html">Quem somos nós?</a>
+            <a href="faq_tela.html">FAQ+</a>
 
+        </div>
     </div>
     <div class="panel" th:each="propriedades : ${propriedades}">
         <strong th:text="'Propriedade - ' + ${propriedades.nome}"></strong>
         <span th:text="'Tipo de cultivo - ' + ${propriedades.tipoProducao}"></span>
         <a th:href="@{/user/{id}(id=${propriedades.id})}">gerenciar</a>
+        <a href="#" th:attr="data-id=${propriedades.id}" onclick="deletar(this)">Deletar</a>
     </div>
+
+    <script>
+        function deletar(elemento) {
+            const id = elemento.getAttribute('data-id');
+            if (confirm('Tem certeza que deseja deletar?')) {
+                fetch(`/propriedade/delete/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(resp => {
+                        if (!resp.ok) {
+                            alert('Erro ao deletar a propriedade.');
+                        }
+                    });
+                window.location.reload();
+
+            }
+        }
+    </script>
 </body>
 
 </html>

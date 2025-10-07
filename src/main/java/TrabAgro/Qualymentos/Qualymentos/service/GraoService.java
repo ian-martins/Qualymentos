@@ -26,4 +26,8 @@ public class GraoService {
         return graoRepository.findByPropriedade(propriedade);
     }
 
+    public void deleteById(Long id) {
+        graoRepository.deleteById(id);
+    }
+
 }

@@ -29,7 +29,7 @@ public class AuthController {
 
     @GetMapping("/cadastro")
     public String cadastro() {
-        return "page_cadastro";
+        return "pg_cadastro";
     }
 
     @GetMapping("/login")
