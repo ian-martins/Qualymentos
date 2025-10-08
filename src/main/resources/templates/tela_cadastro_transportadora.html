@@ -49,7 +49,7 @@
             const dados = Object.fromEntries(new FormData(formCadastro).entries());
 
             try {
-                const resp = await fetch("http://localhost:8080/user/transporte", {
+                const resp = await fetch("http://localhost:8080/transporte/add", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.transporte.RegisterTransDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
 import TrabAgro.Qualymentos.Qualymentos.service.PropriedadeService;
-import TrabAgro.Qualymentos.Qualymentos.service.TransportadoraService;
+import TrabAgro.Qualymentos.Qualymentos.service.TransporteService;
 
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
@@ -29,23 +28,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/usuario")
 @RequiredArgsConstructor
 public class UsuarioController {
     private final PropriedadeService propriedadeService;
-    private final TransportadoraService transService;
+    private final TransporteService transService;
     private final GraoService graoService;
 
-    @GetMapping("transporte")
-    public String trans() {
-        return "tela_cadastro_transportadora";
-    }
-
-    @PostMapping("transporte")
-    public ResponseEntity cadastrarTransp(@RequestBody RegisterTransDTO dto) {
-        transService.salvarTrans(dto);
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping
     public String user(Model model, Authentication authentication) {
@@ -57,7 +46,7 @@ public class UsuarioController {
 
         model.addAttribute("propriedades", response);
         model.addAttribute("usuario", usuario);
-        return "user";
+        return "tela_menu_usuario";
     }
 
     @GetMapping("/{id}")

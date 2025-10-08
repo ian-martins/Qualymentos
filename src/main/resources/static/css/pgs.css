@@ -25,20 +25,23 @@ body {
 .content-box {
     background-color: rgba(255, 255, 255, 0.9);
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 12px;
+    height: 100%;
     max-width: 600px;
     text-align: center;
-    margin: 60px auto;
 }
 
 .panel {
-    border-radius: 10px;
+    border-radius: 12px;
     margin: 30px;
     padding: 8px;
     display: flex;
     flex-direction: column;
     max-width: 500px;
     background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
 }
 
 .form-control {

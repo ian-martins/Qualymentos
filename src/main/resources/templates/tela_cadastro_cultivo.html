@@ -20,53 +20,8 @@
         </div>
     </div>
 
-    <div class="content-box">
-        <h3>Cadastro de Produtos</h3>
-        <form id="form-cadastro">
-            <input name="tipoGrao" type="text" class="form-control" placeholder="Tipo de Grão" required>
-            <input name="areaPlantada" type="text" class="form-control" placeholder="Area Plantada" required>
-            <input name="dataPlantio" type="date" class="form-control" placeholder="Periodo do plantio" required>
 
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-success px-4">
-                    Confirmar
-                </button>
-            </div>
-        </form>
-    </div>
 
-    <script script th:inline="javascript">
-        let url = /*[[@{/user/{id}/AddGrao(id=${propriedade.id})}]]*/ "";
-        const formCadastro = document.getElementById('form-cadastro');
-
-        formCadastro.addEventListener('submit', async(e) => {
-            e.preventDefault();
-
-            const dados = Object.fromEntries(new FormData(formCadastro).entries());
-
-            try {
-                const resp = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(dados)
-                });
-
-                if (resp.ok) {
-                    alert("Grao cadastrado com sucesso!");
-                    /*                     window.location.href = "/user";
-                     */
-                    formCadastro.reset();
-                } else {
-                    const erro = await resp.text();
-                    alert("Erro ao cadastrar: " + erro);
-                }
-            } catch (err) {
-                alert("Erro de conexão com o servidor: " + err.message);
-            }
-        })
-    </script>
 </body>
 
 </html>

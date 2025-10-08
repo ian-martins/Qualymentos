@@ -42,5 +42,18 @@ public class PropriedadeService {
         propriedadeRepository.deleteById(id);
     }
 
-
+    public void atualizarCampo(Long id, String campo, String valor) {
+    Propriedade prop = getById(id);
+    switch (campo) {
+        case "nome" -> prop.setNome(valor);
+        case "codigoRural" -> prop.setCodigoRural(valor);
+        case "areaTotal" -> prop.setAreaTotal(valor);
+        case "municipio" -> prop.setMunicipio(valor);
+        case "estado" -> prop.setEstado(valor);
+        case "tipoSolo" -> prop.setTipoSolo(valor);
+        case "tipoProducao" -> prop.setTipoProducao(valor);
+        case "tipoCultura" -> prop.setTipoCultura(valor);
+    }
+    propriedadeRepository.save(prop);
+}
 }
