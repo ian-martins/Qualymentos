@@ -36,6 +36,11 @@ public class AuthController {
     public String login() {
         return "pg_login";
     }
+ 
+    @GetMapping("/sucesso")
+    public String sucesso_cadastro() {
+        return "cadastro_sucesso";
+    }
 
     @PostMapping("/login")
     @ResponseBody

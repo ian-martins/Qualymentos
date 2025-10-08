@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping
 @RequiredArgsConstructor
 public class HomeController {
     @GetMapping
-    public String home() {
-        return "home";
+    public String index() {
+        return "index";
     }  
 
     @GetMapping("/cadastro_sucesso")

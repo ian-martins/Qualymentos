@@ -7,8 +7,30 @@
     <title>QualyMentos - Cadastro de Transportadora</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/pgs.css}">
-
+    <style>
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            /* espaçamento entre os blocos */
+            height: 90vh;
+            /* ocupa quase toda a altura da tela */
+            width: 90%;
+            justify-content: center;
+            align-items: stretch;
+        }
+        
+        .box {
+            flex: 1;
+            /* divide igualmente o espaço entre os três blocos */
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-family: Arial, sans-serif;
+            overflow-y: auto;
+        }
     </style>
+
 </head>
 
 <body>
@@ -26,20 +48,35 @@
             <a href="faq_tela.html">FAQ+</a>
         </div>
     </div>
+    <div class="container">
+        <div class="box">
+            <div class="panel" th:each="transportes : ${transportes}">
+                <strong th:text="'Transportadora - ' + ${transportes.nome}"></strong>
+                <span th:text="'CNPJ - ' + ${transportes.cnpj}"></span>
+                <a th:href="@{/transporte/{id}(id=${transportes.id})}">detalhes</a>
 
-    <div class="content-box">
-        <h3>Cadastro de Transportadora</h3>
-        <form id="form-cadastro" class="d-flex flex-column gap-3">
-            <input name="nome" type="text" class="form-control" placeholder="Nome da Transportadora" required>
-            <input name="cnpj" type="text" class="form-control" placeholder="CNPJ" required>
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-success px-4">
-                    Confirmar
-                </button>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="box">
+            <div class="content-box">
+                <h3>Cadastro de Transportadora</h3>
+                <form id="form-cadastro" class="d-flex flex-column gap-3">
+                    <input name="nome" type="text" class="form-control" placeholder="Nome da Transportadora" required>
+                    <input name="cnpj" type="text" class="form-control" placeholder="CNPJ" required>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-success px-4">
+                            Confirmar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
+
+        <div class="box">
+
+        </div>
+    </div>
     <script>
         const formCadastro = document.getElementById('form-cadastro');
 
@@ -59,7 +96,7 @@
 
                 if (resp.ok) {
                     alert("propriedade cadastrada com sucesso!");
-                    window.location.href = "/user";
+                    window.location.href = "/usuario";
 
                     formCadastro.reset();
                 } else {

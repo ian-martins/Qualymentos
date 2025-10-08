@@ -37,21 +37,19 @@
     <div class="topbar d-flex justify-content-between align-items-center px-3">
         <div class="logo">Qualy<strong>Mentos</strong></div>
         <div class="d-flex align-items-center">
-            <a href="/usuario">voltar</a>
+
+            <a href="/user">voltar</a>
         </div>
     </div>
 
     <div class="container">
         <div class="box">
             <div class="panel">
-
-                <strong th:text="'Propriedade - ' + ${propriedade.nome}"></strong>
-                <span th:text="'Codigo Rural - ' + ${propriedade.codigoRural}"></span>
-                <span th:text="'Area Total - ' + ${propriedade.areaTotal} + ' he'"></span>
-                <span th:text="'Localização - ' + ${propriedade.municipio} + ' ' + ${propriedade.estado}"></span>
-                <span th:text="'Tipo de Solo - ' + ${propriedade.tipoSolo}"></span>
-                <span th:text="'Tipo de Cultivo - ' + ${propriedade.tipoProducao}"></span>
-                <span th:text="'Tipo de Cultura - ' + ${propriedade.tipoCultura}"></span>
+                <strong th:text="'Transportadora - ' + ${transportes.nome}"></strong>
+                <span th:text="'CNPJ - ' + ${transportes.cnpj}"></span>
+                <!--    <span th:text="'Telefone - ' + ${transportes.telefone}"></span>
+                <span th:text="'Email - ' + ${transportes.email}"></span>
+                <span th:text="'Endereço - ' + ${transportes.endereco}"></span> -->
             </div>
 
             <div class="panel">
@@ -61,42 +59,15 @@
                 <span>Email - Decidir</span>
                 <span>Telefone - Decidir</span>
             </div>
-
-
             <div class="panel">
-                <strong>Grãos Cultivados</strong>
-
-                <select id="selectGrao" class="form-select mb-3">
-                    <option selected disabled>Selecione o grão</option>
-                    <option th:each="grao : ${graos}" th:value="${grao.id}"
-                        th:text="${grao.tipoGrao + ' - ' + grao.dataPlantio + ' - ' + grao.areaPlantada + ' he'}">
-                    </option>
-                </select>
-
-                <a id="linkGerenciar" href="#">Gerenciar grão</a>
+                <a href="javascript:void(0)" th:data-id="${transportes.id}" onclick="deletar(this)">Deletar</a>
             </div>
-
-            <div class="panel">
-                <a href="javascript:void(0)" th:data-id="${propriedades.id}" onclick="deletar(this)">Deletar</a>
-            </div>
-
         </div>
         <div class="box">
-            <div class="content-box">
-                <h3>Cadastro de Produtos</h3>
-                <form id="form-cadastro">
-                    <input name="tipoGrao" type="text" class="form-control" placeholder="Tipo de Grão" required>
-                    <input name="areaPlantada" type="text" class="form-control" placeholder="Area Plantada" required>
-                    <input name="dataPlantio" type="date" class="form-control" placeholder="Periodo do plantio" required>
 
-                    <div class="text-center mt-3">
-                        <button type="submit" class="btn btn-success px-4">
-                            Confirmar
-                        </button>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
+
         <div class="box">
             <div class="content-box">
                 <h3>Editar Campo</h3>
@@ -105,13 +76,7 @@
                 <select id="opCampo" class="form-select mb-3" required>
                     <option selected disabled>Selecione o campo</option>
                     <option value="nome">Nome</option>
-                    <option value="codigoRural">Código Rural</option>
-                    <option value="areaTotal">Área Total</option>
-                    <option value="municipio">Município</option>
-                    <option value="estado">Estado</option>
-                    <option value="tipoSolo">Tipo de Solo</option>
-                    <option value="tipoProducao">Tipo de produção</option>
-                    <option value="tipoCultura">Tipo de Cultura</option>
+                    <option value="cnpj">CNPJ</option>
                 </select>
 
                 <!-- Campo de texto para novo valor -->
@@ -123,9 +88,6 @@
                     </div>
                 </form>
             </div>
-
-
-
         </div>
     </div>
 
@@ -136,7 +98,7 @@
         function deletar(elemento) {
             const id = elemento.getAttribute('data-id');
 
-            fetch('/propriedade/delete/' + id, {
+            fetch('/transporte/' + id + '/delete', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -145,22 +107,23 @@
                 .then(response => {
                     if (response.ok) {
                         // Redireciona após o delete
-                        window.location.href = '/propriedade'; // página de destino
+                        window.location.href = '/transporte'; // página de destino
                     } else {
-                        alert('Erro ao deletar a propriedade.');
+                        alert('Erro ao deletar a transportadora.');
                     }
                 })
                 .catch(error => {
                     console.error('Erro:', error);
-                    alert('Erro ao deletar a propriedade.');
+                    alert('Erro ao deletar a transportadora.');
                 });
         }
 
 
-        // Função para deletar propriedade
 
         // URL para o endpoint de atualização
-        const url = /*[[@{/propriedade/{id}/editar(id=${propriedade.id})}]]*/ "";
+
+
+        const url = /*[[@{/transporte/{id}/update(id=${transportes.id})}]]*/ "";
 
         const formEditar = document.getElementById("form-editar");
         const opCampo = document.getElementById("opCampo");
@@ -201,43 +164,6 @@
             } catch (err) {
                 alert("Erro de conexão: " + err.message);
             }
-        });
-
-        let urlCadGrao = /*[[@{/propriedade/{id}/grao/add(id=${propriedade.id})}]]*/ "";
-        const formCadastro = document.getElementById('form-cadastro');
-
-        formCadastro.addEventListener('submit', async(e) => {
-            e.preventDefault();
-
-            const dados = Object.fromEntries(new FormData(formCadastro).entries());
-
-            try {
-                const resp = await fetch(urlCadGrao, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(dados)
-                });
-
-                if (resp.ok) {
-                    alert("Grao cadastrado com sucesso!");
-                    /*                     window.location.href = "/user";
-                     */
-                    formCadastro.reset();
-                } else {
-                    const erro = await resp.text();
-                    alert("Erro ao cadastrar: " + erro);
-                }
-            } catch (err) {
-                alert("Erro de conexão com o servidor: " + err.message);
-            }
-        })
-
-        document.getElementById('selectGrao').addEventListener('change', function() {
-            const idgrao = this.value;
-            const idPropriedade = /*[[${propriedade.id}]]*/ 0;
-            document.getElementById('linkGerenciar').href = `/propriedade/${idPropriedade}/grao/${idgrao}`;
         });
     </script>
 </body>

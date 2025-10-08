@@ -23,9 +23,9 @@
         .box {
             flex: 1;
             /* divide igualmente o espaço entre os três blocos */
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.0);
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.0);
             font-family: Arial, sans-serif;
             overflow-y: auto;
         }
@@ -38,8 +38,7 @@
         <div class="logo">Qualy<strong>Mentos</strong></div>
         <div class="d-flex align-items-center">
             <input type="text" class="form-control form-control-sm me-2" placeholder="Buscar...">
-            <a href="/home">Início</a>
-            <a href="propriedade">Gerenciar propriedade</a>
+            <a href="">Início</a>
             <a href="">Trabalhe Conosco</a>
             <a href="">Blog</a>
             <a href="">Quem somos nós?</a>
@@ -47,19 +46,25 @@
 
         </div>
     </div>
-    <div class="panel" th:each="propriedades : ${propriedades}">
-        <strong th:text="'Propriedade - ' + ${propriedades.nome}"></strong>
-        <span th:text="'Tipo de cultivo - ' + ${propriedades.tipoProducao}"></span>
-        <a th:href="@{/user/{id}(id=${propriedades.id})}">gerenciar</a>
-        <a href="#" th:attr="data-id=${propriedades.id}" onclick="deletar(this)">Deletar</a>
-    </div>
+
 
     <div class="container">
         <div class="box">
+            <div class="content-box">
+                <a href="propriedade">Gerenciar propriedades</a><br>
+                <a href="transporte">Gerenciar transportadoras</a>
+
+            </div>
+        </div>
+        <div class="box">
+            <div class="panel" th:each="propriedades : ${propriedades}">
+                <strong th:text="'Propriedade - ' + ${propriedades.nome}"></strong>
+                <span th:text="'Tipo de cultivo - ' + ${propriedades.tipoProducao}"></span>
+            </div>
+        </div>
+        <div class="box">
 
         </div>
-        <div class="box"></div>
-        <div class="box"></div>
     </div>
 
     <script>

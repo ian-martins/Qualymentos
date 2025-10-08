@@ -1,5 +1,7 @@
 package TrabAgro.Qualymentos.Qualymentos.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.transporte.RegisterTransDTO;
@@ -19,15 +21,24 @@ public class TransporteService {
     }
 
     public void deleteTransporte(Long id) {
-        transRepository.deleteById(id);        
+        transRepository.deleteById(id);
     }
 
-    public void atualizarTransporte(Long id, RegisterTransDTO dto) {
-        transRepository.findById(id).ifPresent(transporte -> {
-            transporte.setNome(dto.nome());
-            transporte.setCnpj(dto.cnpj());
-            transRepository.save(transporte);
-        });
+    public void atualizarTransporte(Long id, String campo, String valor) {
+        Transporte updateTrans = getById(id);
+        switch (campo) {
+            case "nome" -> updateTrans.setNome(valor);
+            case "cnpj" -> updateTrans.setCnpj(valor);
+        }
+        transRepository.save(updateTrans);
+    }
+
+    public List<Transporte> getAllt(Usuario usuario) {
+        return transRepository.findByUsuario(usuario);
+    }
+
+    public Transporte getById(Long id) {
+        return transRepository.findById(id).orElseThrow(() -> new RuntimeException("Transportadora n��o encontrada"));
     }
 
 }

@@ -31,9 +31,13 @@ public class GraoService {
         graoRepository.deleteById(id);
     }
 
-    public void updateGrao(UpdateGraoDTO dto, Long id){
+    public void updateGrao(Long id, UpdateGraoDTO dto){
         Grao updateGrao  = new Grao(id, null, null, dto.dataColheita(), null, dto.produtividade(), null );
         graoRepository.save(updateGrao);
+    }
+
+    public Grao getById(Long idgrao) {
+        return graoRepository.findById(idgrao).orElseThrow(() -> new RuntimeException("Grão não encontrado"));
     }
 
 }
