@@ -8,19 +8,19 @@ services:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/qualymentos
-      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_USERNAME: postgres  # <- CORRIGIDO
       SPRING_DATASOURCE_PASSWORD: 1234
 
   db:
     image: postgres:17
     environment:
       POSTGRES_DB: qualymentos
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres              # <- DEVE SER IGUAL AO DE CIMA
       POSTGRES_PASSWORD: 1234
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data  # <- aqui está a persistência
+      - postgres-data:/var/lib/postgresql/data
 
 volumes:
   postgres-data:
