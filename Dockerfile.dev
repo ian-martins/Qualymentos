@@ -1,0 +1,15 @@
+FROM openjdk:25-jdk-slim
+
+WORKDIR /app
+
+# Instala o Maven (para rodar spring-boot:run)
+RUN apt-get update && apt-get install -y maven
+
+# Copia o código para dentro do container
+COPY . .
+
+# Porta padrão do Spring Boot
+EXPOSE 8080
+
+# Executa o projeto diretamente em modo dev
+CMD ["./mvnw", "spring-boot:run"]
