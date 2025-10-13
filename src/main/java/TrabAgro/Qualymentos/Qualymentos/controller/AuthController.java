@@ -36,7 +36,7 @@ public class AuthController {
     public String login() {
         return "pg_login";
     }
- 
+
     @GetMapping("/sucesso")
     public String sucesso_cadastro() {
         return "cadastro_sucesso";
@@ -45,44 +45,45 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity login(@RequestBody LoginUserRequestDTO loginRequestDTO, HttpServletResponse response) {
-        Usuario user = this.userRepository.findByEmail(loginRequestDTO.email())
-                .orElseThrow(() -> new RuntimeException("User not Found"));
 
-        if (passwordEncoder.matches(loginRequestDTO.senha(), user.getSenha())) {
-            String token = this.tokenService.generateToken(user);
-            jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", token);
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setSecure(false); // Em produção, deve ser true para HTTPS
-            jwtCookie.setPath("/");
-            jwtCookie.setMaxAge(2 * 60 * 60);
+        try {
+            Usuario user = this.userRepository.findByEmail(loginRequestDTO.email()).orElseThrow();
+            if (passwordEncoder.matches(loginRequestDTO.senha(), user.getSenha())) {
+                String token = this.tokenService.generateToken(user);
+                jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", token);
+                jwtCookie.setHttpOnly(false);
+                jwtCookie.setSecure(false); // Em produção, deve ser true para HTTPS
+                jwtCookie.setPath("/");
+                jwtCookie.setMaxAge(2 * 60 * 60);
 
-            response.addCookie(jwtCookie);
+                response.addCookie(jwtCookie);
 
-            // Retorna também o nome + token no corpo (opcional)
-            return ResponseEntity.ok(new ResponseUserDTO(user.getNome(), token));
+                // Retorna também o nome + token no corpo (opcional)
+                return ResponseEntity.ok(new ResponseUserDTO(user.getNome(), token));
+            }
+
+            return ResponseEntity.badRequest().body("Senha invalida");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Usuario Não existe");
         }
-
-        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity register(@RequestBody RegisterUserRequestDTO registerRequestDTO) {
+    public ResponseEntity<?> register(@RequestBody RegisterUserRequestDTO registerRequestDTO) {
         var present = this.userRepository.findByEmail(registerRequestDTO.email());
-
         if (present.isEmpty()) {
-            Usuario user = new Usuario();
-            user.setSenha(passwordEncoder.encode(registerRequestDTO.senha()));
-            user.setNome(registerRequestDTO.nome());
-            user.setEmail(registerRequestDTO.email());
-            this.userRepository.save(user);
+            Usuario usuario = new Usuario();
+            usuario.setSenha(passwordEncoder.encode(registerRequestDTO.senha()));
+            usuario.setNome(registerRequestDTO.nome());
+            usuario.setEmail(registerRequestDTO.email());
+            this.userRepository.save(usuario);
 
-            String token = this.tokenService.generateToken(user);
-            return ResponseEntity.ok(new ResponseUserDTO(user.getNome(), token));
+            String token = this.tokenService.generateToken(usuario);
+            return ResponseEntity.ok(new ResponseUserDTO(usuario.getNome(), token));
+        } else {
+            return ResponseEntity.badRequest().body("Usuario já cadastrado!");
         }
-
-        return ResponseEntity.badRequest().build();
-
     }
 
 }

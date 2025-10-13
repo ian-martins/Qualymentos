@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class HomeController {
     @GetMapping

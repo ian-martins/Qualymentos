@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: stretch;
         }
-        
+
         .box {
             flex: 1;
             /* divide igualmente o espaço entre os três blocos */
@@ -39,6 +39,7 @@
         <div class="d-flex align-items-center">
             <input type="text" class="form-control form-control-sm me-2" placeholder="Buscar...">
             <a href="">Início</a>
+            <a href="#" onclick="logout()">Logout</a>
             <a href="">Trabalhe Conosco</a>
             <a href="">Blog</a>
             <a href="">Quem somos nós?</a>
@@ -68,12 +69,19 @@
     </div>
 
     <script>
+        function logout() {
+            // Apaga o cookie (só funciona se não for HttpOnly)
+            document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+            // Redireciona para a página inicial
+            window.location.href = "/";
+        }
         function deletar(elemento) {
             const id = elemento.getAttribute('data-id');
             if (confirm('Tem certeza que deseja deletar?')) {
                 fetch(`/propriedade/delete/${id}`, {
-                        method: 'DELETE'
-                    })
+                    method: 'DELETE'
+                })
                     .then(resp => {
                         if (!resp.ok) {
                             alert('Erro ao deletar a propriedade.');
