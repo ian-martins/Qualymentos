@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: stretch;
         }
-        
+
         .box {
             flex: 1;
             /* divide igualmente o espaço entre os três blocos */
@@ -38,7 +38,7 @@
         <div class="d-flex align-items-center">
             <input type="text" class="form-control form-control-sm me-2" placeholder="Buscar...">
             <a href="/usuario">Início</a>
-            <a href="">Gerenciar propriedade</a>
+            <a href="#" onclick="logout()">Logout</a>
             <a href="">Trabalhe Conosco</a>
             <a href="">Blog</a>
             <a href="">Quem somos nós?</a>
@@ -62,7 +62,8 @@
                 <form id="form-cadastro">
                     <input name="nome" type="text" class="form-control" placeholder="Nome da Fazenda" required>
                     <input name="codigoRural" type="text" class="form-control" placeholder="Codigo Rural" required>
-                    <input name="areaTotal" type="text" class="form-control" placeholder="Tamanho (em hectares)" required>
+                    <input name="areaTotal" type="text" class="form-control" placeholder="Tamanho (em hectares)"
+                        required>
                     <input name="municipio" type="text" class="form-control" placeholder="Cidade" required>
                     <input name="estado" type="text" class="form-control" placeholder="Estado" required>
 
@@ -76,7 +77,8 @@
                         <option value="Solo C">Silte</option>
                     </select>
 
-                    <input name="tipoProducao" type="text" class="form-control" placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
+                    <input name="tipoProducao" type="text" class="form-control"
+                        placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
 
                     <select name="tipoCultura" class="form-control" required>
                         <option selected disabled>Sistema de produção</option>
@@ -97,16 +99,26 @@
         <div class="box">
             <div class="content-box">
                 <h3>Instruções</h3>
-                <p>Use o formulário ao lado para cadastrar novas propriedades rurais. Preencha todos os campos obrigatórios e clique em "Confirmar" para salvar a propriedade.</p>
-                <p>As propriedades cadastradas aparecerão na lista à esquerda, onde você poderá gerenciá-las ou deletá-las conforme necessário.</p>
-                <p>Certifique-se de fornecer informações precisas para facilitar o gerenciamento das suas propriedades.</p>
+                <p>Use o formulário ao lado para cadastrar novas propriedades rurais. Preencha todos os campos
+                    obrigatórios e clique em "Confirmar" para salvar a propriedade.</p>
+                <p>As propriedades cadastradas aparecerão na lista à esquerda, onde você poderá gerenciá-las ou
+                    deletá-las conforme necessário.</p>
+                <p>Certifique-se de fornecer informações precisas para facilitar o gerenciamento das suas propriedades.
+                </p>
             </div>
         </div>
     </div>
     <script>
+        function logout() {
+            // Apaga o cookie (só funciona se não for HttpOnly)
+            document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+            // Redireciona para a página inicial
+            window.location.href = "/";
+        }
         const formCadastro = document.getElementById('form-cadastro');
 
-        formCadastro.addEventListener('submit', async(e) => {
+        formCadastro.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const dados = Object.fromEntries(new FormData(formCadastro).entries());
@@ -138,8 +150,8 @@
             const id = elemento.getAttribute('data-id');
             if (confirm('Tem certeza que deseja deletar?')) {
                 fetch(`/propriedade/delete/${id}`, {
-                        method: 'DELETE'
-                    })
+                    method: 'DELETE'
+                })
                     .then(resp => {
                         if (!resp.ok) {
                             alert('Erro ao deletar a propriedade.');

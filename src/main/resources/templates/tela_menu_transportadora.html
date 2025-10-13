@@ -19,10 +19,9 @@
             justify-content: center;
             align-items: stretch;
         }
-        
+
         .box {
             flex: 1;
-            /* divide igualmente o espaço entre os três blocos */
             background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -39,13 +38,12 @@
         <div class="logo">Qualy<strong>Mentos</strong></div>
         <div class="d-flex align-items-center">
             <input type="text" class="form-control form-control-sm me-2" placeholder="Buscar...">
-            <a href="Teste_JavaScript.html">Início</a>
-            <a href="Cadastro_QualyMentos.html">Cadastro</a>
-            <a href="Login-QualyMentos.html">Login</a>
-            <a href="Trabalhe_Conosco.html">Trabalhe Conosco</a>
-            <a href="blog_tela.html">Blog</a>
-            <a href="quem_somos.html">Quem somos nós?</a>
-            <a href="faq_tela.html">FAQ+</a>
+            <a href="/usuario">Início</a>
+            <a href="#" onclick="logout()">Logout</a>
+            <a href="">Trabalhe Conosco</a>
+            <a href="">Blog</a>
+            <a href="">Quem somos nós?</a>
+            <a href="">FAQ+</a>
         </div>
     </div>
     <div class="container">
@@ -78,9 +76,16 @@
         </div>
     </div>
     <script>
+        function logout() {
+            // Apaga o cookie (só funciona se não for HttpOnly)
+            document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+            // Redireciona para a página inicial
+            window.location.href = "/";
+        }
         const formCadastro = document.getElementById('form-cadastro');
 
-        formCadastro.addEventListener('submit', async(e) => {
+        formCadastro.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const dados = Object.fromEntries(new FormData(formCadastro).entries());
