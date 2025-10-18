@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class HomeController {
+  
     @GetMapping
-    public String index() {
-        return "index";
+    public String ola() {
+        return "home";
     }  
 
     @GetMapping("/cadastro_sucesso")

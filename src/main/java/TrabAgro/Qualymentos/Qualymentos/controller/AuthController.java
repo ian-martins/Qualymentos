@@ -29,12 +29,12 @@ public class AuthController {
 
     @GetMapping("/cadastro")
     public String cadastro() {
-        return "pg_cadastro";
+        return "cadastro";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "pg_login";
+        return "login";
     }
 
     @GetMapping("/sucesso")
