@@ -27,14 +27,9 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    @GetMapping("/cadastro")
-    public String cadastro() {
-        return "cadastro";
-    }
-
-    @GetMapping("/login")
+    @GetMapping
     public String login() {
-        return "login";
+        return "auth";
     }
 
     @GetMapping("/sucesso")

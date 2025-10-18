@@ -46,7 +46,8 @@ public class UsuarioController {
 
         model.addAttribute("propriedades", response);
         model.addAttribute("usuario", usuario);
-        return "tela_menu_usuario";
+        return "index";
+        //return "tela_menu_usuario";
     }
 
     @GetMapping("/{id}")

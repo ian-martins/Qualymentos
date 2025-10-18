@@ -15,9 +15,4 @@ public class HomeController {
     public String ola() {
         return "home";
     }  
-
-    @GetMapping("/cadastro_sucesso")
-    public String cs() {
-        return "cadastro_sucesso";
-    }  
 }
