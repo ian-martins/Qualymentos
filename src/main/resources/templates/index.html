@@ -80,7 +80,7 @@
                 <h1>Propriedades Cadastradas</h1>
                 <div class="action-bar">
                     <input type="search" class="search-input" placeholder="Buscar por nome ou CNPJ...">
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" onclick="newProprieadade()">
                         + Nova Propriedade
                     </button>
                 </div>
@@ -100,12 +100,13 @@
                     <tbody>
                         <tr th:each="propriedades : ${propriedades}">
                             <td th:text="'Fazenda ' + ${propriedades.nome}"></td>
-                            <td ></td>
+                            <td></td>
                             <td th:text="${propriedades.municipio} + ' - ' + ${propriedades.estado}">Toledo - PR</td>
                             <td><span class="status status-active">Ativa</span></td>
                             <td class="actions">
 
-                                <button class="icon-btn" title="Visualizar">
+                                <button class="icon-btn" title="Visualizar" th:data-id="${propriedades.id}"
+                                    onclick="visualizar(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
@@ -115,7 +116,8 @@
                                 </button>
 
 
-                                <button class="icon-btn" title="Editar">
+                                <button class="icon-btn" title="Editar" th:data-id="${propriedades.id}"
+                                    onclick="teste(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
@@ -149,6 +151,19 @@
     </div>
 
     <script script th:inline="javascript">
+        function newProprieadade() {
+            window.location.href = '/propriedade';
+        }
+
+        function visualizar(elemento) {
+            const id = elemento.getAttribute('data-id');
+            window.location.href = '/propriedade/' + id;
+        }
+        function teste(elemento) {
+            const id = elemento.getAttribute('data-id');
+            window.location.href = '/propriedade/' + id + '/t';
+        }
+
         function deletar(elemento) {
             const id = elemento.getAttribute('data-id');
             fetch('/propriedade/delete/' + id, {

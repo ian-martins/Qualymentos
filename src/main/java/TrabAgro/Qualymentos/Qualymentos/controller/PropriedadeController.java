@@ -46,7 +46,8 @@ public class PropriedadeController {
 
         model.addAttribute("propriedades", response);
         model.addAttribute("usuario", usuario);
-        return "tela_menu_propriedade";
+        return "cadastrar_propriedade";
+        // return "tela_menu_propriedade";
     }
 
     @GetMapping("/{id}")
@@ -64,6 +65,22 @@ public class PropriedadeController {
 
         return "tela_detalhes_propriedade";
     }
+    @GetMapping("/{id}/t")
+    public String detailsPropriedadesT(@PathVariable Long id, Authentication authentication, Model model) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", usuario);
+
+        Propriedade propriedade = propriedadeService.getById(id);
+        model.addAttribute("propriedade", propriedade);
+
+        List<Grao> graos = graoService.getAllG(id);
+        List<ResponseGraoDTO> response = graos.stream()
+                .map(ResponseGraoDTO::fromEntity)
+                .toList();
+        model.addAttribute("graos", response);
+
+        return "teste";
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deletePropriedade(@PathVariable Long id) {
@@ -75,7 +92,7 @@ public class PropriedadeController {
     public ResponseEntity cadastrarPropriedade(@RequestBody RegisterPropriedadeDTO dto, Authentication authentication) {
         Usuario user = (Usuario) authentication.getPrincipal();
         Propriedade newPropriedade = new Propriedade(null, dto.nome(), dto.codigoRural(), dto.areaTotal(),
-                dto.municipio(), dto.estado(), dto.tipoSolo(), dto.tipoProducao(), dto.tipoCultura(), user, null);
+                dto.municipio(), dto.estado(), dto.tipoSolo(), dto.tipoProducao(), dto.tipoCultura(),null, user, null);
         propriedadeService.salvarPropriedade(newPropriedade);
 
         return ResponseEntity.ok().build();

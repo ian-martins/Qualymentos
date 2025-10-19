@@ -65,6 +65,21 @@ public class UsuarioController {
         return "tela_detalhes_propriedade";
 
     }
+    @GetMapping("/{id}/T")
+    public String detailsPropriedadesT(@PathVariable Long id, Model model) {
+        Propriedade propriedade = propriedadeService.getById(id);
+        model.addAttribute("propriedade", propriedade);
+
+        List<Grao> graos = graoService.getAllG(id);
+        List<ResponseGraoDTO> response = graos.stream()
+                .map(ResponseGraoDTO::fromEntity)
+                .toList();
+
+        model.addAttribute("graos", response);
+
+        return "teste";
+
+    }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity deletePropriedade(@PathVariable Long id) {

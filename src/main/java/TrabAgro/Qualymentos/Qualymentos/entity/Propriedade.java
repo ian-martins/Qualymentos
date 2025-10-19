@@ -54,6 +54,9 @@ public class Propriedade {
     @Column(name = "tipo_cultura")
     private String tipoCultura;
 
+    @Column(name = "fone")
+    private String fone;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
