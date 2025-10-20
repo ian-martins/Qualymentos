@@ -37,7 +37,7 @@ public class PropriedadeController {
     private final GraoService graoService;
 
     @GetMapping
-    public String telaPropriedades(Model model, Authentication authentication) {
+    public String propriedadeCadastro(Model model, Authentication authentication) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         List<Propriedade> propriedades = propriedadeService.getAllP(usuario);
         List<ResponsePropriedadeDTO> response = propriedades.stream()
@@ -46,9 +46,28 @@ public class PropriedadeController {
 
         model.addAttribute("propriedades", response);
         model.addAttribute("usuario", usuario);
-        return "cadastrar_propriedade";
-        // return "tela_menu_propriedade";
+        return "propriedade_cadastro";
     }
+
+    @GetMapping("/{id}")
+    public String propriedadeDetalhes(@PathVariable Long id, Authentication authentication, Model model) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", usuario);
+
+        Propriedade propriedade = propriedadeService.getById(id);
+        model.addAttribute("propriedade", propriedade);
+
+        List<Grao> graos = graoService.getAllG(id);
+        List<ResponseGraoDTO> response = graos.stream()
+                .map(ResponseGraoDTO::fromEntity)
+                .toList();
+        model.addAttribute("graos", response);
+
+        return "propriedade_detalhes";
+    }
+
+/* 
+    guarde para teste futuro
 
     @GetMapping("/{id}")
     public String detailsPropriedades(@PathVariable Long id, Model model) {
@@ -65,22 +84,7 @@ public class PropriedadeController {
 
         return "tela_detalhes_propriedade";
     }
-    @GetMapping("/{id}/t")
-    public String detailsPropriedadesT(@PathVariable Long id, Authentication authentication, Model model) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-        model.addAttribute("usuario", usuario);
-
-        Propriedade propriedade = propriedadeService.getById(id);
-        model.addAttribute("propriedade", propriedade);
-
-        List<Grao> graos = graoService.getAllG(id);
-        List<ResponseGraoDTO> response = graos.stream()
-                .map(ResponseGraoDTO::fromEntity)
-                .toList();
-        model.addAttribute("graos", response);
-
-        return "teste";
-    }
+    */
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deletePropriedade(@PathVariable Long id) {

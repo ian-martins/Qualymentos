@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--     <meta http-equiv="refresh" content="1"> -->
     <title>AgroTrace - Propriedades</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
@@ -86,42 +87,44 @@
                 </div>
             </header>
 
-            <div>
-                <form id="form-cadastro">
-                    <input name="nome" type="text" class="form-control" placeholder="Nome da Fazenda" required>
-                    <input name="codigoRural" type="text" class="form-control" placeholder="Codigo Rural" required>
-                    <input name="areaTotal" type="text" class="form-control" placeholder="Tamanho (em hectares)"
-                        required>
-                    <input name="municipio" type="text" class="form-control" placeholder="Cidade" required>
-                    <input name="estado" type="text" class="form-control" placeholder="Estado" required>
+            <div class="content-body">
+                <div class="data-table">
+                    <form id="form-cadastro" class="content-body">
+                        <input name="nome" type="text" class="form-control" placeholder="Nome da Fazenda" required>
+                        <input name="codigoRural" type="text" class="form-control" placeholder="Codigo Rural" required>
+                        <input name="areaTotal" type="text" class="form-control" placeholder="Tamanho (em hectares)"
+                            required>
+                        <input name="municipio" type="text" class="form-control" placeholder="Cidade" required>
+                        <input name="estado" type="text" class="form-control" placeholder="Estado" required>
 
-                    <br>
-                    <h5>Características do Solo e Cultivo</h5>
+                        <br>
+                        <h5>Características do Solo e Cultivo</h5>
 
-                    <select name="tipoSolo" class="form-control" required>
-                        <option selected disabled>Tipo de solo</option>
-                        <option value="Solo A">Argiloso</option>
-                        <option value="Solo B">Arenoso</option>
-                        <option value="Solo C">Silte</option>
-                    </select>
+                        <select name="tipoSolo" class="form-control" required>
+                            <option selected disabled>Tipo de solo</option>
+                            <option value="Solo A">Argiloso</option>
+                            <option value="Solo B">Arenoso</option>
+                            <option value="Solo C">Silte</option>
+                        </select>
 
-                    <input name="tipoProducao" type="text" class="form-control"
-                        placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
+                        <input name="tipoProducao" type="text" class="form-control"
+                            placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
 
-                    <select name="tipoCultura" class="form-control" required>
-                        <option selected disabled>Sistema de produção</option>
-                        <option value="Tipo A">Cultura Anual</option>
-                        <option value="Tipo B">Cultura perene</option>
-                        <option value="Tipo C">Cultura Mista</option>
-                    </select>
+                        <select name="tipoCultura" class="form-control" required>
+                            <option selected disabled>Sistema de produção</option>
+                            <option value="Tipo A">Cultura Anual</option>
+                            <option value="Tipo B">Cultura perene</option>
+                            <option value="Tipo C">Cultura Mista</option>
+                        </select>
 
-                    <div class="text-center mt-3">
-                        <button type="submit" class="btn btn-success px-4">
-                            Confirmar
-                        </button>
-                    </div>
-                </form>
-
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-success px-4">
+                                Confirmar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -131,7 +134,7 @@
             window.location.href = '/usuario';
         }
 
-        
+
         const formCadastro = document.getElementById('form-cadastro');
 
         formCadastro.addEventListener('submit', async (e) => {

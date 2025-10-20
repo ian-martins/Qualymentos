@@ -1,6 +1,7 @@
 /* ==== RESET GERAL E VARIÁVEIS ==== */
 :root {
-    --cor-primaria: #27a845; /* Verde principal */
+    --cor-primaria: #27a845;
+    /* Verde principal */
     --cor-fundo: #F8F9FA;
     --cor-container: #FFFFFF;
     --cor-borda: #E0E0E0;
@@ -139,6 +140,15 @@ body {
     font-weight: 700;
 }
 
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 .action-bar {
     display: flex;
     align-items: center;
@@ -183,7 +193,8 @@ body {
     background-color: var(--cor-container);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    overflow: hidden; /* Para o border-radius funcionar */
+    overflow: hidden;
+    /* Para o border-radius funcionar */
 }
 
 .data-table th,
