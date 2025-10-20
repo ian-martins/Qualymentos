@@ -3,29 +3,35 @@ package TrabAgro.Qualymentos.Qualymentos.dto.propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 
 public record ResponsePropriedadeDTO(
-    Long id, 
-    String nome, 
-    String codigoRural, 
-    String areaTotal, 
-    String municipio,
-    String estado, 
-    String tipoSolo, 
-    String tipoProducao, 
-    String tipoCultura
-    ) {
+        Long id,
+        String nome,
+        String codigoRural,
+        String areaTotal,
+        String cidade,
+        String estado,
+        String tipoSolo,
+        String tipoProducao,
+        String tipoCultura,
+        String fone
+) {
 
-    public static ResponsePropriedadeDTO fromEntity(Propriedade newPropriedade) {
-         return new ResponsePropriedadeDTO(
-            newPropriedade.getId(),
-            newPropriedade.getNome(),
-            newPropriedade.getCodigoRural(),
-            newPropriedade.getAreaTotal(),
-            newPropriedade.getMunicipio(),
-            newPropriedade.getEstado(),
-            newPropriedade.getTipoSolo(),
-            newPropriedade.getTipoProducao(),
-            newPropriedade.getTipoCultura()
-         );
+    public static ResponsePropriedadeDTO fromEntity(Propriedade propriedade) {
+        String nomeCidade = propriedade.getCidade() != null ? propriedade.getCidade().getNome() : null;
+        String nomeEstado = (propriedade.getCidade() != null && propriedade.getCidade().getEstado() != null)
+                ? propriedade.getCidade().getEstado().getSigla()
+                : null;
+
+        return new ResponsePropriedadeDTO(
+                propriedade.getId(),
+                propriedade.getNome(),
+                propriedade.getCodigoRural(),
+                propriedade.getAreaTotal(),
+                nomeCidade,
+                nomeEstado,
+                propriedade.getTipoSolo(),
+                propriedade.getTipoProducao(),
+                propriedade.getTipoCultura(),
+                propriedade.getFone()
+        );
     }
-
 }

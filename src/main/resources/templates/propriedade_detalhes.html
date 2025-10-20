@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroTrace - Detalhes</title>
-    <meta http-equiv="refresh" content="111">
+    <meta http-equiv="refresh" content="1">
 
     <link rel="stylesheet" th:href="@{/css/teste.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,12 +78,11 @@
 
         <main class="main-content">
             <header class="content-header">
-                <div class="user-info">
-                    Olá, [Nome do Usuário]
+                <div class="user-info" th:text="'Olá, ' + ${usuario.nome}">
+                    
+                    
                 </div>
-                <button class="btn btn-status">
-                    Desativar
-                </button>
+              
             </header>
 
             <div class="content-body">
@@ -168,9 +167,6 @@
                                                 </svg>
                                             </button>
                                         </div>
-git config --global user.email "ian.martins1@outlook.com"
-  git config --global user.name "ian-martins"
-
                                     </div>
                                     <div class="form-group-display">
                                         <label>Cidade/Estado</label>

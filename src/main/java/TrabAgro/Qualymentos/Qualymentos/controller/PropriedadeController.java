@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.RegisterPropriedadeDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
+import TrabAgro.Qualymentos.Qualymentos.entity.Cidade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
+import TrabAgro.Qualymentos.Qualymentos.repository.CidadeRepository;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
 import TrabAgro.Qualymentos.Qualymentos.service.PropriedadeService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PropriedadeController {
     private final PropriedadeService propriedadeService;
     private final GraoService graoService;
+    private final CidadeRepository cidadeRepository;
 
     @GetMapping
     public String propriedadeCadastro(Model model, Authentication authentication) {
@@ -71,8 +75,6 @@ public class PropriedadeController {
         return ResponseEntity.ok().build();
     }
 
-
-
     @GetMapping("/{id}/see")
     public String detailsPropriedades(@PathVariable Long id, Model model) {
         Propriedade propriedade = propriedadeService.getById(id);
@@ -89,16 +91,32 @@ public class PropriedadeController {
         return "tela_detalhes_propriedade";
     }
 
-    
-
     @PostMapping("/add")
-    public ResponseEntity cadastrarPropriedade(@RequestBody RegisterPropriedadeDTO dto, Authentication authentication) {
+    public ResponseEntity<?> cadastrarPropriedade(
+            @RequestBody PropriedadeRequestDTO dto,
+            Authentication authentication) {
         Usuario user = (Usuario) authentication.getPrincipal();
-        Propriedade newPropriedade = new Propriedade(null, dto.nome(), dto.codigoRural(), dto.areaTotal(),
-                dto.municipio(), dto.estado(), dto.tipoSolo(), dto.tipoProducao(), dto.tipoCultura(),null, user, null);
-        propriedadeService.salvarPropriedade(newPropriedade);
 
-        return ResponseEntity.ok().build();
+        // Busca a cidade informada
+        Cidade cidade = cidadeRepository.findById(dto.cidadeId())
+                .orElseThrow(() -> new RuntimeException("Cidade não encontrada"));
+
+        // Cria a nova propriedade
+        Propriedade novaPropriedade = new Propriedade(
+                null,
+                dto.nome(),
+                dto.codigoRural(),
+                dto.areaTotal(),
+                dto.tipoSolo(),
+                dto.tipoProducao(),
+                dto.tipoCultura(),
+                dto.fone(),
+                cidade, // associação correta
+                user,
+                new ArrayList<>());
+
+        propriedadeService.salvarPropriedade(novaPropriedade);
+        return ResponseEntity.ok("Propriedade cadastrada com sucesso!");
     }
 
     @PutMapping("/{id}")
