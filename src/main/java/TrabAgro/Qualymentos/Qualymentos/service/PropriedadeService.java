@@ -46,6 +46,7 @@ public class PropriedadeService {
     Propriedade prop = getById(id);
     switch (campo) {
         case "nome" -> prop.setNome(valor);
+        case "fone" -> prop.setFone(valor);
         case "codigoRural" -> prop.setCodigoRural(valor);
         case "areaTotal" -> prop.setAreaTotal(valor);
         case "municipio" -> prop.setMunicipio(valor);

@@ -62,14 +62,18 @@ public class PropriedadeController {
                 .map(ResponseGraoDTO::fromEntity)
                 .toList();
         model.addAttribute("graos", response);
-
         return "propriedade_detalhes";
     }
 
-/* 
-    guarde para teste futuro
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deletePropriedade(@PathVariable Long id) {
+        propriedadeService.deletePropriedade(id);
+        return ResponseEntity.ok().build();
+    }
 
-    @GetMapping("/{id}")
+
+
+    @GetMapping("/{id}/see")
     public String detailsPropriedades(@PathVariable Long id, Model model) {
         Propriedade propriedade = propriedadeService.getById(id);
         model.addAttribute("propriedade", propriedade);
@@ -84,13 +88,8 @@ public class PropriedadeController {
 
         return "tela_detalhes_propriedade";
     }
-    */
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deletePropriedade(@PathVariable Long id) {
-        propriedadeService.deletePropriedade(id);
-        return ResponseEntity.ok().build();
-    }
+    
 
     @PostMapping("/add")
     public ResponseEntity cadastrarPropriedade(@RequestBody RegisterPropriedadeDTO dto, Authentication authentication) {
@@ -102,7 +101,7 @@ public class PropriedadeController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/editar")
+    @PutMapping("/{id}")
     public ResponseEntity<String> editarCampo(@PathVariable Long id, @RequestBody Map<String, String> dados) {
         String campo = dados.get("campo");
         String valor = dados.get("valor");
