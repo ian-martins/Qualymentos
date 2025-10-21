@@ -2,7 +2,7 @@ package TrabAgro.Qualymentos.Qualymentos.dto.propriedade;
 
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 
-public record ResponsePropriedadeDTO(
+public record PropriedadeResponseDTO(
         Long id,
         String nome,
         String codigoRural,
@@ -15,13 +15,13 @@ public record ResponsePropriedadeDTO(
         String fone
 ) {
 
-    public static ResponsePropriedadeDTO fromEntity(Propriedade propriedade) {
+    public static PropriedadeResponseDTO fromEntity(Propriedade propriedade) {
         String nomeCidade = propriedade.getCidade() != null ? propriedade.getCidade().getNome() : null;
         String nomeEstado = (propriedade.getCidade() != null && propriedade.getCidade().getEstado() != null)
                 ? propriedade.getCidade().getEstado().getSigla()
                 : null;
 
-        return new ResponsePropriedadeDTO(
+        return new PropriedadeResponseDTO(
                 propriedade.getId(),
                 propriedade.getNome(),
                 propriedade.getCodigoRural(),

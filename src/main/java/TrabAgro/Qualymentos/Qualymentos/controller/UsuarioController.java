@@ -10,7 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeResponseDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
@@ -32,40 +33,44 @@ public class UsuarioController {
     private final TransporteService transService;
     private final GraoService graoService;
 
+
+    @GetMapping
+    public String dashboard(Authentication authentication, Model model) {
+        // Obtém o usuário logado
+        Usuario user = (Usuario) authentication.getPrincipal();
+
+        // Adiciona os dados ao Model (para usar no Thymeleaf)
+        model.addAttribute("usuario", user);
+
+        // Retorna o nome da página HTML (ex: templates/usuario/home.html)
+        return "usuario/usuario_home";
+    }
+
     @GetMapping("/propriedades")
     public String listarPropriedadesUsuario(Authentication authentication, Model model) {
-        // Obtém o usuário logado
         Usuario user = (Usuario) authentication.getPrincipal();
 
-        // Busca as propriedades do usuário
-        List<ResponsePropriedadeDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
+        List<PropriedadeResponseDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
                 .stream()
-                .map(ResponsePropriedadeDTO::fromEntity)
+                .map(PropriedadeResponseDTO::fromEntity)
                 .collect(Collectors.toList());
 
-        // Adiciona os dados ao Model (para usar no Thymeleaf)
         model.addAttribute("usuario", user);
         model.addAttribute("propriedades", propriedades);
 
-        // Retorna o nome da página HTML (ex: templates/propriedade/listar.html)
         return "usuario/usuario_home_propriedades";
     }
+    
     @GetMapping("/transportes")
     public String listarTransportesUsuario(Authentication authentication, Model model) {
-        // Obtém o usuário logado
         Usuario user = (Usuario) authentication.getPrincipal();
-
-        // Busca as propriedades do usuário
-        List<ResponsePropriedadeDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
-                .stream()
-                .map(ResponsePropriedadeDTO::fromEntity)
+        List<TransporteRequestDTO> transportes = transService.getAllt(user).stream()
+                .map(t -> new TransporteRequestDTO(t.getNome(), t.getCnpj()))
                 .collect(Collectors.toList());
 
-        // Adiciona os dados ao Model (para usar no Thymeleaf)
         model.addAttribute("usuario", user);
-        model.addAttribute("propriedades", propriedades);
-
-        // Retorna o nome da página HTML (ex: templates/propriedade/listar.html)
+        model.addAttribute("propriedades", transportes);
+        
         return "usuario/usuario_home_transportes";
     }
 

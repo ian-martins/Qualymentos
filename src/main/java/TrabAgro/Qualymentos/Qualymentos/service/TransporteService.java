@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import TrabAgro.Qualymentos.Qualymentos.dto.transporte.RegisterTransDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Transporte;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.repository.TransportadoraRepository;
@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 public class TransporteService {
     private final TransportadoraRepository transRepository;
 
-    public void salvarTrans(RegisterTransDTO dto, Usuario user) {
+    public void salvarTrans(TransporteRequestDTO dto, Usuario user) {
         Transporte newTrans = new Transporte(null, dto.nome(), dto.cnpj(), user);
         transRepository.save(newTrans);
     }
@@ -41,4 +41,5 @@ public class TransporteService {
         return transRepository.findById(id).orElseThrow(() -> new RuntimeException("Transportadora n��o encontrada"));
     }
 
+   
 }

@@ -35,9 +35,10 @@ public class DataLoader {
                         new Cidade(null, "Rio de Janeiro", rj),
                         new Cidade(null, "Niterói", rj),
                         new Cidade(null, "Belo Horizonte", mg),
-                        new Cidade(null, "Uberlândia", mg)
-                );
-
+                        new Cidade(null, "Uberlândia", mg),
+                        new Cidade(null, "Juiz de Fora", mg),
+                        new Cidade(null, "Ourinhos", sp));
+                        
                 cidadeRepo.saveAll(cidades);
 
                 System.out.println("✅ Estados e cidades inseridos com sucesso!");

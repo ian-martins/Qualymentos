@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroTrace - Propriedades</title>
@@ -21,7 +22,7 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="">
+                        <a href="/usuario">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -80,8 +81,8 @@
                 <h1>Transportadoras Parceiras</h1>
                 <div class="action-bar">
                     <input type="search" class="search-input" placeholder="Buscar por nome ou CNPJ...">
-                    <button class="btn btn-primary" onclick="prop_add()">
-                        + Nova Propriedade
+                    <button class="btn btn-primary" onclick="trans_add()">
+                        + Nova Transportadora
                     </button>
                 </div>
             </header>
@@ -98,12 +99,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="prop : ${propriedades}">
-                            <td th:text="'Fazenda ' + ${prop.nome}"></td>
+                        <tr th:each="trans : ${transportes}">
+                            <td th:text="${trans.nome}"></td>
                             <td><span class="status status-active">Ativa</span></td>
                             <td class="actions">
-                                <button class="icon-btn" title="Editar" th:data-id="${prop.id}"
-                                    onclick="prop_view(this)">
+                                <button class="icon-btn" title="Editar" th:data-id="${trans.id}"
+                                    onclick="trans_view(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
@@ -120,12 +121,12 @@
     </div>
 
     <script script th:inline="javascript">
-        function prop_add() {
-            window.location.href = '/propriedade';
+        function trans_add() {
+            window.location.href = '/transporte';
         }
-        function prop_view(elemento) {
+        function trans_view(elemento) {
             const id = elemento.getAttribute('data-id');
-            window.location.href = '/propriedade/' + id;
+            window.location.href = '/transporte/' + id;
         }
     </script>
 </body>

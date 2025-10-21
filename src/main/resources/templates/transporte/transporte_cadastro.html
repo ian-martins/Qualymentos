@@ -89,38 +89,12 @@
 
             <div class="content-body">
                 <div class="data-table">
-                    <form class="content-body" th:action="@{/propriedade/add}" method="post" th:object="${dto}">
-                        <input type="text" th:field="*{nome}" class="form-control" placeholder="Nome da Fazenda"
+                    <form class="content-body" th:action="@{/transporte/add}" method="post" th:object="${dto}">
+                        <input type="text" th:field="*{nome}" class="form-control" placeholder="Transportadora"
                             required>
-                        <input type="text" th:field="*{fone}" class="form-control" placeholder="Telefone de Contato"
+                        <input type="text" th:field="*{cnpj}" class="form-control" placeholder="CNPJ/CPF"
                             required>
-
-                        <input type="text" th:field="*{codigoRural}" class="form-control" placeholder="Codigo Rural"
-                            required>
-                        <input type="text" th:field="*{areaTotal}" class="form-control"
-                            placeholder="Tamanho (em hectares)" required>
-
-                        <br><br>
-                        <h5>Características do Solo e Cultivo</h5>
-
-                        <input type="text" th:field="*{tipoSolo}" class="form-control"
-                            placeholder="Tipo de solo (Ex: Argiloso, Arenoso, Silte)" required>
-                        <input type="text" th:field="*{tipoProducao}" class="form-control"
-                            placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
-                        <input type="text" th:field="*{tipoCultura}" class="form-control"
-                            placeholder="Sistema de produção (Ex: Cultura Anual, Cultura Perene, Cultura Mista)"
-                            required><br>
-                        <br>
-                        <div>
-                            <h5>Cidade:</h5><br>
-                            <select class="btn-icon" th:field="*{cidadeId}" required>
-                                <option value="">Selecione...</option>
-                                <option th:each="c : ${cidades}" th:value="${c.id}"
-                                    th:text="${c.nome} + ' - ' + ${c.estado.sigla}">
-                                </option>
-                            </select><br>
-                        </div>
-                        <div class="text-center mt-3">
+                        <div class="form-actions mt-3">
                             <button type="submit" class="btn btn-success px-4">
                                 Confirmar
                             </button>
@@ -134,7 +108,7 @@
 
     <script script th:inline="javascript">
         function voltar() {
-            window.location.href = '/usuario';
+            window.location.href = '/usuario/transportes';
         }
     </script>
 </body>

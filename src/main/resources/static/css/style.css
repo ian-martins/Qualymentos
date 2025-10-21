@@ -133,6 +133,7 @@ body {
     padding: 24px 32px;
     background-color: var(--cor-container);
     border-bottom: 1px solid var(--cor-borda);
+    height: 100px;
 }
 
 .content-header h1 {
