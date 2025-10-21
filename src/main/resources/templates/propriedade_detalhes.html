@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroTrace - Detalhes</title>
-    <meta http-equiv="refresh" content="1">
+    <meta http-equiv="refresh" content="100">
 
     <link rel="stylesheet" th:href="@{/css/teste.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,11 +78,7 @@
 
         <main class="main-content">
             <header class="content-header">
-                <div class="user-info" th:text="'Olá, ' + ${usuario.nome}">
-                    
-                    
-                </div>
-              
+                <div class="user-info" th:text="'Olá, ' + ${usuario.nome}"></div>
             </header>
 
             <div class="content-body">
@@ -111,15 +107,15 @@
 
                 <div class="tabs-container">
                     <ul class="tabs">
-                        <li id="tabs1" class="active"><a>Dados da Propriedade</a></li>
+                        <li class="active"><a>Dados da Propriedade</a></li>
                     </ul>
                 </div>
-                <div id="tab1-dados">
+                <div>
                     <div class="tab-content">
                         <div class="details-container">
                             <div class="details-form">
                                 <div class="form-grid">
-                                    
+
                                     <div class="form-group-display">
                                         <label>Proprietário</label>
                                         <div class="data-value" th:text="${usuario.nome}"></div>
@@ -146,14 +142,16 @@
                                                     </path>
                                                 </svg>
                                             </button>
+
                                         </div>
                                     </div>
 
-                                    
+
                                     <div class="form-group-display">
                                         <label>Telefone/Contato</label>
                                         <div class="data-value">
-                                            <span th:text="${#strings.isEmpty(propriedade.fone) ? 'Não adicionado' : propriedade.fone}"></span>
+                                            <span
+                                                th:text="${#strings.isEmpty(propriedade.fone) ? 'Não adicionado' : propriedade.fone}"></span>
                                             <button class="btn-empty" onclick="prop_edit(this)" data-campo="fone"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -168,45 +166,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="form-group-display">
-                                        <label>Cidade/Estado</label>
-                                        <div class="data-value">
-                                            <span th:text="${propriedade.municipio} + ' - ' + ${propriedade.estado}"></span> 
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="endereco"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-
-                                    <div class="form-group-display">
-                                        <label>Inscrição Estadual</label>
-                                        <div class="data-value" >
-                                            <span th:text="${#strings.isEmpty(propriedade.codigoRural) ? 'Não adicionado' : propriedade.codigoRural}"></span>
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="codigoRural"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group-display">
                                         <label>Área Total (ha)</label>
                                         <div class="data-value">
@@ -223,13 +182,86 @@
                                                     </path>
                                                 </svg>
                                             </button>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group-display">
+                                        <label>Inscrição Estadual</label>
+                                        <div class="data-value">
+                                            <span
+                                                th:text="${#strings.isEmpty(propriedade.codigoRural) ? 'Não adicionado' : propriedade.codigoRural}"></span>
+                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="codigoRural"
+                                                data-id="${propriedade.id}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                    </path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                    </path>
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
 
                                     <div class="form-group-display">
-                                        <label>Endereço</label>
-                                        <div class="data-value">|</div>
+                                        <label>Cidade/Estado</label>
+                                        <div class="data-value">
+                                            <span
+                                                th:text="${propriedade.cidade.nome} +' - '+ ${propriedade.cidade.estado.sigla}"></span>
+
+                                            <button class="btn-empty" onclick="divOpen(this)"
+                                                data-id="${propriedade.id}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                    </path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="data-value hidden" id="hidden-div">
+                                            <select class="btn-icon btn-icon-save" id="cidade-select">
+                                                <option th:each="cidade : ${cidades}" th:value="${cidade.id}"
+                                                    th:text="${cidade.nome} + ' - ' + ${cidade.estado.sigla}"></option>
+                                            </select>
+                                            <button class="btn-icon " onclick="editarCidade(this)"
+                                                data-id="${propriedade.id}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
+
                                     </div>
+
+                                    <div class="form-group-display">
+                                        <label>Tipo de Cultura</label>
+                                        <div class="data-value">
+                                            <span th:text="${propriedade.tipoCultura}"></span>
+                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="tipoCultura"
+                                                data-id="${propriedade.id}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                    </path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -242,7 +274,8 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
+                                            </path>
                                             <polyline points="13 2 13 9 20 9"></polyline>
                                         </svg>
                                         <span>Certificado_Orgânico.pdf</span>
@@ -269,12 +302,7 @@
     </div>
 
     <script>
-        function togglePage() {
-            document.getElementById("tab1-dados").classList.toggle("hidden");
-            document.getElementById("tab2-dados").classList.toggle("hidden");
-            document.getElementById("tabs1").classList.toggle("active");
-            document.getElementById("tabs2").classList.toggle("active");
-        }
+
 
         function prop_delete(elemento) {
             if (confirm("Tem certeza que deseja excluir esta propriedade? Esta ação não pode ser desfeita.")) {
@@ -298,9 +326,53 @@
             }
         }
 
+        function divOpen(button) {
+            const hiddenDiv = document.getElementById('hidden-div');
+            hiddenDiv.classList.toggle('hidden');
+        }
+
+        function editarCidade(button) {
+
+
+            const id = button.getAttribute('data-id');
+            const select = document.getElementById('cidade-select');
+            const novaCidadeId = select.value;
+
+            if (!novaCidadeId) {
+                alert("Operação cancelada ou valor inválido!");
+                return;
+            }
+
+            const dados = { campo: 'cidade', valor: novaCidadeId };
+            const url = /*[[@{/propriedade/{id} (id=${propriedade.id})}]]*/ "";
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            })
+                .then(resp => {
+                    if (resp.ok) {
+                        alert("Campo atualizado com sucesso!");
+                        window.location.reload();
+                    } else {
+                        resp.text().then(erro => {
+                            alert("Erro ao atualizar: " + erro);
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert("Erro de conexão: " + err.message);
+                });
+        }
+
         async function prop_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
+            if (campo == 'cidade') {
+                alert("Campo não especificado para edição.");
+                return;
+            }
             const valor = prompt("Alterar Para:");
 
             if (!campo || valor === null || valor.trim() === "") {

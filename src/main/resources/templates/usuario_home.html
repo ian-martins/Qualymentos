@@ -91,20 +91,20 @@
                     <thead>
                         <tr>
                             <th>Nome da Fazenda</th>
-                            <th>Proprietário</th>
+                            <th>Administrador</th>
                             <th>Localização</th>
                             <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="propriedades : ${propriedades}">
-                            <td th:text="'Fazenda ' + ${propriedades.nome}"></td>
+                        <tr th:each="prop : ${propriedades}">
+                            <td th:text="'Fazenda ' + ${prop.nome}"></td>
                             <td></td>
-                            <td th:text="${propriedades.municipio} + ' - ' + ${propriedades.estado}">Toledo - PR</td>
+                            <td th:text="${prop.cidade} + ' - ' + ${prop.estado}"></td>
                             <td><span class="status status-active">Ativa</span></td>
                             <td class="actions">
-                                <button class="icon-btn" title="Editar" th:data-id="${propriedades.id}"
+                                <button class="icon-btn" title="Editar" th:data-id="${prop.id}"
                                     onclick="prop_view(this)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

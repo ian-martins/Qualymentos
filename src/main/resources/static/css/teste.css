@@ -341,7 +341,7 @@ body {
     transition: background-color 0.2s;
 }
 
-.document-link:hover {
+.document-link:hover { 
     background-color: #e6f7e9;
     /* Verde bem claro */
 }

@@ -1,7 +1,7 @@
 package TrabAgro.Qualymentos.Qualymentos.controller;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 
@@ -35,19 +35,26 @@ public class UsuarioController {
     private final TransporteService transService;
     private final GraoService graoService;
 
-
     @GetMapping
-    public String user(Model model, Authentication authentication) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-        List<Propriedade> propriedades = propriedadeService.getAllP(usuario);
-        List<ResponsePropriedadeDTO> response = propriedades.stream()
-                .map(ResponsePropriedadeDTO::fromEntity)
-                .toList();
+    public String listarPropriedadesUsuario(Authentication authentication, Model model) {
+        // Obtém o usuário logado
+        Usuario user = (Usuario) authentication.getPrincipal();
 
-        model.addAttribute("propriedades", response);
-        model.addAttribute("usuario", usuario);
+        // Busca as propriedades do usuário
+        List<ResponsePropriedadeDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
+                .stream()
+                .map(ResponsePropriedadeDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        // Adiciona os dados ao Model (para usar no Thymeleaf)
+        model.addAttribute("usuario", user);
+        model.addAttribute("propriedades", propriedades);
+
+        // Retorna o nome da página HTML (ex: templates/propriedade/listar.html)
         return "usuario_home";
     }
+
+   
 
     @GetMapping("/{id}")
     public String detailsPropriedades(@PathVariable Long id, Model model) {
@@ -64,6 +71,7 @@ public class UsuarioController {
         return "tela_detalhes_propriedade";
 
     }
+
     @GetMapping("/{id}/T")
     public String detailsPropriedadesT(@PathVariable Long id, Model model) {
         Propriedade propriedade = propriedadeService.getById(id);
@@ -107,5 +115,4 @@ public class UsuarioController {
         return "tela_cadastro_propriedade";
     }
 
-  
 }

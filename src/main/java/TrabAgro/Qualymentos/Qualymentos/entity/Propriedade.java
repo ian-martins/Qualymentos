@@ -36,13 +36,13 @@ public class Propriedade {
     @Column(name = "codigo_rural", nullable = false, unique = false)
     private String codigoRural;
 
-    @Column(name = "area", nullable = false)
+    @Column(name = "area", nullable = true)
     private String areaTotal;
 
-    @Column(name = "tipo_solo", nullable = false)
+    @Column(name = "tipo_solo", nullable = true)
     private String tipoSolo;
 
-    @Column(name = "tipo_producao", nullable = false)
+    @Column(name = "tipo_producao", nullable = true)
     private String tipoProducao;
 
     @Column(name = "tipo_cultura")
@@ -52,7 +52,7 @@ public class Propriedade {
     private String fone;
     
     @ManyToOne
-    @JoinColumn(name = "cidade_id", nullable = false)
+    @JoinColumn(name = "cidade_id", nullable = true)
     private Cidade cidade;
    
     @ManyToOne

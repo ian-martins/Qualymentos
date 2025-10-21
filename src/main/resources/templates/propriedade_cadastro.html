@@ -89,34 +89,37 @@
 
             <div class="content-body">
                 <div class="data-table">
-                    <form id="form-cadastro" class="content-body">
-                        <input name="nome" type="text" class="form-control" placeholder="Nome da Fazenda" required>
-                        <input name="codigoRural" type="text" class="form-control" placeholder="Codigo Rural" required>
-                        <input name="areaTotal" type="text" class="form-control" placeholder="Tamanho (em hectares)"
+                    <form class="content-body" th:action="@{/propriedade/add}" method="post" th:object="${dto}">
+                        <input type="text" th:field="*{nome}" class="form-control" placeholder="Nome da Fazenda"
                             required>
-                        <input name="municipio" type="text" class="form-control" placeholder="Cidade" required>
-                        <input name="estado" type="text" class="form-control" placeholder="Estado" required>
+                        <input type="text" th:field="*{fone}" class="form-control" placeholder="Telefone de Contato"
+                            required>
 
-                        <br>
+                        <input type="text" th:field="*{codigoRural}" class="form-control" placeholder="Codigo Rural"
+                            required>
+                        <input type="text" th:field="*{areaTotal}" class="form-control"
+                            placeholder="Tamanho (em hectares)" required>
+
+                        <br><br>
                         <h5>Características do Solo e Cultivo</h5>
 
-                        <select name="tipoSolo" class="form-control" required>
-                            <option selected disabled>Tipo de solo</option>
-                            <option value="Solo A">Argiloso</option>
-                            <option value="Solo B">Arenoso</option>
-                            <option value="Solo C">Silte</option>
-                        </select>
-
-                        <input name="tipoProducao" type="text" class="form-control"
+                        <input type="text" th:field="*{tipoSolo}" class="form-control"
+                            placeholder="Tipo de solo (Ex: Argiloso, Arenoso, Silte)" required>
+                        <input type="text" th:field="*{tipoProducao}" class="form-control"
                             placeholder="Tipo de Cultivo (Ex: Soja, Milho, Café)" required>
-
-                        <select name="tipoCultura" class="form-control" required>
-                            <option selected disabled>Sistema de produção</option>
-                            <option value="Tipo A">Cultura Anual</option>
-                            <option value="Tipo B">Cultura perene</option>
-                            <option value="Tipo C">Cultura Mista</option>
-                        </select>
-
+                        <input type="text" th:field="*{tipoCultura}" class="form-control"
+                            placeholder="Sistema de produção (Ex: Cultura Anual, Cultura Perene, Cultura Mista)"
+                            required><br>
+                        <br>
+                        <div>
+                            <h5>Cidade:</h5><br>
+                            <select class="btn-icon" th:field="*{cidadeId}" required>
+                                <option value="">Selecione...</option>
+                                <option th:each="c : ${cidades}" th:value="${c.id}"
+                                    th:text="${c.nome} + ' - ' + ${c.estado.sigla}">
+                                </option>
+                            </select><br>
+                        </div>
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-success px-4">
                                 Confirmar
@@ -133,39 +136,6 @@
         function voltar() {
             window.location.href = '/usuario';
         }
-
-
-        const formCadastro = document.getElementById('form-cadastro');
-
-        formCadastro.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const dados = Object.fromEntries(new FormData(formCadastro).entries());
-
-            try {
-                const resp = await fetch("http://localhost:8080/propriedade/add", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(dados)
-                });
-
-                if (resp.ok) {
-                    alert("propriedade cadastrada com sucesso!");
-                    window.location.href = '/usuario';
-
-                    formCadastro.reset();
-                } else {
-                    const erro = await resp.text();
-                    alert("Erro ao cadastrar: " + erro);
-                }
-            } catch (err) {
-                alert("Erro de conexão com o servidor: " + err.message);
-            }
-        })
-
-
     </script>
 </body>
 

@@ -32,11 +32,6 @@ public class AuthController {
         return "auth";
     }
 
-    @GetMapping("/sucesso")
-    public String sucesso_cadastro() {
-        return "cadastro_sucesso";
-    }
-
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity login(@RequestBody LoginUserRequestDTO loginRequestDTO, HttpServletResponse response) {

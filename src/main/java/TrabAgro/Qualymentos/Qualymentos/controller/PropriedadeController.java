@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeRequestDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Cidade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
@@ -41,15 +40,9 @@ public class PropriedadeController {
     private final CidadeRepository cidadeRepository;
 
     @GetMapping
-    public String propriedadeCadastro(Model model, Authentication authentication) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-        List<Propriedade> propriedades = propriedadeService.getAllP(usuario);
-        List<ResponsePropriedadeDTO> response = propriedades.stream()
-                .map(ResponsePropriedadeDTO::fromEntity)
-                .toList();
-
-        model.addAttribute("propriedades", response);
-        model.addAttribute("usuario", usuario);
+    public String propriedadeCadastro(Model model) {
+        model.addAttribute("dto", new PropriedadeRequestDTO("", "", "", "", "", "", "", null));
+        model.addAttribute("cidades", cidadeRepository.findAll());
         return "propriedade_cadastro";
     }
 
@@ -61,11 +54,16 @@ public class PropriedadeController {
         Propriedade propriedade = propriedadeService.getById(id);
         model.addAttribute("propriedade", propriedade);
 
-        List<Grao> graos = graoService.getAllG(id);
-        List<ResponseGraoDTO> response = graos.stream()
-                .map(ResponseGraoDTO::fromEntity)
-                .toList();
-        model.addAttribute("graos", response);
+        List<Cidade> cidades = cidadeRepository.findAll();
+        model.addAttribute("cidades", cidades);
+
+        /*
+         * List<Grao> graos = graoService.getAllG(id);
+         * List<ResponseGraoDTO> response = graos.stream()
+         * .map(ResponseGraoDTO::fromEntity)
+         * .toList();
+         * model.addAttribute("graos", response);
+         */
         return "propriedade_detalhes";
     }
 
@@ -92,30 +90,11 @@ public class PropriedadeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> cadastrarPropriedade(
-            @RequestBody PropriedadeRequestDTO dto,
+    public ResponseEntity<?> cadastrarPropriedade(@ModelAttribute PropriedadeRequestDTO dto,
             Authentication authentication) {
-        Usuario user = (Usuario) authentication.getPrincipal();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        propriedadeService.salvarPropriedade(dto, usuario);
 
-        // Busca a cidade informada
-        Cidade cidade = cidadeRepository.findById(dto.cidadeId())
-                .orElseThrow(() -> new RuntimeException("Cidade não encontrada"));
-
-        // Cria a nova propriedade
-        Propriedade novaPropriedade = new Propriedade(
-                null,
-                dto.nome(),
-                dto.codigoRural(),
-                dto.areaTotal(),
-                dto.tipoSolo(),
-                dto.tipoProducao(),
-                dto.tipoCultura(),
-                dto.fone(),
-                cidade, // associação correta
-                user,
-                new ArrayList<>());
-
-        propriedadeService.salvarPropriedade(novaPropriedade);
         return ResponseEntity.ok("Propriedade cadastrada com sucesso!");
     }
 
