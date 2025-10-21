@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
-import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
@@ -21,7 +19,6 @@ import TrabAgro.Qualymentos.Qualymentos.service.TransporteService;
 
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +32,7 @@ public class UsuarioController {
     private final TransporteService transService;
     private final GraoService graoService;
 
-    @GetMapping
+    @GetMapping("/propriedades")
     public String listarPropriedadesUsuario(Authentication authentication, Model model) {
         // Obtém o usuário logado
         Usuario user = (Usuario) authentication.getPrincipal();
@@ -51,12 +48,30 @@ public class UsuarioController {
         model.addAttribute("propriedades", propriedades);
 
         // Retorna o nome da página HTML (ex: templates/propriedade/listar.html)
-        return "usuario_home";
+        return "usuario/usuario_home_propriedades";
+    }
+    @GetMapping("/transportes")
+    public String listarTransportesUsuario(Authentication authentication, Model model) {
+        // Obtém o usuário logado
+        Usuario user = (Usuario) authentication.getPrincipal();
+
+        // Busca as propriedades do usuário
+        List<ResponsePropriedadeDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
+                .stream()
+                .map(ResponsePropriedadeDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        // Adiciona os dados ao Model (para usar no Thymeleaf)
+        model.addAttribute("usuario", user);
+        model.addAttribute("propriedades", propriedades);
+
+        // Retorna o nome da página HTML (ex: templates/propriedade/listar.html)
+        return "usuario/usuario_home_transportes";
     }
 
    
 
-    @GetMapping("/{id}")
+/*     @GetMapping("/{id}")
     public String detailsPropriedades(@PathVariable Long id, Model model) {
         Propriedade propriedade = propriedadeService.getById(id);
         model.addAttribute("propriedade", propriedade);
@@ -70,8 +85,8 @@ public class UsuarioController {
 
         return "tela_detalhes_propriedade";
 
-    }
-
+    } */
+/* 
     @GetMapping("/{id}/T")
     public String detailsPropriedadesT(@PathVariable Long id, Model model) {
         Propriedade propriedade = propriedadeService.getById(id);
@@ -86,13 +101,7 @@ public class UsuarioController {
 
         return "teste";
 
-    }
-
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity deletePropriedade(@PathVariable Long id) {
-        propriedadeService.deletePropriedade(id);
-        return ResponseEntity.ok().build();
-    }
+    } */
 
     @GetMapping("/{id}/AddGrao")
     public String tela_cadastro_cultivo(@PathVariable Long id, Model model) {

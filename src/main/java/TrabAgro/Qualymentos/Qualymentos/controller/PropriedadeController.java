@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Cidade;
-import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.repository.CidadeRepository;
@@ -43,7 +41,7 @@ public class PropriedadeController {
     public String propriedadeCadastro(Model model) {
         model.addAttribute("dto", new PropriedadeRequestDTO("", "", "", "", "", "", "", null));
         model.addAttribute("cidades", cidadeRepository.findAll());
-        return "propriedade_cadastro";
+        return "propriedade/propriedade_cadastro";
     }
 
     @GetMapping("/{id}")
@@ -64,7 +62,7 @@ public class PropriedadeController {
          * .toList();
          * model.addAttribute("graos", response);
          */
-        return "propriedade_detalhes";
+        return "propriedade/propriedade_detalhes";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -73,29 +71,13 @@ public class PropriedadeController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/see")
-    public String detailsPropriedades(@PathVariable Long id, Model model) {
-        Propriedade propriedade = propriedadeService.getById(id);
-        model.addAttribute("propriedade", propriedade);
-        Propriedade prop = propriedadeService.getById(id);
-        model.addAttribute("propriedades", prop);
-        List<Grao> graos = graoService.getAllG(id);
-        List<ResponseGraoDTO> response = graos.stream()
-                .map(ResponseGraoDTO::fromEntity)
-                .toList();
-
-        model.addAttribute("graos", response);
-
-        return "tela_detalhes_propriedade";
-    }
-
     @PostMapping("/add")
-    public ResponseEntity<?> cadastrarPropriedade(@ModelAttribute PropriedadeRequestDTO dto,
+    public String cadastrarPropriedade(@ModelAttribute PropriedadeRequestDTO dto,
             Authentication authentication) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         propriedadeService.salvarPropriedade(dto, usuario);
 
-        return ResponseEntity.ok("Propriedade cadastrada com sucesso!");
+        return "redirect:/usuario/propriedades";
     }
 
     @PutMapping("/{id}")

@@ -21,7 +21,7 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="#">
+                        <a href="">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -30,8 +30,8 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="#">
+                    <li>
+                        <a href="/usuario/propriedades">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 11.5c0 1.93-3.13 3.5-7 3.5s-7-1.57-7-3.5 3.13-3.5 7-3.5 7 1.57 7 3.5z">
@@ -49,8 +49,8 @@
                             <span>Propriedades</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
+                    <li class="active">
+                        <a href="">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="1" y="3" width="15" height="13"></rect>
@@ -77,7 +77,7 @@
 
         <main class="main-content">
             <header class="content-header">
-                <h1>Propriedades Cadastradas</h1>
+                <h1>Transportadoras Parceiras</h1>
                 <div class="action-bar">
                     <input type="search" class="search-input" placeholder="Buscar por nome ou CNPJ...">
                     <button class="btn btn-primary" onclick="prop_add()">
@@ -90,9 +90,9 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Nome da Fazenda</th>
-                            <th>Administrador</th>
-                            <th>Localização</th>
+                            <th>Transportadora</th>
+                            
+                            
                             <th>Status</th>
                             <th>Ações</th>
                         </tr>
@@ -100,8 +100,6 @@
                     <tbody>
                         <tr th:each="prop : ${propriedades}">
                             <td th:text="'Fazenda ' + ${prop.nome}"></td>
-                            <td></td>
-                            <td th:text="${prop.cidade} + ' - ' + ${prop.estado}"></td>
                             <td><span class="status status-active">Ativa</span></td>
                             <td class="actions">
                                 <button class="icon-btn" title="Editar" th:data-id="${prop.id}"
