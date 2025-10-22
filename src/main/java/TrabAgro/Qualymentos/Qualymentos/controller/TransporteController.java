@@ -35,14 +35,19 @@ public class TransporteController {
     }
  
     @GetMapping("/{id}")
-    public String detailsTransporte(@PathVariable Long id, Model model) {
+    public String detailsTransporte(@PathVariable Long id,Authentication authentication, Model model) {
+           Usuario usuario = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", usuario);
+        
         Transporte transporte = transService.getById(id);
+
+
         model.addAttribute("transportes", transporte);
 
-        return "tela_detalhes_transportadora";
+        return "transporte/transporte_detalhes";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteTransporte(@PathVariable Long id) {
         transService.deleteTransporte(id);
         return ResponseEntity.ok().build();
@@ -57,7 +62,7 @@ public class TransporteController {
         return "redirect:/usuario/transportes";
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity atualizarTransporte(@PathVariable Long id, @RequestBody Map<String, String> dados) {
         String campo = dados.get("campo");
         String valor = dados.get("valor");

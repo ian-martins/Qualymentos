@@ -34,7 +34,7 @@
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
-                            <span>Propriedades</span>
+                            <span>Transportadora</span>
                         </a>
                     </li>
                     <li class="active">
@@ -46,7 +46,7 @@
                                 <line x1="12" y1="18" x2="12" y2="12"></line>
                                 <line x1="9" y1="15" x2="15" y2="15"></line>
                             </svg>
-                            <span>Registro Propriedades</span>
+                            <span>Registro Transportadora</span>
                         </a>
                     </li>
                     <li>
@@ -84,13 +84,13 @@
             <div class="content-body">
                 <div class="page-header">
                     <div class="page-title">
-                        <h1>Detalhes da Propriedade</h1>
+                        <h1>Dados da Transportadora</h1>
                         <p>Visualize os dados cadastrados.</p>
                     </div>
                     <div class="page-actions">
 
-                        <button class="btn-icon btn-icon-delete" th:data-id="${propriedade.id}"
-                            onclick="prop_delete(this)">
+                        <button class="btn-icon btn-icon-delete" th:data-id="${transportes.id}"
+                            onclick="trans_delete(this)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -107,7 +107,7 @@
 
                 <div class="tabs-container">
                     <ul class="tabs">
-                        <li class="active"><a>Dados da Propriedade</a></li>
+                        <li class="active"><a>Insere texto</a></li>
                     </ul>
                 </div>
                 <div>
@@ -116,22 +116,14 @@
                             <div class="details-form">
                                 <div class="form-grid">
 
-                                    <div class="form-group-display">
-                                        <label>Proprietário</label>
-                                        <div class="data-value" th:text="${usuario.nome}"></div>
-                                    </div>
+
 
                                     <div class="form-group-display">
-                                        <label>E-mail</label>
-                                        <div class="data-value" th:text="${usuario.email}"></div>
-                                    </div>
-
-                                    <div class="form-group-display">
-                                        <label>Nome da Fazenda</label>
+                                        <label>Nome</label>
                                         <div class="data-value">
-                                            <span th:text=" 'Fazenda ' + ${propriedade.nome}"></span>
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="nome"
-                                                data-id="${propriedade.id}">
+                                            <span th:text="${transportes.nome}"></span>
+                                            <button class="btn-empty" onclick="trans_edit(this)" data-campo="nome"
+                                                data-id="${transportes.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -150,8 +142,7 @@
                                     <div class="form-group-display">
                                         <label>Telefone/Contato</label>
                                         <div class="data-value">
-                                            <span
-                                                th:text="${#strings.isEmpty(propriedade.fone) ? 'Não adicionado' : propriedade.fone}"></span>
+                                            <span>Tabela transportes não tem isso</span>
                                             <button class="btn-empty" onclick="prop_edit(this)" data-campo="fone"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -166,102 +157,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="form-group-display">
-                                        <label>Área Total (ha)</label>
-                                        <div class="data-value">
-                                            <span th:text="${propriedade.areaTotal}"></span>
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="areaTotal"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group-display">
-                                        <label>Inscrição Estadual</label>
-                                        <div class="data-value">
-                                            <span
-                                                th:text="${#strings.isEmpty(propriedade.codigoRural) ? 'Não adicionado' : propriedade.codigoRural}"></span>
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="codigoRural"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group-display">
-                                        <label>Cidade/Estado</label>
-                                        <div class="data-value">
-                                            <span
-                                                th:text="${propriedade.cidade.nome} +' - '+ ${propriedade.cidade.estado.sigla}"></span>
-
-                                            <button class="btn-empty" onclick="divOpen(this)"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div class="data-value hidden" id="hidden-div">
-                                            <select class="btn-icon btn-icon-save" id="cidade-select">
-                                                <option th:each="cidade : ${cidades}" th:value="${cidade.id}"
-                                                    th:text="${cidade.nome} + ' - ' + ${cidade.estado.sigla}"></option>
-                                            </select>
-                                            <button class="btn-icon " onclick="editarCidade(this)"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                </svg>
-                                            </button>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group-display">
-                                        <label>Tipo de Cultura</label>
-                                        <div class="data-value">
-                                            <span th:text="${propriedade.tipoCultura}"></span>
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="tipoCultura"
-                                                data-id="${propriedade.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
 
@@ -285,29 +180,15 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div id="tab2-dados" class="hidden">
-                    <div class="tab-content">
-                        <div class="details-container">
-                            <div class="details-form">
-
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div> -->
-
             </div>
         </main>
     </div>
 
     <script>
-
-
-        function prop_delete(elemento) {
+        function trans_delete(elemento) {
             if (confirm("Tem certeza que deseja excluir esta propriedade? Esta ação não pode ser desfeita.")) {
                 const id = elemento.getAttribute('data-id');
-                fetch('/propriedade/delete/' + id, {
+                fetch('/transporte/delete/' + id, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -325,54 +206,9 @@
                     });
             }
         }
-
-        function divOpen(button) {
-            const hiddenDiv = document.getElementById('hidden-div');
-            hiddenDiv.classList.toggle('hidden');
-        }
-
-        function editarCidade(button) {
-
-
-            const id = button.getAttribute('data-id');
-            const select = document.getElementById('cidade-select');
-            const novaCidadeId = select.value;
-
-            if (!novaCidadeId) {
-                alert("Operação cancelada ou valor inválido!");
-                return;
-            }
-
-            const dados = { campo: 'cidade', valor: novaCidadeId };
-            const url = /*[[@{/propriedade/{id} (id=${propriedade.id})}]]*/ "";
-
-            fetch(url, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dados)
-            })
-                .then(resp => {
-                    if (resp.ok) {
-                        alert("Campo atualizado com sucesso!");
-                        window.location.reload();
-                    } else {
-                        resp.text().then(erro => {
-                            alert("Erro ao atualizar: " + erro);
-                        });
-                    }
-                })
-                .catch(err => {
-                    alert("Erro de conexão: " + err.message);
-                });
-        }
-
-        async function prop_edit(button) {
+        async function trans_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
-            if (campo == 'cidade') {
-                alert("Campo não especificado para edição.");
-                return;
-            }
             const valor = prompt("Alterar Para:");
 
             if (!campo || valor === null || valor.trim() === "") {
@@ -381,7 +217,7 @@
             }
 
             const dados = { campo: campo, valor: valor.trim() };
-            const url = /*[[@{/propriedade/{id} (id=${propriedade.id})}]]*/ "";
+            const url = /*[[@{/transporte/{id} (id=${transportes.id})}]]*/ "";
 
             try {
                 const resp = await fetch(url, {
@@ -401,6 +237,7 @@
                 alert("Erro de conexão: " + err.message);
             }
         }
+
     </script>
 </body>
 
