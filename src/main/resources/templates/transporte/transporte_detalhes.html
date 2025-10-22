@@ -65,7 +65,7 @@
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <a href="/usuario">
+                <a href="/usuario/transportes">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -195,7 +195,7 @@
                     }
                 }).then(response => {
                     if (response.ok) {
-                        window.location.href = '/usuario';
+                        window.location.href = '/usuario/transportes';
                     } else {
                         alert('Erro ao deletar a propriedade.');
                     }
@@ -206,6 +206,7 @@
                     });
             }
         }
+        
         async function trans_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
