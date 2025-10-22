@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeResponseDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteRequestDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteResponseDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
@@ -36,20 +36,14 @@ public class UsuarioController {
 
     @GetMapping
     public String dashboard(Authentication authentication, Model model) {
-        // Obtém o usuário logado
         Usuario user = (Usuario) authentication.getPrincipal();
-
-        // Adiciona os dados ao Model (para usar no Thymeleaf)
         model.addAttribute("usuario", user);
-
-        // Retorna o nome da página HTML (ex: templates/usuario/home.html)
         return "usuario/usuario_home";
     }
 
     @GetMapping("/propriedades")
     public String listarPropriedadesUsuario(Authentication authentication, Model model) {
         Usuario user = (Usuario) authentication.getPrincipal();
-
         List<PropriedadeResponseDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
                 .stream()
                 .map(PropriedadeResponseDTO::fromEntity)
@@ -64,12 +58,13 @@ public class UsuarioController {
     @GetMapping("/transportes")
     public String listarTransportesUsuario(Authentication authentication, Model model) {
         Usuario user = (Usuario) authentication.getPrincipal();
-        List<TransporteRequestDTO> transportes = transService.getAllt(user).stream()
-                .map(t -> new TransporteRequestDTO(t.getNome(), t.getCnpj()))
+        List<TransporteResponseDTO> transportes = transService.listarPorUsuario(user.getId())
+                .stream()
+                .map(TransporteResponseDTO::fromEntity)
                 .collect(Collectors.toList());
 
         model.addAttribute("usuario", user);
-        model.addAttribute("propriedades", transportes);
+        model.addAttribute("transportes", transportes);
         
         return "usuario/usuario_home_transportes";
     }

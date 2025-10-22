@@ -33,12 +33,12 @@ public class TransporteService {
         transRepository.save(updateTrans);
     }
 
-    public List<Transporte> getAllt(Usuario usuario) {
-        return transRepository.findByUsuario(usuario);
-    }
-
     public Transporte getById(Long id) {
         return transRepository.findById(id).orElseThrow(() -> new RuntimeException("Transportadora n��o encontrada"));
+    }
+
+    public List<Transporte> listarPorUsuario(String usuarioid) {
+        return transRepository.findByUsuarioId(usuarioid);
     }
 
    
