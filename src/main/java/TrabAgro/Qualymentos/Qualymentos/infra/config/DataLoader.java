@@ -18,6 +18,9 @@ public class DataLoader {
     @Bean
     CommandLineRunner carregarDados(EstadoRepository estadoRepo, CidadeRepository cidadeRepo) {
         return args -> {
+           
+
+
             if (estadoRepo.count() == 0) {
 
                 // --- ESTADOS (apenas exemplo resumido, mas pode ser todos) ---

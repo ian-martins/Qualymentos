@@ -26,6 +26,12 @@ public class GraoController {
     private final GraoService graoService;
     private final PropriedadeService propriedadeService;
 
+    @GetMapping
+    public String graoCadastro() {
+        
+        return "grao/grao_cadastro";
+    }
+
     @GetMapping("/{idgrao}")
     public String menu_graos(@PathVariable("idgrao") Long idgrao, Model model) {
         Grao grao = graoService.getById(idgrao);

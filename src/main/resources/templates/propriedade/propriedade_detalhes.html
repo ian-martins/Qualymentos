@@ -132,15 +132,16 @@
 
                 <div class="tabs-container">
                     <ul class="tabs">
-                        <li id="prop" class="active"><a>Dados da Propriedade</a></li>
-                        <li id="safra"><a>Safras Planejadas</a></li>
-                        <li id="armazem"><a>Armazéns/Silos</a></li>
-                        <li id="transp"><a>Transportadoras Relacionadas</a></li>
+                        <li id="li-prop" onclick="openTab(event, 'prop')" class="active"><a>Dados da Propriedade</a>
+                        </li>
+                        <li id="li-safra" onclick="openTab(event, 'safra')"><a>Safras Planejadas</a></li>
+                        <li id="li-armazem" onclick="openTab(event, 'armazem')"><a>Armazéns/Silos</a></li>
+                        <li id="li-transp" onclick="openTab(event, 'transp')"><a>Transportadoras Relacionadas</a></li>
                     </ul>
                 </div>
-                
+
                 <div>
-                    <div id="DetProp" class="tab-content">
+                    <div id="det-prop" class="tab-content">
                         <div class="details-container">
                             <div class="details-form">
                                 <div class="form-grid">
@@ -314,42 +315,36 @@
                         </div>
                     </div>
 
-                    <div id="DetSafra" class="hidden">
-                        <div class="tab-content">
-                            <div class="details-container">
-                                <div class="details-form">
-                                    <p>deu certo</p>
-
-                                </div>
-
+                    <div id="det-safra" class="hidden">
+                        <div class="details-container">
+                            <div class="details-form">
+                                <br>
+                                <button class="btn-icon" th:data-id="${propriedade.id}" onclick="grao_add(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    <span>adicionar safra</span>
+                                </button>
 
                             </div>
                         </div>
                     </div>
 
-                    <div id="DetArmazem" class="hidden">
-                        <div class="tab-content">
-                            <div class="details-container">
-                                <div class="details-form">
-                                    <p>deu certo</p>
-
-                                </div>
-
+                    <div id="det-armazem" class="hidden">
+                        <div class="details-container">
+                            <div class="details-form">
+                                
                             </div>
-
-
-
                         </div>
                     </div>
 
-                    <div id="DetTransp" class="hidden">
-                        <div class="tab-content">
-                            <div class="details-container">
-                                <div class="details-form">
-                                    <p>deu certo</p>
-
-                                </div>
-
+                    <div id="det-transp" class="hidden">
+                        <div class="details-container">
+                            <div class="details-form">
+                                <p>deu certo</p>
                             </div>
                         </div>
                     </div>
@@ -361,27 +356,23 @@
 
     <script>
         openTab = function (evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.add("hidden");
-            }
-            tablinks = document.getElementsByClassName("tabs")[0].getElementsByTagName("li");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            sidebarlinks = document.getElementsByClassName("sidebar-nav")[0].getElementsByTagName("li");
-            for (i = 0; i < sidebarlinks.length; i++) {
-                sidebarlinks[i].classList.remove("active");
-            }
-            document.getElementById("sidebar-" + tabName).classList.add("active");
-            
+            const sidebarTabs = document.querySelectorAll('[id^="sidebar-"]');
+            const detailTabs = document.querySelectorAll('[id^="det-"]');
+            const liTabs = document.querySelectorAll('[id^="li-"]');
 
-            document.getElementById("Det" + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.remove("hidden");
-            document.getElementById(tabName).classList.add("active");
+            sidebarTabs.forEach(tab => tab.classList.remove("active"));
+            detailTabs.forEach(tab => tab.classList.add("hidden"));
+            liTabs.forEach(tab => tab.classList.remove("active"));
+
+            document.getElementById("sidebar-" + tabName).classList.add("active");
+            document.getElementById("det-" + tabName).classList.remove("hidden");
+            document.getElementById("li-" + tabName).classList.add("active");
         }
 
-
+        function grao_add(elemento) {
+            const id = elemento.getAttribute('data-id');
+            window.location.href = '/propriedade/' + id + '/grao';
+        }   
 
         function prop_delete(elemento) {
             if (confirm("Tem certeza que deseja excluir esta propriedade? Esta ação não pode ser desfeita.")) {
