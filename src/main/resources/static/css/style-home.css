@@ -1,0 +1,151 @@
+/* ==== VARIÁVEIS GLOBAIS E RESET ==== */
+:root {
+    --cor-primaria: #27a845; /* Verde principal */
+    --cor-fundo: #F8F9FA;
+    --cor-container: #FFFFFF;
+    --cor-borda: #E0E0E0;
+    --cor-texto-principal: #333;
+    --cor-texto-secundario: #666;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    -webkit-font-smoothing: antialiased;
+    /* Garante que o footer fique no fim */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ==== CABEÇALHO (HEADER) ==== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--cor-container);
+    border-bottom: 1px solid var(--cor-borda);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    text-decoration: none;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.nav a:hover {
+    color: var(--cor-primaria);
+}
+
+/* Estiliza o último link (Cadastro) como um botão */
+.nav a:last-child {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+.nav a:last-child:hover {
+    background-color: #218c3a; /* Tom mais escuro de verde */
+    color: white;
+}
+
+/* ==== CONTEÚDO PRINCIPAL (MAIN) ==== */
+.main-content {
+    flex-grow: 1; /* Faz o main ocupar o espaço restante */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Imagem de fundo com sobreposição */
+    background-image: 
+        linear-gradient(to bottom, rgba(230, 247, 233, 0.85), rgba(230, 247, 233, 0.85)),
+        url('https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&q=80&w=1974'); /* Imagem de plantação */
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+}
+
+.welcome-section {
+    text-align: center;
+    max-width: 700px;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo branco semi-transparente para legibilidade */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px); /* Efeito de vidro fosco */
+}
+
+.welcome-section h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+    margin-bottom: 16px;
+}
+
+.welcome-section p {
+    font-size: 20px;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+/* ==== BOTÃO (REUTILIZADO DE OUTROS ESTILOS) ==== */
+.btn {
+    padding: 14px 28px;
+    font-size: 18px; /* Maior para destaque */
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #218c3a;
+    box-shadow: 0 4px 12px rgba(39, 168, 69, 0.2);
+    transform: translateY(-2px); /* Efeito sutil ao passar o mouse */
+}
+
+
+/* ==== RODAPÉ (FOOTER) ==== */
+.footer {
+    text-align: center;
+    padding: 24px;
+    background-color: var(--cor-container);
+    border-top: 1px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+    width: 100%;
+}

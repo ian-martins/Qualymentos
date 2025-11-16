@@ -1,6 +1,6 @@
 package TrabAgro.Qualymentos.Qualymentos.dto.transporte;
 
-public record RegisterTransDTO(
+public record TransporteRequestDTO(
     String nome,
     String cnpj
 ) {

@@ -1,7 +1,7 @@
 package TrabAgro.Qualymentos.Qualymentos.controller;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 
@@ -10,9 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
-import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
+import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeResponseDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteResponseDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
@@ -21,7 +20,6 @@ import TrabAgro.Qualymentos.Qualymentos.service.TransporteService;
 
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,19 +35,43 @@ public class UsuarioController {
 
 
     @GetMapping
-    public String user(Model model, Authentication authentication) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-        List<Propriedade> propriedades = propriedadeService.getAllP(usuario);
-        List<ResponsePropriedadeDTO> response = propriedades.stream()
-                .map(ResponsePropriedadeDTO::fromEntity)
-                .toList();
-
-        model.addAttribute("propriedades", response);
-        model.addAttribute("usuario", usuario);
-        return "tela_menu_usuario";
+    public String dashboard(Authentication authentication, Model model) {
+        Usuario user = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", user);
+        return "usuario/usuario_home";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/propriedades")
+    public String listarPropriedadesUsuario(Authentication authentication, Model model) {
+        Usuario user = (Usuario) authentication.getPrincipal();
+        List<PropriedadeResponseDTO> propriedades = propriedadeService.listarPorUsuario(user.getId())
+                .stream()
+                .map(PropriedadeResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        model.addAttribute("usuario", user);
+        model.addAttribute("propriedades", propriedades);
+
+        return "usuario/usuario_home_propriedades";
+    }
+    
+    @GetMapping("/transportes")
+    public String listarTransportesUsuario(Authentication authentication, Model model) {
+        Usuario user = (Usuario) authentication.getPrincipal();
+        List<TransporteResponseDTO> transportes = transService.listarPorUsuario(user.getId())
+                .stream()
+                .map(TransporteResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        model.addAttribute("usuario", user);
+        model.addAttribute("transportes", transportes);
+        
+        return "usuario/usuario_home_transportes";
+    }
+
+   
+
+/*     @GetMapping("/{id}")
     public String detailsPropriedades(@PathVariable Long id, Model model) {
         Propriedade propriedade = propriedadeService.getById(id);
         model.addAttribute("propriedade", propriedade);
@@ -63,13 +85,23 @@ public class UsuarioController {
 
         return "tela_detalhes_propriedade";
 
-    }
+    } */
+/* 
+    @GetMapping("/{id}/T")
+    public String detailsPropriedadesT(@PathVariable Long id, Model model) {
+        Propriedade propriedade = propriedadeService.getById(id);
+        model.addAttribute("propriedade", propriedade);
 
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity deletePropriedade(@PathVariable Long id) {
-        propriedadeService.deletePropriedade(id);
-        return ResponseEntity.ok().build();
-    }
+        List<Grao> graos = graoService.getAllG(id);
+        List<ResponseGraoDTO> response = graos.stream()
+                .map(ResponseGraoDTO::fromEntity)
+                .toList();
+
+        model.addAttribute("graos", response);
+
+        return "teste";
+
+    } */
 
     @GetMapping("/{id}/AddGrao")
     public String tela_cadastro_cultivo(@PathVariable Long id, Model model) {
@@ -92,5 +124,4 @@ public class UsuarioController {
         return "tela_cadastro_propriedade";
     }
 
-  
 }

@@ -27,19 +27,9 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    @GetMapping("/cadastro")
-    public String cadastro() {
-        return "pg_cadastro";
-    }
-
-    @GetMapping("/login")
+    @GetMapping
     public String login() {
-        return "pg_login";
-    }
-
-    @GetMapping("/sucesso")
-    public String sucesso_cadastro() {
-        return "cadastro_sucesso";
+        return "auth";
     }
 
     @PostMapping("/login")

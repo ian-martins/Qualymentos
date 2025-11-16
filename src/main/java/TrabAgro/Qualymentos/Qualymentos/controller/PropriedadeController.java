@@ -14,14 +14,14 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import TrabAgro.Qualymentos.Qualymentos.dto.grao.ResponseGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.RegisterPropriedadeDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.ResponsePropriedadeDTO;
-import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
+import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeRequestDTO;
+import TrabAgro.Qualymentos.Qualymentos.entity.Cidade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
+import TrabAgro.Qualymentos.Qualymentos.repository.CidadeRepository;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
 import TrabAgro.Qualymentos.Qualymentos.service.PropriedadeService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,34 +35,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PropriedadeController {
     private final PropriedadeService propriedadeService;
     private final GraoService graoService;
+    private final CidadeRepository cidadeRepository;
 
     @GetMapping
-    public String telaPropriedades(Model model, Authentication authentication) {
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-        List<Propriedade> propriedades = propriedadeService.getAllP(usuario);
-        List<ResponsePropriedadeDTO> response = propriedades.stream()
-                .map(ResponsePropriedadeDTO::fromEntity)
-                .toList();
-
-        model.addAttribute("propriedades", response);
-        model.addAttribute("usuario", usuario);
-        return "tela_menu_propriedade";
+    public String propriedadeCadastro(Model model) {
+        model.addAttribute("dto", new PropriedadeRequestDTO("", "", "", "", "", "", "", null));
+        model.addAttribute("cidades", cidadeRepository.findAll());
+        return "propriedade/propriedade_cadastro";
     }
 
     @GetMapping("/{id}")
-    public String detailsPropriedades(@PathVariable Long id, Model model) {
+    public String propriedadeDetalhes(@PathVariable Long id, Authentication authentication, Model model) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", usuario);
+
         Propriedade propriedade = propriedadeService.getById(id);
         model.addAttribute("propriedade", propriedade);
-        Propriedade prop = propriedadeService.getById(id);
-        model.addAttribute("propriedades", prop);
-        List<Grao> graos = graoService.getAllG(id);
-        List<ResponseGraoDTO> response = graos.stream()
-                .map(ResponseGraoDTO::fromEntity)
-                .toList();
 
-        model.addAttribute("graos", response);
+        List<Cidade> cidades = cidadeRepository.findAll();
+        model.addAttribute("cidades", cidades);
 
-        return "tela_detalhes_propriedade";
+        model.addAttribute("grao", graoService.getAllG(id));
+
+
+        /*
+         * List<Grao> graos = graoService.getAllG(id);
+         * List<ResponseGraoDTO> response = graos.stream()
+         * .map(ResponseGraoDTO::fromEntity)
+         * .toList();
+         * model.addAttribute("graos", response);
+         */
+        return "propriedade/propriedade_detalhes";
     }
 
     @DeleteMapping("/delete/{id}")
@@ -72,16 +75,15 @@ public class PropriedadeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity cadastrarPropriedade(@RequestBody RegisterPropriedadeDTO dto, Authentication authentication) {
-        Usuario user = (Usuario) authentication.getPrincipal();
-        Propriedade newPropriedade = new Propriedade(null, dto.nome(), dto.codigoRural(), dto.areaTotal(),
-                dto.municipio(), dto.estado(), dto.tipoSolo(), dto.tipoProducao(), dto.tipoCultura(), user, null);
-        propriedadeService.salvarPropriedade(newPropriedade);
+    public String cadastrarPropriedade(@ModelAttribute PropriedadeRequestDTO dto,
+            Authentication authentication) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        propriedadeService.salvarPropriedade(dto, usuario);
 
-        return ResponseEntity.ok().build();
+        return "redirect:/usuario/propriedades";
     }
 
-    @PutMapping("/{id}/editar")
+    @PutMapping("/{id}")
     public ResponseEntity<String> editarCampo(@PathVariable Long id, @RequestBody Map<String, String> dados) {
         String campo = dados.get("campo");
         String valor = dados.get("valor");

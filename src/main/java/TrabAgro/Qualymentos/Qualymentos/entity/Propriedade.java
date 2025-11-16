@@ -25,35 +25,36 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Propriedade {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "nome", nullable = false)
     private String nome;
 
     @Column(name = "codigo_rural", nullable = false, unique = false)
     private String codigoRural;
 
-    @Column(name = "area", nullable = false)
+    @Column(name = "area", nullable = true)
     private String areaTotal;
-    
-    @Column(name = "municipio", nullable = false)
-    private String municipio;
 
-    @Column(name = "estado", nullable = false)
-    private String estado;
-
-    @Column(name = "tipo_solo", nullable = false)
+    @Column(name = "tipo_solo", nullable = true)
     private String tipoSolo;
 
-    @Column(name = "tipo_producao", nullable = false)
+    @Column(name = "tipo_producao", nullable = true)
     private String tipoProducao;
-    
+
     @Column(name = "tipo_cultura")
     private String tipoCultura;
 
+    @Column(name = "fone")
+    private String fone;
+    
+    @ManyToOne
+    @JoinColumn(name = "cidade_id", nullable = true)
+    private Cidade cidade;
+   
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
