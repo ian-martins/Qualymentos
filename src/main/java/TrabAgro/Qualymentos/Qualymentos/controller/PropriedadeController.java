@@ -55,6 +55,9 @@ public class PropriedadeController {
         List<Cidade> cidades = cidadeRepository.findAll();
         model.addAttribute("cidades", cidades);
 
+        model.addAttribute("grao", graoService.getAllG(id));
+
+
         /*
          * List<Grao> graos = graoService.getAllG(id);
          * List<ResponseGraoDTO> response = graos.stream()

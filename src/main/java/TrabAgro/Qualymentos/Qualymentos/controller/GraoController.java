@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,8 +28,10 @@ public class GraoController {
     private final PropriedadeService propriedadeService;
 
     @GetMapping
-    public String graoCadastro() {
-        
+    public String graoCadastro(@PathVariable Long id, Model model) {
+        model.addAttribute("propriedade", propriedadeService.getById(id));
+        model.addAttribute("dto", new RegisterGraoDTO(null, null, null));
+
         return "grao/grao_cadastro";
     }
 
@@ -40,11 +43,11 @@ public class GraoController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity adicionar_grao(@RequestBody RegisterGraoDTO dto, @PathVariable Long id) {
+    public String adicionar_grao(@ModelAttribute RegisterGraoDTO dto, @PathVariable Long id) {
         Propriedade propriedade = propriedadeService.getById(id);
         graoService.salvarGrao(dto, propriedade);
 
-        return ResponseEntity.ok().build();
+        return "redirect:/propriedade/" + id;
     }
 
     @DeleteMapping("/{idgrao}")

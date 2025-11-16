@@ -101,6 +101,7 @@
             </div>
         </aside>
 
+
         <main class="main-content">
             <header class="content-header">
                 <div class="user-info" th:text="'Olá, ' + ${usuario.nome}"></div>
@@ -137,6 +138,7 @@
                         <li id="li-safra" onclick="openTab(event, 'safra')"><a>Safras Planejadas</a></li>
                         <li id="li-armazem" onclick="openTab(event, 'armazem')"><a>Armazéns/Silos</a></li>
                         <li id="li-transp" onclick="openTab(event, 'transp')"><a>Transportadoras Relacionadas</a></li>
+
                     </ul>
                 </div>
 
@@ -328,7 +330,41 @@
                                     </svg>
                                     <span>adicionar safra</span>
                                 </button>
+                                <div class="content-body">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Grão</th>
 
+                                                <th>inicio Plantio</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="g : ${grao}">
+                                                <td th:text="${g.tipoGrao}"></td>
+                                                <td th:text="${g.dataPlantio}"></td>
+
+                                                <td class="actions">
+                                                    <button class="icon-btn" title="Editar" th:data-id="${g.id}"
+                                                        onclick="prop_view(this)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path
+                                                                d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                            </path>
+                                                            <path
+                                                                d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -336,7 +372,7 @@
                     <div id="det-armazem" class="hidden">
                         <div class="details-container">
                             <div class="details-form">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -372,7 +408,7 @@
         function grao_add(elemento) {
             const id = elemento.getAttribute('data-id');
             window.location.href = '/propriedade/' + id + '/grao';
-        }   
+        }
 
         function prop_delete(elemento) {
             if (confirm("Tem certeza que deseja excluir esta propriedade? Esta ação não pode ser desfeita.")) {

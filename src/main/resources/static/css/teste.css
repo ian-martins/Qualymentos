@@ -195,6 +195,7 @@ body {
     color: var(--cor-texto-secundario);
 }
 
+
 .page-actions {
     display: flex;
     gap: 10px;
@@ -359,4 +360,52 @@ body {
 }
 .btn-empty :hover{
     cursor: pointer;
+}
+
+/* style.css */
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--cor-texto-secundario);
+}
+
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cor-container);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* Para o border-radius funcionar */
+}
+
+.data-table th,
+.data-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.data-table thead th {
+    background-color: #f9f9f9;
+    font-weight: 700;
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.data-table tbody tr:hover {
+    background-color: #fdfdfd;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
 }
