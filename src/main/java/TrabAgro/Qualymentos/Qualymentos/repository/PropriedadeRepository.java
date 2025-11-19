@@ -11,7 +11,7 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 @Repository
 public interface PropriedadeRepository extends JpaRepository<Propriedade, Long> {
     List<Propriedade> findByUsuario(Usuario usuario);
-
     List<Propriedade> findByUsuarioId(String usuarioId);
+    
     
 }

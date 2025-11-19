@@ -13,5 +13,6 @@ public interface GraoRepository extends JpaRepository<Grao, Long> {
     List<Grao> findByPropriedade(Propriedade propriedade);
     void deleteAllByPropriedade(Propriedade propriedade);
     boolean existsByPropriedadeId(Long id);
+    void deleteByPropriedade(Propriedade propriedade);
 
 }

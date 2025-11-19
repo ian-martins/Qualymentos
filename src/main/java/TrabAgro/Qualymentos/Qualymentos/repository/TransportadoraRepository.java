@@ -12,4 +12,5 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 public interface TransportadoraRepository extends JpaRepository<Transporte, Long> {
     List<Transporte> findByUsuario(Usuario usuario);
     List<Transporte> findByUsuarioId(String usuarioId);
+    void deleteByUsuario(Usuario usuario);
 }
