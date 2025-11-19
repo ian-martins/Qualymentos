@@ -1,6 +1,7 @@
 package TrabAgro.Qualymentos.Qualymentos.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.UpdateGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
+import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
 import TrabAgro.Qualymentos.Qualymentos.service.PropriedadeService;
 import lombok.AllArgsConstructor;
@@ -36,10 +38,16 @@ public class GraoController {
     }
 
     @GetMapping("/{idgrao}")
-    public String menu_graos(@PathVariable("idgrao") Long idgrao, Model model) {
+    public String menu_graos(@PathVariable("id") Long id, @PathVariable("idgrao") Long idgrao,  Authentication authentication, Model model) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", usuario);
+
+        Propriedade propriedade = propriedadeService.getById(id);
+        model.addAttribute("propriedade", propriedade);
+
         Grao grao = graoService.getById(idgrao);
         model.addAttribute("grao", grao);
-        return "tela_menu_grao";
+        return "grao/grao_detalhes";
     }
 
     @PostMapping("/add")
