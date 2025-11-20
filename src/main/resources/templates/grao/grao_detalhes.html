@@ -38,7 +38,7 @@
                         </a>
                     </li>
 
-                    <li id="sidebar-prop" class="active" onclick="openTab(event, 'prop')">
+                    <li id="sidebar-prop" onclick="openTab(event, 'prop')">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -50,7 +50,7 @@
                             <span>Registro Propriedades</span>
                         </a>
                     </li>
-                    <li id="sidebar-safra" onclick="openTab(event, 'safra')">
+                    <li id="sidebar-safra" class="active" onclick="openTab(event, 'safra')">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -61,31 +61,8 @@
                             <span>Safras Planejadas</span>
                         </a>
                     </li>
-                    <li id="sidebar-armazem" onclick="openTab(event, 'armazem')">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 3h18v4H3V3zm0 7h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10z">
-                                </path>
-                                <line x1="16" y1="3" x2="16" y2="7"></line>
-                                <line x1="8" y1="3" x2="8" y2="7"></line>
-                            </svg>
-                            <span>Armazéns/Silos</span>
-                        </a>
-                    </li>
-                    <li id="sidebar-transp" onclick="openTab(event, 'transp')">
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                                </path>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                            </svg>
-                            <span>Transportadoras Relacionadas</span>
-                        </a>
-                    </li>
+
+
                 </ul>
             </nav>
 
@@ -110,13 +87,13 @@
             <div class="content-body">
                 <div class="page-header">
                     <div class="page-title">
-                        <h1>Detalhes da Propriedade</h1>
-                        <p>Visualize os dados cadastrados.</p>
+                        <h1>Detalhes da Safra</h1>
+                        <p th:text="'Visualize os dados da ' + ${propriedade.nome}"> </p>
                     </div>
                     <div class="page-actions">
 
-                        <button class="btn-icon btn-icon-delete" th:data-id="${propriedade.id}"
-                            onclick="prop_delete(this)">
+                        <button class="btn-icon btn-icon-delete" th:data-idgrao="${grao.id}" th:data-id="${propriedade.id}"
+                            onclick="grao_delete(this)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -133,35 +110,27 @@
 
                 <div class="tabs-container">
                     <ul class="tabs">
-                        <li id="li-prop" onclick="openTab(event, 'prop')" class="active"><a>Dados da Propriedade</a>
-                        </li>
-                        <li id="li-safra" onclick="openTab(event, 'safra')"><a>Safras Planejadas</a></li>
-                        <li id="li-armazem" onclick="openTab(event, 'armazem')"><a>Armazéns/Silos</a></li>
-                        <li id="li-transp" onclick="openTab(event, 'transp')"><a>Transportadoras Relacionadas</a></li>
-
+                        <li id="li-prop" th:data-id="${propriedade.id}" onclick="voltar(this)"><a>Dados da
+                                Propriedade</a></li>
+                        <li id="li-safra" onclick="openTab(event, 'safra')" class="active"><a>Safras Planejadas</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <div id="det-prop" class="tab-content">
+                    <div id="det-safra" class="tab-content">
                         <div class="details-container">
                             <div class="details-form">
                                 <div class="form-grid">
 
                                     <div class="form-group-display">
-                                        <label>Proprietário</label>
-                                        <div class="data-value" th:text="${usuario.nome}"></div>
+                                        <label>Produzido por: </label>
+                                        <div class="data-value" th:text="${propriedade.nome}"></div>
                                     </div>
-
                                     <div class="form-group-display">
-                                        <label>E-mail</label>
-                                        <div class="data-value" th:text="${usuario.email}"></div>
-                                    </div>
-
-                                    <div class="form-group-display">
-                                        <label>Nome da Fazenda</label>
+                                        <label>Produto: </label>
                                         <div class="data-value">
-                                            <span th:text=" 'Fazenda ' + ${propriedade.nome}"></span>
+                                            <span th:text="${grao.tipoGrao}"></span>
+                                            <!--                                             
                                             <button class="btn-empty" onclick="prop_edit(this)" data-campo="nome"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -173,17 +142,16 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                                     </path>
                                                 </svg>
-                                            </button>
-
+                                            </button> -->
                                         </div>
                                     </div>
 
 
                                     <div class="form-group-display">
-                                        <label>Telefone/Contato</label>
+                                        <label>Inicio do Plantio: </label>
                                         <div class="data-value">
-                                            <span
-                                                th:text="${#strings.isEmpty(propriedade.fone) ? 'Não adicionado' : propriedade.fone}"></span>
+                                            <span th:text="${grao.dataPlantio}"></span>
+                                            <!-- 
                                             <button class="btn-empty" onclick="prop_edit(this)" data-campo="fone"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -195,13 +163,16 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                                     </path>
                                                 </svg>
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
+
+
                                     <div class="form-group-display">
-                                        <label>Área Total (ha)</label>
+                                        <label>Colhido: </label>
                                         <div class="data-value">
-                                            <span th:text="${propriedade.areaTotal}"></span>
+                                            <span th:text="${grao.dataColheita}"></span>
+                                            <!-- 
                                             <button class="btn-empty" onclick="prop_edit(this)" data-campo="areaTotal"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -214,7 +185,7 @@
                                                     </path>
                                                 </svg>
                                             </button>
-
+ -->
                                         </div>
                                     </div>
 
@@ -222,8 +193,8 @@
                                     <div class="form-group-display">
                                         <label>Inscrição Estadual</label>
                                         <div class="data-value">
-                                            <span
-                                                th:text="${#strings.isEmpty(propriedade.codigoRural) ? 'Não adicionado' : propriedade.codigoRural}"></span>
+                                            <span th:text="${grao.areaPlantada} + ' ha'"></span>
+                                            <!--  
                                             <button class="btn-empty" onclick="prop_edit(this)" data-campo="codigoRural"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -235,15 +206,17 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                                     </path>
                                                 </svg>
-                                            </button>
+                                            </button> -->
+
                                         </div>
                                     </div>
 
                                     <div class="form-group-display">
-                                        <label>Tipo de Cultura</label>
+                                        <label>produtividade: </label>
                                         <div class="data-value">
-                                            <span th:text="${propriedade.tipoCultura}"></span>
-                                            <button class="btn-empty" onclick="prop_edit(this)" data-campo="tipoCultura"
+                                            <span th:text="${grao.produtividade}"></span>
+
+                                            <!--   <button class="btn-empty" onclick="prop_edit(this)" data-campo="tipoCultura"
                                                 data-id="${propriedade.id}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -254,7 +227,7 @@
                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                                     </path>
                                                 </svg>
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
 
@@ -262,26 +235,11 @@
                             </div>
 
                             <aside class="details-aside">
-                                <div class="map-placeholder">
-                                </div>
-                                <div class="documents-section">
-                                    <h3>Documentos Anexados</h3>
-                                    <a href="#" class="document-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z">
-                                            </path>
-                                            <polyline points="13 2 13 9 20 9"></polyline>
-                                        </svg>
-                                        <span>Certificado_Orgânico.pdf</span>
-                                    </a>
-                                </div>
                             </aside>
                         </div>
                     </div>
 
-                    <div id="det-safra" class="hidden">
+                    <div id="det-prop" class="hidden">
                         <div class="details-container">
                             <div class="details-form">
                                 <br>
@@ -332,29 +290,16 @@
                             </div>
                         </div>
                     </div>
-
-                    <div id="det-armazem" class="hidden">
-                        <div class="details-container">
-                            <div class="details-form">
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="det-transp" class="hidden">
-                        <div class="details-container">
-                            <div class="details-form">
-                                <p>deu certo</p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </main>
     </div>
 
     <script>
+        function voltar(element) {
+            window.location.href = '/propriedade/' + element.dataset.id;
+        }
+        
         openTab = function (evt, tabName) {
             const sidebarTabs = document.querySelectorAll('[id^="sidebar-"]');
             const detailTabs = document.querySelectorAll('[id^="det-"]');
@@ -369,29 +314,25 @@
             document.getElementById("li-" + tabName).classList.add("active");
         }
 
-        function grao_add(elemento) {
-            const id = elemento.getAttribute('data-id');
-            window.location.href = '/propriedade/' + id + '/grao';
-        }
-
-        function prop_delete(elemento) {
-            if (confirm("Tem certeza que deseja excluir esta propriedade? Esta ação não pode ser desfeita.")) {
+        function grao_delete(elemento) {
+            if (confirm("Tem certeza que deseja excluir esta safra? Esta ação não pode ser desfeita.")) {
                 const id = elemento.getAttribute('data-id');
-                fetch('/propriedade/delete/' + id, {
+                const idgrao = elemento.getAttribute('data-idgrao');
+                fetch('/propriedade/' + id + '/grao/' + idgrao, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }).then(response => {
                     if (response.ok) {
-                        window.location.href = '/usuario/propriedades';
+                        window.location.href = '/propriedade/' + id;
                     } else {
-                        alert('Erro ao deletar a propriedade.');
+                        alert('Erro ao deletar a safra.');
                     }
                 })
                     .catch(error => {
                         console.error('Erro:', error);
-                        alert('Erro ao deletar a propriedade.');
+                        alert('Erro ao deletar a safra.');
                     });
             }
         }
