@@ -37,19 +37,6 @@
                             <span>Propriedade</span>
                         </a>
                     </li>
-
-                    <li id="sidebar-prop" onclick="openTab(event, 'prop')">
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="12" y1="18" x2="12" y2="12"></line>
-                                <line x1="9" y1="15" x2="15" y2="15"></line>
-                            </svg>
-                            <span>Registro Propriedades</span>
-                        </a>
-                    </li>
                     <li id="sidebar-safra" class="active" onclick="openTab(event, 'safra')">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -61,6 +48,19 @@
                             <span>Safras Planejadas</span>
                         </a>
                     </li>
+                    <li id="sidebar-alte" onclick="openTab(event, 'alte')">
+                        <a href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                            <span>Alterar</span>
+                        </a>
+                    </li>
+
 
 
                 </ul>
@@ -110,9 +110,8 @@
 
                 <div class="tabs-container">
                     <ul class="tabs">
-                        <li id="li-prop" th:data-id="${propriedade.id}" onclick="voltar(this)"><a>Dados da
-                                Propriedade</a></li>
-                        <li id="li-safra" onclick="openTab(event, 'safra')" class="active"><a>Safras Planejadas</a></li>
+                        <li id="li-safra" onclick="openTab(event, 'safra')" class="active"><a>Safra</a></li>
+                        <li id="li-alte" onclick="openTab(event, 'alte')" ><a>Alterar</a></li>
                     </ul>
                 </div>
 
@@ -235,19 +234,11 @@
                         </div>
                     </div>
 
-                    <div id="det-prop" class="hidden">
+                    <div id="det-alte" class="hidden">
                         <div class="details-container">
                             <div class="details-form">
                                 <br>
-                                <button class="btn-icon" th:data-id="${propriedade.id}" onclick="grao_add(this)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    <span>adicionar safra</span>
-                                </button>
+                              
                                 <div class="content-body">
                                     <table class="data-table">
                                         <thead>

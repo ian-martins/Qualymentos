@@ -108,7 +108,7 @@
 
                 <div class="tabs-container">
                     <ul class="tabs">
-                        <li id="li-prop" onclick="openTab(event, 'prop')" class="active"><a>Dados da Propriedade</a>
+                        <li id="li-prop" onclick="openTab(event, 'prop')"  class="active"><a>Dados da Propriedade</a>
                         </li>
                         <li id="li-safra" onclick="openTab(event, 'safra')"><a>Safras Planejadas</a></li>
                     </ul>
@@ -307,8 +307,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Grão</th>
-
                                                 <th>inicio Plantio</th>
+                                                <th>Status</th>
                                                 <th>Ações</th>
                                             </tr>
                                         </thead>
@@ -316,7 +316,10 @@
                                             <tr th:each="g : ${grao}">
                                                 <td th:text="${g.tipoGrao}"></td>
                                                 <td th:text="${g.dataPlantio}"></td>
-
+                                                <td th:object="${g.dataColheita}">
+                                                    <span th:if="${g.dataColheita == null}" style="color: green;" th:text="'Em andamento'"></span>
+                                                    <span th:if="${g.dataColheita != null}" style="color: red;" th:text="'Concluída'"></span>
+                                                </td>
                                                 <td class="actions">
                                                     <button class="icon-btn" title="Editar" th:data-grao-id="${g.id}"
                                                         th:data-prop-id="${propriedade.id}" onclick="grao_view(this)">
@@ -376,6 +379,7 @@
             document.getElementById("det-" + tabName).classList.remove("hidden");
             document.getElementById("li-" + tabName).classList.add("active");
         }
+        
         function grao_view(elemento) {
             const idgrao = elemento.getAttribute('data-grao-id');
             const idprop = elemento.getAttribute('data-prop-id');

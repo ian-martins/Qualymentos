@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @Configuration
 public class DataLoader {
- 
+
     @Bean
     public CommandLineRunner addEstadoCidade(EstadoRepository estadoRepo, CidadeRepository cidadeRepo) {
         return args -> {
@@ -98,7 +98,16 @@ public class DataLoader {
                     "40",
                     "750",
                     p1);
+            Grao g2 = new Grao(
+                    null,
+                    "Soja",
+                    LocalDate.now().minusDays(90),
+                    null,
+                    "50",
+                    null,
+                    p1);
             graoRepo.save(g1);
+            graoRepo.save(g2);
             System.out.println("🌱 Grão plantado na propriedade do Admin criado.");
         };
     }
