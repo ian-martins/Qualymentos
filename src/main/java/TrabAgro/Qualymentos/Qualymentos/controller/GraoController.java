@@ -1,5 +1,7 @@
 package TrabAgro.Qualymentos.Qualymentos.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
-import TrabAgro.Qualymentos.Qualymentos.dto.grao.UpdateGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
@@ -64,9 +65,12 @@ public class GraoController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{idgrao}/editar")
-    public ResponseEntity editar_grao(@PathVariable("idgrao") Long idgrao, @RequestBody UpdateGraoDTO dto) {
-        graoService.updateGrao(idgrao, dto);
+    @PutMapping("/{idgrao}")
+    public ResponseEntity editarCampo(@PathVariable("idgrao") Long idgrao, @RequestBody Map<String, String> dados) {
+        String campo = dados.get("campo");
+        String valor = dados.get("valor");
+
+        graoService.atualizarCampo(idgrao, campo, valor);
         return ResponseEntity.ok().build();
     }
 

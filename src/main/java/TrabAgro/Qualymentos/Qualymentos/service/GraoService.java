@@ -31,13 +31,26 @@ public class GraoService {
         graoRepository.deleteById(id);
     }
 
-    public void updateGrao(Long id, UpdateGraoDTO dto){
-        Grao updateGrao  = new Grao(id, null, null, dto.dataColheita(), null, dto.produtividade(), null );
+    public void updateGrao(Long id, UpdateGraoDTO dto) {
+        Grao updateGrao = new Grao(id, null, null, dto.dataColheita(), null, dto.produtividade(), null);
         graoRepository.save(updateGrao);
     }
 
     public Grao getById(Long idgrao) {
         return graoRepository.findById(idgrao).orElseThrow(() -> new RuntimeException("Grão não encontrado"));
+    }
+
+    public void atualizarCampo(Long id, String campo, String valor) {
+        Grao grao= getById(id);
+        switch (campo) {
+            case "tipoGrao" -> grao.setTipoGrao(valor);
+            case "areaPlantada" -> grao.setAreaPlantada(valor);
+        //  case "dataPlantio" -> grao.setDataPlantio(valor);
+        //  case "dataColheita" -> grao.setDataColheita(valor);
+            case "produtividade" -> grao.setProdutividade(valor);
+            default -> throw new RuntimeException("Campo inválido: " + campo);
+        }
+        graoRepository.save(grao);
     }
 
 }
