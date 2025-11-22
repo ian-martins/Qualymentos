@@ -367,7 +367,17 @@
         async function grao_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
-            const valor = prompt("Alterar Para:");
+            
+            if (id == 'dataPlantio' || id == 'dataColheita') {
+                // Forçar o formato de data
+                const valor = prompt("Alterar Para (formato YYYY-MM-DD): ");
+                if (valor !== null && !/^\d{4}-\d{2}-\d{2}$/.test(valor.trim())) {
+                    alert("Formato de data inválido! Use YYYY-MM-DD.");
+                    return;
+                }
+            }else{
+                const valor = prompt("Alterar Para: ");
+            }
 
             if (!campo || valor === null || valor.trim() === "") {
                 alert("Operação cancelada ou valor inválido!");
