@@ -67,7 +67,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="/usuario/propriedades">
+                <a onclick="voltar(this)" th:data-id="${propriedade.id}" href="javascript:void(0);" >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -111,7 +111,7 @@
                 <div class="tabs-container">
                     <ul class="tabs">
                         <li id="li-safra" onclick="openTab(event, 'safra')" class="active"><a>Safra</a></li>
-                        <li id="li-alte" onclick="openTab(event, 'alte')" ><a>Alterar</a></li>
+                        <li id="li-alte" onclick="openTab(event, 'alte')"><a>Alterar</a></li>
                     </ul>
                 </div>
 
@@ -188,7 +188,7 @@
 
 
                                     <div class="form-group-display">
-                                        <label>Inscrição Estadual</label>
+                                        <label>Area Plantada:</label>
                                         <div class="data-value">
                                             <span th:text="${grao.areaPlantada} + ' ha'"></span>
                                             <button class="btn-empty" onclick="grao_edit(this)"
@@ -207,25 +207,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group-display">
-                                        <label>produtividade: </label>
-                                        <div class="data-value">
-                                            <span th:text="${grao.produtividade}"></span>
-                                            <button class="btn-empty" onclick="grao_edit(this)"
-                                                data-campo="produtividade" data-id="${grao.id}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path
-                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                    </path>
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
 
@@ -238,7 +219,7 @@
                         <div class="details-container">
                             <div class="details-form">
                                 <br>
-                              
+
                                 <div class="content-body">
                                     <table class="data-table">
                                         <thead>
@@ -282,7 +263,53 @@
         </main>
     </div>
 
+    <div id="modal-data" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+">
+        <div style="
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 250px;
+    ">
+            <h3>Selecione a data</h3>
+            <input type="date" id="input-data" style="width: 100%; padding: 8px; margin-top: 10px;">
+            <br><br>
+            <button onclick="confirmarData()" style="padding: 6px 12px;">OK</button>
+            <button onclick="cancelarData()" style="padding: 6px 12px;">Cancelar</button>
+        </div>
+    </div>
+
     <script>
+        function pedirData() {
+            return new Promise(resolve => {
+                resolverData = resolve;
+                document.getElementById("modal-data").style.display = "flex";
+            });
+        }
+
+        function confirmarData() {
+            const valor = document.getElementById("input-data").value;
+            document.getElementById("modal-data").style.display = "none";
+            resolverData(valor || null);
+        }
+
+        function cancelarData() {
+            document.getElementById("modal-data").style.display = "none";
+            resolverData(null);
+        }
+    </script>
+    <script>
+        let resolverData
         function voltar(element) {
             window.location.href = '/propriedade/' + element.dataset.id;
         }
@@ -363,29 +390,32 @@
                     alert("Erro de conexão: " + err.message);
                 });
         }
-
         async function grao_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
-            
-            if (id == 'dataPlantio' || id == 'dataColheita') {
-                // Forçar o formato de data
-                const valor = prompt("Alterar Para (formato YYYY-MM-DD): ");
-                if (valor !== null && !/^\d{4}-\d{2}-\d{2}$/.test(valor.trim())) {
-                    alert("Formato de data inválido! Use YYYY-MM-DD.");
+
+            let valor;
+
+            if (campo === "dataPlantio" || campo === "dataColheita") {
+                valor = await pedirData();
+
+                if (!valor) {
+                    alert("Nenhuma data selecionada!");
                     return;
                 }
-            }else{
-                const valor = prompt("Alterar Para: ");
+
+            } else {
+                valor = prompt("Alterar Para: ");
+                if (!campo || valor === null || valor.trim() === "") {
+                    alert("Operação cancelada ou valor inválido!");
+                    return;
+                }
+                valor = valor.trim();
             }
 
-            if (!campo || valor === null || valor.trim() === "") {
-                alert("Operação cancelada ou valor inválido!");
-                return;
-            }
+            const dados = { campo: campo, valor: valor };
 
-            const dados = { campo: campo, valor: valor.trim() };
-            const url = /*[[@{/propriedade/{id}/grao/{idgrao} (id=${propriedade.id}, idgrao=${grao.id}  )}]]*/ "";
+            const url = /*[[@{/propriedade/{id}/grao/{idgrao} (id=${propriedade.id}, idgrao=${grao.id})}]]*/ "";
 
             try {
                 const resp = await fetch(url, {
@@ -405,6 +435,7 @@
                 alert("Erro de conexão: " + err.message);
             }
         }
+
     </script>
 </body>
 

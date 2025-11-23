@@ -1,5 +1,7 @@
 package TrabAgro.Qualymentos.Qualymentos.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -41,16 +43,24 @@ public class GraoService {
     }
 
     public void atualizarCampo(Long id, String campo, String valor) {
-        Grao grao= getById(id);
+        Grao grao = getById(id);
+
+        LocalDate data = null;
+
+        if ("dataPlantio".equals(campo) || "dataColheita".equals(campo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            data = LocalDate.parse(valor, formatter);
+        }
+
         switch (campo) {
             case "tipoGrao" -> grao.setTipoGrao(valor);
             case "areaPlantada" -> grao.setAreaPlantada(valor);
-        //  case "dataPlantio" -> grao.setDataPlantio(valor);
-        //  case "dataColheita" -> grao.setDataColheita(valor);
+            case "dataPlantio" -> grao.setDataPlantio(data);
+            case "dataColheita" -> grao.setDataColheita(data);
             case "produtividade" -> grao.setProdutividade(valor);
             default -> throw new RuntimeException("Campo inválido: " + campo);
         }
+
         graoRepository.save(grao);
     }
-
 }
