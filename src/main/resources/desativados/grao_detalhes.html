@@ -188,7 +188,7 @@
                                         <tbody>
                                             <tr th:each="g : ${grao}">
                                                 <td th:text="${g.tipoGrao}"></td>
-                                                <td th:text="${g.subtipoGrao}"></td>
+                                                <td th:text="${g.dataPlantio}"></td>
 
                                                 <td class="actions">
                                                     <button class="icon-btn" title="Editar" th:data-id="${g.id}"
@@ -218,6 +218,51 @@
         </main>
     </div>
 
+    <div id="modal-data" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+">
+        <div style="
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 250px;
+    ">
+            <h3>Selecione a data</h3>
+            <input type="date" id="input-data" style="width: 100%; padding: 8px; margin-top: 10px;">
+            <br><br>
+            <button onclick="confirmarData()" style="padding: 6px 12px;">OK</button>
+            <button onclick="cancelarData()" style="padding: 6px 12px;">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        function pedirData() {
+            return new Promise(resolve => {
+                resolverData = resolve;
+                document.getElementById("modal-data").style.display = "flex";
+            });
+        }
+
+        function confirmarData() {
+            const valor = document.getElementById("input-data").value;
+            document.getElementById("modal-data").style.display = "none";
+            resolverData(valor || null);
+        }
+
+        function cancelarData() {
+            document.getElementById("modal-data").style.display = "none";
+            resolverData(null);
+        }
+    </script>
     <script>
         let resolverData
         function voltar(element) {
@@ -304,7 +349,24 @@
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
 
-            let valor = prompt("Digite o novo valor para " + campo + ":");
+            let valor;
+
+            if (campo === "dataPlantio" || campo === "dataColheita") {
+                valor = await pedirData();
+
+                if (!valor) {
+                    alert("Nenhuma data selecionada!");
+                    return;
+                }
+
+            } else {
+                valor = prompt("Alterar Para: ");
+                if (!campo || valor === null || valor.trim() === "") {
+                    alert("Operação cancelada ou valor inválido!");
+                    return;
+                }
+                valor = valor.trim();
+            }
 
             const dados = { campo: campo, valor: valor };
 

@@ -1,7 +1,5 @@
 package TrabAgro.Qualymentos.Qualymentos.entity;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,17 +28,8 @@ public class Grao {
     @Column(name = "tipo_grao", nullable = false)
     private String tipoGrao;
 
-    @Column(name = "data_plantio")
-    private LocalDate dataPlantio;
-
-    @Column(name = "data_colheita")
-    private LocalDate dataColheita;
-
-    @Column(name = "area_plantada")
-    private String areaPlantada;
-
-    @Column(name = "produtividade")
-    private String produtividade;
+    @Column(name = "subtipo_grao")
+    private String subtipoGrao;
 
     @ManyToOne
     @JoinColumn(name = "propriedade_id")

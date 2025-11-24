@@ -17,7 +17,6 @@ import TrabAgro.Qualymentos.Qualymentos.repository.PropriedadeRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.TransportadoraRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.UsuarioRepository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,17 +92,11 @@ public class DataLoader {
             Grao g1 = new Grao(
                     null,
                     "Soja",
-                    LocalDate.now().minusDays(90),
-                    LocalDate.now(),
-                    "40",
-                    "750",
+                    "x",
                     p1);
             Grao g2 = new Grao(
                     null,
                     "Soja",
-                    LocalDate.now().minusDays(90),
-                    null,
-                    "50",
                     null,
                     p1);
             graoRepo.save(g1);

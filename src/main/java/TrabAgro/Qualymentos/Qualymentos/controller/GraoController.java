@@ -33,7 +33,7 @@ public class GraoController {
     @GetMapping
     public String graoCadastro(@PathVariable Long id, Model model) {
         model.addAttribute("propriedade", propriedadeService.getById(id));
-        model.addAttribute("dto", new RegisterGraoDTO(null, null, null));
+        model.addAttribute("dto", new RegisterGraoDTO( null, null));
 
         return "grao/grao_cadastro";
     }

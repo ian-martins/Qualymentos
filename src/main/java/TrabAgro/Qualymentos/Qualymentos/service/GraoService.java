@@ -1,12 +1,9 @@
 package TrabAgro.Qualymentos.Qualymentos.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import TrabAgro.Qualymentos.Qualymentos.dto.grao.UpdateGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.grao.RegisterGraoDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
@@ -20,7 +17,7 @@ public class GraoService {
     private final PropriedadeService propriedadeService;
 
     public void salvarGrao(RegisterGraoDTO dto, Propriedade propriedade) {
-        Grao newGrao = new Grao(null, dto.tipoGrao(), dto.dataPlantio(), null, dto.areaPlantada(), null, propriedade);
+        Grao newGrao = new Grao(null, dto.tipoGrao(), dto.subtipoGrao(), propriedade);
         graoRepository.save(newGrao);
     }
 
@@ -33,15 +30,10 @@ public class GraoService {
         graoRepository.deleteById(id);
     }
 
-    public void updateGrao(Long id, UpdateGraoDTO dto) {
-        Grao updateGrao = new Grao(id, null, null, dto.dataColheita(), null, dto.produtividade(), null);
-        graoRepository.save(updateGrao);
-    }
-
     public Grao getById(Long idgrao) {
         return graoRepository.findById(idgrao).orElseThrow(() -> new RuntimeException("Grão não encontrado"));
     }
-
+/* 
     public void atualizarCampo(Long id, String campo, String valor) {
         Grao grao = getById(id);
 
@@ -63,4 +55,17 @@ public class GraoService {
 
         graoRepository.save(grao);
     }
+ */
+    public void atualizarCampo(Long id, String campo, String valor) {
+        Grao grao = getById(id);
+
+        switch (campo) {
+            case "tipoGrao" -> grao.setTipoGrao(valor);
+            case "subtipoGrao" -> grao.setSubtipoGrao(valor);
+        }
+
+        graoRepository.save(grao);
+    }
+
+
 }
