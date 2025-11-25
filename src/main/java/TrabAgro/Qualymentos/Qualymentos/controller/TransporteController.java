@@ -29,7 +29,7 @@ public class TransporteController {
     private final TransporteService transService;
 
     @GetMapping
-    public String telaTransporte(Model model) {
+    public String telaTransporte(Model model,Authentication authentication) {
         model.addAttribute("dto", new TransporteRequestDTO("", ""));
         return "transporte/transporte_cadastro";
     }

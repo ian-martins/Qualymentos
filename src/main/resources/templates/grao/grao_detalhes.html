@@ -27,8 +27,8 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li>
-                        <a href="">
+                    <li  >
+                        <a onclick="voltar(this)" th:data-id="${propriedade.id}" href="javascript:void(0);">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -45,10 +45,10 @@
                                 <line x1="12" y1="6" x2="12" y2="12"></line>
                                 <line x1="12" y1="12" x2="16" y2="14"></line>
                             </svg>
-                            <span>Safras Planejadas</span>
+                            <span>Grão cadastrado</span>
                         </a>
                     </li>
-                    <li id="sidebar-alte" onclick="openTab(event, 'alte')">
+                   <!--  <li id="sidebar-alte" onclick="openTab(event, 'alte')">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -59,7 +59,7 @@
                             </svg>
                             <span>Alterar</span>
                         </a>
-                    </li>
+                    </li> -->
 
 
 
@@ -87,8 +87,7 @@
             <div class="content-body">
                 <div class="page-header">
                     <div class="page-title">
-                        <h1>Detalhes da Safra</h1>
-                        <p th:text="'Visualize os dados da ' + ${propriedade.nome}"> </p>
+                        <h1>Detalhes do grão</h1>
                     </div>
                     <div class="page-actions">
 
@@ -111,7 +110,7 @@
                 <div class="tabs-container">
                     <ul class="tabs">
                         <li id="li-safra" onclick="openTab(event, 'safra')" class="active"><a>Safra</a></li>
-                        <li id="li-alte" onclick="openTab(event, 'alte')"><a>Alterar</a></li>
+                        <!-- <li id="li-alte" onclick="openTab(event, 'alte')"><a>Alterar</a></li> -->
                     </ul>
                 </div>
 
@@ -170,7 +169,7 @@
                         </div>
                     </div>
 
-                    <div id="det-alte" class="hidden">
+                 <!--    <div id="det-alte" class="hidden">
                         <div class="details-container">
                             <div class="details-form">
                                 <br>
@@ -212,7 +211,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </main>
@@ -261,51 +260,14 @@
             }
         }
 
-        function divOpen(button) {
-            const hiddenDiv = document.getElementById('hidden-div');
-            hiddenDiv.classList.toggle('hidden');
-        }
-
-        function editarCidade(button) {
-
-
-            const id = button.getAttribute('data-id');
-            const select = document.getElementById('cidade-select');
-            const novaCidadeId = select.value;
-
-            if (!novaCidadeId) {
-                alert("Operação cancelada ou valor inválido!");
-                return;
-            }
-
-            const dados = { campo: 'cidade', valor: novaCidadeId };
-            const url = /*[[@{/propriedade/{id} (id=${propriedade.id})}]]*/ "";
-
-            fetch(url, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dados)
-            })
-                .then(resp => {
-                    if (resp.ok) {
-                        alert("Campo atualizado com sucesso!");
-                        window.location.reload();
-                    } else {
-                        resp.text().then(erro => {
-                            alert("Erro ao atualizar: " + erro);
-                        });
-                    }
-                })
-                .catch(err => {
-                    alert("Erro de conexão: " + err.message);
-                });
-        }
+    
         async function grao_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
 
             let valor = prompt("Digite o novo valor para " + campo + ":");
 
+            if(valor == null) return
             const dados = { campo: campo, valor: valor };
 
             const url = /*[[@{/propriedade/{id}/grao/{idgrao} (id=${propriedade.id}, idgrao=${grao.id})}]]*/ "";
