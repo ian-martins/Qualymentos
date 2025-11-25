@@ -35,7 +35,7 @@ public class Usuario {
     @Column(name = "email", updatable = false, nullable = false)
     private String email;
 
-    @Column(name = "senhha", updatable = false, nullable = false)
+    @Column(name = "senha", updatable = false, nullable = false)
     private String senha;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

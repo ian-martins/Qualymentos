@@ -1,8 +1,0 @@
-⚙️ Como usar cada um
-
-🔹 Desenvolvimento (auto reload):
-    docker compose -f docker-compose.dev.yml up --build
-
-🔹 Produção (imagem final):
-    ./mvnw clean package -DskipTests
-docker compose up -d --build
