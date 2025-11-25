@@ -1,8 +1,15 @@
 package TrabAgro.Qualymentos.Qualymentos.service;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.safra.RegisterSafraDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
@@ -67,4 +74,23 @@ public class SafraService {
         safraRepository.save(safra);
     }
 
+    public String gerarQrCode(String lote){
+        try {
+            String texto = "http://localhost:8080/lote/" + lote; // conteúdo do QR
+            String caminho = "qrcode.png";        // arquivo a ser gerado
+            int largura = 300;
+            int altura = 300;
+
+            BitMatrix matrix = new MultiFormatWriter()
+                    .encode(texto, BarcodeFormat.QR_CODE, largura, altura);
+
+            Path path = FileSystems.getDefault().getPath(caminho);
+            MatrixToImageWriter.writeToPath(matrix, "PNG", path);
+
+            System.out.println("QR Code gerado em: " + caminho);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -19,6 +19,8 @@ import TrabAgro.Qualymentos.Qualymentos.repository.SafraRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.TransportadoraRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.UsuarioRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +50,7 @@ public class DataLoader {
         };
     }
 
-     @Bean
+    @Bean
     public CommandLineRunner adminLoad(
             UsuarioRepository usuarioRepo,
             PropriedadeRepository propriedadeRepo,
@@ -103,14 +105,20 @@ public class DataLoader {
                     null,
                     "Soja",
                     "tipo_2",
-                    p1, 
+                    p1,
                     null);
             graoRepo.save(g1);
             graoRepo.save(g2);
             System.out.println("🌱 Grão plantado na propriedade do Admin criado.");
 
-            Safra safra1 = new Safra(null, null, null, "500", "5", g1, p1);
-            Safra safra2 = new Safra(null, null, null, "600", "6", g1, p1);
+            
+            LocalDateTime now = LocalDateTime.now();
+            
+            LocalDate pDate = now.toLocalDate();
+            LocalDate cDate = now.toLocalDate();
+
+            Safra safra1 = new Safra(null, pDate, cDate, "500", "5", g1, p1);
+            Safra safra2 = new Safra(null, pDate, cDate, "600", "6", g1, p1);
 
             safraRepository.save(safra1);
             safraRepository.save(safra2);
