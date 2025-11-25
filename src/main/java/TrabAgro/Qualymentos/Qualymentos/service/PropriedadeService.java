@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Cidade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
+import TrabAgro.Qualymentos.Qualymentos.entity.Safra;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.repository.CidadeRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.GraoRepository;
@@ -86,5 +87,10 @@ public class PropriedadeService {
         }
 
         propriedadeRepository.save(prop);
+    }
+
+    public List<Safra> getAllS(Long id) {
+        Propriedade propriedade = getById(id);
+        return propriedade.getSafras();  
     }
 }

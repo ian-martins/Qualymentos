@@ -62,6 +62,9 @@ public class Propriedade {
     @OneToMany(mappedBy = "propriedade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Grao> graos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "propriedade", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Safra> safras = new ArrayList<>();
+
 }
 /*
 atributos de propriedade

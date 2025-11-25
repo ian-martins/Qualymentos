@@ -57,6 +57,9 @@ public class PropriedadeController {
 
         model.addAttribute("grao", graoService.getAllG(id));
 
+        model.addAttribute("safra", propriedadeService.getAllS(id));
+
+
 
         /*
          * List<Grao> graos = graoService.getAllG(id);

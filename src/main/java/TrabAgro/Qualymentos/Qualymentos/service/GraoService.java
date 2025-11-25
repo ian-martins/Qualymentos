@@ -17,7 +17,7 @@ public class GraoService {
     private final PropriedadeService propriedadeService;
 
     public void salvarGrao(RegisterGraoDTO dto, Propriedade propriedade) {
-        Grao newGrao = new Grao(null, dto.tipoGrao(), dto.subtipoGrao(), propriedade);
+        Grao newGrao = new Grao(null, dto.tipoGrao(), dto.subtipoGrao(), propriedade, null);
         graoRepository.save(newGrao);
     }
 

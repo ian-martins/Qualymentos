@@ -9,11 +9,13 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Cidade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Estado;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
+import TrabAgro.Qualymentos.Qualymentos.entity.Safra;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.repository.CidadeRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.EstadoRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.GraoRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.PropriedadeRepository;
+import TrabAgro.Qualymentos.Qualymentos.repository.SafraRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.TransportadoraRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.UsuarioRepository;
 
@@ -46,7 +48,7 @@ public class DataLoader {
         };
     }
 
-    @Bean
+     @Bean
     public CommandLineRunner adminLoad(
             UsuarioRepository usuarioRepo,
             PropriedadeRepository propriedadeRepo,
@@ -54,7 +56,8 @@ public class DataLoader {
             GraoRepository graoRepo,
             EstadoRepository estadoRepo,
             CidadeRepository cidadeRepo,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            SafraRepository safraRepository) {
         System.out.println("DataLoader iniciado...");
         return args -> {
 
@@ -85,6 +88,7 @@ public class DataLoader {
                     "1199999999",
                     cidadeRepo.getById((long) 1),
                     admin,
+                    new ArrayList<>(),
                     new ArrayList<>());
             propriedadeRepo.save(p1);
             System.out.println("🏡 Propriedade do Admin criada.");
@@ -92,19 +96,27 @@ public class DataLoader {
             Grao g1 = new Grao(
                     null,
                     "Soja",
-                    "x",
-                    p1);
+                    "tipo_1",
+                    p1,
+                    null);
             Grao g2 = new Grao(
                     null,
                     "Soja",
-                    null,
-                    p1);
+                    "tipo_2",
+                    p1, 
+                    null);
             graoRepo.save(g1);
             graoRepo.save(g2);
             System.out.println("🌱 Grão plantado na propriedade do Admin criado.");
+
+            Safra safra1 = new Safra(null, null, null, "500", "5", g1, p1);
+            Safra safra2 = new Safra(null, null, null, "600", "6", g1, p1);
+
+            safraRepository.save(safra1);
+            safraRepository.save(safra2);
+
         };
     }
-
 }
 
 /*
