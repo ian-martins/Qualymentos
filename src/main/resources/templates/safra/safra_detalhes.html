@@ -120,13 +120,22 @@
                         <div class="details-container">
                             <div class="details-form">
                                 <div class="form-grid">
-
                                     <div class="form-group-display">
-                                        <label>Grão: </label>
+                                        <label>Transportadora: </label>
+
                                         <div class="data-value">
-                                            <span
-                                                th:text="${safra.grao.tipoGrao} +' - '+ ${safra.grao.subtipoGrao}"></span>
-                                            <button class="btn-empty" onclick="divOpen(this)" data-id="${safra.lote}">
+                                            <!-- SE EXISTE TRANSPORTADORA -->
+                                            <span th:if="${safra.transporte != null}"
+                                                th:text="${safra.transporte.nome}">
+                                            </span>
+
+                                            <!-- SE NÃO EXISTE -->
+                                            <span th:unless="${safra.transporte != null}">
+                                                Nenhuma transportadora definida
+                                            </span>
+
+                                            <button class="btn-empty" onclick="divOpentransporte(this)"
+                                                th:data-id="${safra.lote}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -138,13 +147,61 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <div class="data-value hidden" id="hidden-div">
+
+                                        <div class="data-value hidden" id="hidden-divt">
+                                            <select class="btn-icon btn-icon-save" id="transporte-select">
+
+                                                <!-- SE NÃO EXISTIR NENHUM TRANSPORTE NO SISTEMA -->
+                                                <option th:if="${#lists.isEmpty(transportes)}" value="">
+                                                    Nenhuma transportadora cadastrada
+                                                </option>
+
+                                                <!-- LISTAR TRANSPORTADORAS EXISTENTES -->
+                                                <option th:each="t : ${transportes}" th:value="${t.id}"
+                                                    th:text="${t.nome}"
+                                                    th:selected="${safra.transporte != null} ? ${t.id} == ${safra.transporte.id} : false">
+                                                </option>
+
+                                            </select>
+
+
+                                            <button class="btn-icon" onclick="editarsafraTr(this)"
+                                                th:data-id="${safra.lote}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group-display">
+                                        <label>Grão: </label>
+                                        <div class="data-value">
+                                            <span
+                                                th:text="${safra.grao.tipoGrao} +' - '+ ${safra.grao.subtipoGrao}"></span>
+                                            <button class="btn-empty" onclick="divOpengrao(this)"
+                                                data-id="${safra.lote}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                    </path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="data-value hidden" id="hidden-divg">
                                             <select class="btn-icon btn-icon-save" id="grao-select">
                                                 <option th:each="g : ${graos}" th:value="${g.id}"
                                                     th:text="${g.tipoGrao} + ' - ' + ${g.subtipoGrao}"></option>
                                             </select>
 
-                                            <button class="btn-icon " onclick="editargrao(this)"
+                                            <button class="btn-icon " onclick="editarsafra(this)"
                                                 data-id="${safra.lote}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -193,6 +250,7 @@
                                             </button>
                                         </div>
                                     </div>
+
                                     <div class="form-group-display">
                                         <label>Inicio da Colheita: </label>
                                         <div class="data-value">
@@ -229,8 +287,6 @@
                                             </button>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
 
@@ -244,44 +300,44 @@
                             <div class="details-form">
                                 <br>
                                 <a onclick="lote(this)" th:data-id="${safra.lote}" href="javascript:void(0);">clicar</a>
-                                <a onclick="lote2(this)" th:data-id="${safra.lote}" href="javascript:void(0);">clicar</a>
+                                <a onclick="lote2(this)" th:data-id="${safra.lote}"
+                                    href="javascript:void(0);">clicar</a>
 
 
-                                    <div class="content-body">
-                                        <table class="data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Grão</th>
+                                <div class="content-body">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Grão</th>
+                                                <th>inicio Plantio</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="g : ${grao}">
+                                                <td th:text="${g.tipoGrao}"></td>
+                                                <td th:text="${g.subtipoGrao}"></td>
 
-                                                    <th>inicio Plantio</th>
-                                                    <th>Ações</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="g : ${grao}">
-                                                    <td th:text="${g.tipoGrao}"></td>
-                                                    <td th:text="${g.subtipoGrao}"></td>
-
-                                                    <td class="actions">
-                                                        <button class="icon-btn" title="Editar" th:data-id="${g.id}"
-                                                            onclick="prop_view(this)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path
-                                                                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
-                                                                </path>
-                                                                <path
-                                                                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
-                                                                </path>
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                <td class="actions">
+                                                    <button class="icon-btn" title="Editar" th:data-id="${g.id}"
+                                                        onclick="prop_view(this)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path
+                                                                d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                            </path>
+                                                            <path
+                                                                d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -382,14 +438,16 @@
             }
         }
 
-        function divOpen(button) {
-            const hiddenDiv = document.getElementById('hidden-div');
+        function divOpengrao(button) {
+            const hiddenDiv = document.getElementById('hidden-divg');
+            hiddenDiv.classList.toggle('hidden');
+        }
+        function divOpentransporte(button) {
+            const hiddenDiv = document.getElementById('hidden-divt');
             hiddenDiv.classList.toggle('hidden');
         }
 
-        function editargrao(button) {
-
-
+        function editarsafra(button) {
             const id = button.getAttribute('data-id');
             const select = document.getElementById('grao-select');
             const newgrao = select.value;
@@ -400,6 +458,38 @@
             }
 
             const dados = { campo: 'grao', valor: newgrao };
+            const url = /*[[@{/propriedade/{id}/safra/{lote} (id=${propriedade.id}, lote=${safra.lote})}]]*/ "";
+
+            fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            })
+                .then(resp => {
+                    if (resp.ok) {
+                        alert("Campo atualizado com sucesso!");
+                        window.location.reload();
+                    } else {
+                        resp.text().then(erro => {
+                            alert("Erro ao atualizar: " + erro);
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert("Erro de conexão: " + err.message);
+                });
+        }
+        function editarsafraTr(button) {
+            const id = button.getAttribute('data-id');
+            const select = document.getElementById('transporte-select');
+            const newtransporte = select.value;
+
+            if (!newtransporte) {
+                alert("Operação cancelada ou valor inválido!");
+                return;
+            }
+
+            const dados = { campo: 'transporte', valor: newtransporte };
             const url = /*[[@{/propriedade/{id}/safra/{lote} (id=${propriedade.id}, lote=${safra.lote})}]]*/ "";
 
             fetch(url, {

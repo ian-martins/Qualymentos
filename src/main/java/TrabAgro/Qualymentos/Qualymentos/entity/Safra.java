@@ -37,4 +37,9 @@ public class Safra {
     @JoinColumn(name = "propriedade_id")
     private Propriedade propriedade;
 
+    @ManyToOne
+    @JoinColumn(name = "transporte_id")
+    private Transporte transporte;
 }
+
+

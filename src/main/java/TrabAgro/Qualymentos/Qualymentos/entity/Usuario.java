@@ -42,6 +42,6 @@ public class Usuario {
     private List<Propriedade> propriedades = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transporte> transportes = new ArrayList<>();
+    private List<Transporte> transportes;
 
 }
