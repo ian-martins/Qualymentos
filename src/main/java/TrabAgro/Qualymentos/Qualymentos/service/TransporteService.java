@@ -16,7 +16,7 @@ public class TransporteService {
     private final TransportadoraRepository transRepository;
 
     public void salvarTrans(TransporteRequestDTO dto, Usuario user) {
-        Transporte newTrans = new Transporte(null, dto.nome(), dto.cnpj(), dto.telefone(), dto.email(), user);
+        Transporte newTrans = new Transporte(null, dto.nome(), dto.cnpj(), dto.telefone(), dto.email(), user,null);
         transRepository.save(newTrans);
     }
 
@@ -41,6 +41,10 @@ public class TransporteService {
 
     public List<Transporte> listarPorUsuario(String usuarioid) {
         return transRepository.findByUsuarioId(usuarioid);
+    }
+
+    public List<Transporte> findByUsuario(Usuario usuario) {
+       return transRepository.findByUsuario(usuario);
     }
 
    

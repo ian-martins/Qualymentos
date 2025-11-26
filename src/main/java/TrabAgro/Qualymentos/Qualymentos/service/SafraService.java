@@ -15,8 +15,10 @@ import TrabAgro.Qualymentos.Qualymentos.dto.safra.RegisterSafraDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Safra;
+import TrabAgro.Qualymentos.Qualymentos.entity.Transporte;
 import TrabAgro.Qualymentos.Qualymentos.repository.GraoRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.SafraRepository;
+import TrabAgro.Qualymentos.Qualymentos.repository.TransportadoraRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -25,12 +27,15 @@ public class SafraService {
     private final SafraRepository safraRepository;
     private final PropriedadeService propriedadeService;
     private final GraoRepository graoRepository;
+    private final TransportadoraRepository transporteRepository;
+
 
     public void salvarSafra(RegisterSafraDTO dto, Long idPropriedade) {
         Grao grao = graoRepository.getById(dto.graoId());
         Propriedade propriedade = propriedadeService.getById(idPropriedade);
+
         Safra safra = new Safra(null, dto.dataPlantio(), dto.dataColheita(), dto.quantidadeColhida(), dto.qualidade(),
-                grao, propriedade);
+                grao, propriedade, null);
         safraRepository.save(safra);
     }
 
@@ -59,7 +64,6 @@ public class SafraService {
             }
 
             case "quantidadeColhida" -> safra.setQuantidadeColhida(valor);
-
             case "qualidade" -> safra.setQualidade(valor);
 
             case "grao" -> {
@@ -67,7 +71,11 @@ public class SafraService {
                 Grao grao = graoRepository.getById(graoId);
                 safra.setGrao(grao);
             }
-
+            case "transporte" -> {
+                Long transporteId = Long.parseLong(valor);
+                Transporte transporte = transporteRepository.getById(transporteId); 
+                safra.setTransporte(transporte);;
+            }
             default -> throw new RuntimeException("Campo inválido: " + campo);
         }
 

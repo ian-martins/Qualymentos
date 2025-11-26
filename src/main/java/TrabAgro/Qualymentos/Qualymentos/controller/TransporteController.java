@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Transporte;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
+import TrabAgro.Qualymentos.Qualymentos.repository.SafraRepository;
 import TrabAgro.Qualymentos.Qualymentos.service.TransporteService;
 import lombok.RequiredArgsConstructor;
 
@@ -27,13 +28,14 @@ import lombok.RequiredArgsConstructor;
 
 public class TransporteController {
     private final TransporteService transService;
+    private final SafraRepository safraRepository;
 
     @GetMapping
-    public String telaTransporte(Model model,Authentication authentication) {
+    public String telaTransporte(Model model, Authentication authentication) {
         model.addAttribute("dto", new TransporteRequestDTO("", "", "", ""));
         return "transporte/transporte_cadastro";
     }
- 
+
     @GetMapping("/{id}")
     public String detailsTransporte(@PathVariable Long id, Authentication authentication, Model model) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
@@ -46,12 +48,18 @@ public class TransporteController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteTransporte(@PathVariable Long id) {
-        transService.deleteTransporte(id);
-        return ResponseEntity.ok().build();
+        if (!safraRepository.existsByTransporteId(id)) {
+            transService.deleteTransporte(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Impossivel Excluir! A transportadora tem Safras asociadas");
+           
+        }
+
     }
 
     @PostMapping("/add")
-    public String cadastrarTransporte (@ModelAttribute TransporteRequestDTO dto, Authentication authentication) {
+    public String cadastrarTransporte(@ModelAttribute TransporteRequestDTO dto, Authentication authentication) {
         Usuario user = (Usuario) authentication.getPrincipal();
         transService.salvarTrans(dto, user);
 

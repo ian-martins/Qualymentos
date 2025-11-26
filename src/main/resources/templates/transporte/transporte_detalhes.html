@@ -49,7 +49,7 @@
                             <span>Registro Transportadora</span>
                         </a>
                     </li>
-                   
+
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
 
-                           
+
                         </div>
                     </div>
                 </div>
@@ -194,31 +194,34 @@
         function trans_delete(elemento) {
             if (confirm("Tem certeza que deseja excluir esta propriedade? Esta ação não pode ser desfeita.")) {
                 const id = elemento.getAttribute('data-id');
+
                 fetch('/transporte/delete/' + id, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.href = '/usuario/transportes';
-                    } else {
-                        alert('Erro ao deletar a propriedade.');
-                    }
                 })
+                    .then(async response => {
+                        if (response.ok) {
+                            window.location.href = '/usuario/transportes';
+                        } else {
+                            const msg = await response.text(); // ← pega a mensagem do backend
+                            alert(msg);                        // ← exibe na caixa de diálogo
+                        }
+                    })
                     .catch(error => {
                         console.error('Erro:', error);
-                        alert('Erro ao deletar a propriedade.');
+                        alert('Erro ao deletar a transportadora.');
                     });
             }
         }
-        
+
         async function trans_edit(button) {
             const id = button.getAttribute('data-id');
             const campo = button.getAttribute('data-campo');
             const valor = prompt("Alterar Para:");
 
-            if (!campo  || valor.trim() === "") {
+            if (!campo || valor.trim() === "") {
                 alert("Operação cancelada ou valor inválido!");
                 return;
             }
@@ -234,7 +237,7 @@
                 });
 
                 if (resp.ok) {
-                    
+
                     window.location.reload();
                 } else {
                     const erro = await resp.text();

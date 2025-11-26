@@ -10,6 +10,7 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Estado;
 import TrabAgro.Qualymentos.Qualymentos.entity.Grao;
 import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Safra;
+import TrabAgro.Qualymentos.Qualymentos.entity.Transporte;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.repository.CidadeRepository;
 import TrabAgro.Qualymentos.Qualymentos.repository.EstadoRepository;
@@ -78,7 +79,8 @@ public class DataLoader {
             Usuario admin = new Usuario(null, "Administrador do Sistema", adminEmail, adminPass, null, null);
             usuarioRepo.save(admin);
             System.out.println("👑 Novo ADMIN criado.");
-
+            Transporte t1 = new Transporte(null, "tra", "tra", "tra", "tra", admin,new ArrayList<>());
+            transporteRepo.save(t1); 
             Propriedade p1 = new Propriedade(
                     null,
                     "Fazenda Admin",
@@ -117,8 +119,8 @@ public class DataLoader {
             LocalDate pDate = now.toLocalDate();
             LocalDate cDate = now.toLocalDate();
 
-            Safra safra1 = new Safra(null, pDate, cDate, "500", "5", g1, p1);
-            Safra safra2 = new Safra(null, pDate, cDate, "600", "6", g1, p1);
+            Safra safra1 = new Safra(null, pDate, cDate, "500", "5", g1, p1, t1);
+            Safra safra2 = new Safra(null, pDate, cDate, "600", "6", g1, p1,null);
 
             safraRepository.save(safra1);
             safraRepository.save(safra2);
@@ -133,7 +135,8 @@ public class DataLoader {
  * propriedade tem 1 cidade
  * propriedade tem n graos
  * grao tem 1 propriedade
- * 
+ * docker run -d -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=qualymentos -e POSTGRES_USER=postgres postgres:18
+/*
  * atributos de usuario
  * String id
  * String nome
