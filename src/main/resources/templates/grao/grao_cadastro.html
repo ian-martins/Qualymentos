@@ -50,7 +50,7 @@
 
         <main class="main-content">
             <header class="content-header">
-                <h1>Cadastrar Grão/Safra</h1>
+                <h1>Cadastrar Grão</h1>
                 <div class="action-bar">
                     <button class="btn btn-primary" onclick="voltar()">
                         Voltar
@@ -60,21 +60,21 @@
             <div class="content-body">
 
 
-                <div id="det-prop" class="tab-content">
+                <div id="det-prop" class="content-body">
                 </div>
-                <div class="details-container">
+                <div class="data-table">
                     <div class="details-form">
                          <form class="content-body" th:action="@{/propriedade/{id}/grao/add(id=${propriedade.id})}" method="post" th:object="${dto}">
                             <div class="form-group-display">
                                 <label>Tipo de Grão</label>
-                               <input type="text" th:field="*{tipoGrao}" class="form-control" required>
+                               <input type="text"   th:field="*{tipoGrao}" class="form-control" required>
                             </div>
                             
                             <div class="form-group-display">
                                 <label>Area Plantada</label>
-                                <input type="text" th:field="*{subtipoGrao}" class="form-control" required>
+                                <input type="text"   th:field="*{subtipoGrao}" class="form-control" required>
                             </div>
-                            <button type="submit" >
+                            <button  class="btn-icon" type="submit" >
                                 Confirmar
                             </button>
                         </form>
