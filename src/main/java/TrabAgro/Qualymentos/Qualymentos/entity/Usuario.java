@@ -29,13 +29,13 @@ public class Usuario {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
-    @Column(name = "nome", updatable = false, nullable = false)
+    @Column(name = "nome",  nullable = false)
     private String nome;
 
-    @Column(name = "email", updatable = false, nullable = false)
+    @Column(name = "email",  nullable = false)
     private String email;
 
-    @Column(name = "senha", updatable = false, nullable = false)
+    @Column(name = "senha",  nullable = false)
     private String senha;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

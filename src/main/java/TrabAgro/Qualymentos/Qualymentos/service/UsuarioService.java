@@ -14,12 +14,23 @@ public class UsuarioService {
     private final UsuarioRepository uRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public boolean altSenha(UpdateUserRequestDTO dto, Usuario user) {
-        if (dto.senhan() == dto.senhav() && passwordEncoder.matches(dto.senha(), user.getSenha())) {
-            user.setSenha(dto.senhan());
-            uRepository.save(user);
-            return true;
-        }
-        return false;
+    public void altSenha(UpdateUserRequestDTO dto, Usuario user) {
+        user.setSenha(passwordEncoder.encode(dto.senhan()));
+        uRepository.save(user);
     }
+
+    public void altcampos(String campo, String valor, Usuario user) {
+        switch (campo) {
+            case "nome" -> user.setNome(valor);
+            case "email" -> user.setEmail(valor);
+            default -> throw new RuntimeException("Campo inválido: " + campo);
+        }
+
+        uRepository.save(user);
+    }
+
+    public void deleteconta(Usuario user) {
+        uRepository.delete(user);
+    }
+
 }

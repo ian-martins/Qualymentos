@@ -119,7 +119,7 @@
 
                     if (loginResp.ok) {
                         // Login bem-sucedido, redireciona
-                        window.location.href = "/usuario";
+                        window.location.href = "/usuario/dashboard";
                     } else {
                         // Se o login automático falhar, volta pra tela de login
                         alert("Cadastro feito, mas houve erro ao entrar automaticamente. Faça login manualmente.");
@@ -148,7 +148,7 @@
                 });
 
                 if (resp.ok) {
-                    window.location.href = "/usuario";
+                    window.location.href = "/usuario/dashboard";
                     formLogin.reset();
                 } else {
                     const erro = await resp.text();
