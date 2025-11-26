@@ -22,15 +22,20 @@
                     <p th:text="'Olá ' + ${usuario.nome} + ', Confira seus dados.'"></p>
                 </div>
 
-                <form id="form-login" class="auth-form">s
+                <form id="form-login" class="auth-form">
                     <div class="form-group">
-                        <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="senha" placeholder="Repita sua nova senha" required>
+                        <label for="senha">Nova senha</label>
+                        <input type="password" id="senha" name="senhan" placeholder="Repita sua nova senha" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="senhav">Senha</label>
+                        <label for="senhav">Repita a nova senha</label>
                         <input type="password" id="senhav" name="senhav" placeholder="Repita sua nova senha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="senha">Senha Atual</label>
+                        <input type="password" id="senha" name="senha" placeholder="senha Atual" required>
                     </div>
 
                     
@@ -139,14 +144,9 @@
         const formLogin = document.getElementById('form-login');
         formLogin.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const senhaAtual = prompt("senha atual: ");
-            if(document.getElementsByName('senha') !== document.getElementsByName('senhav')){
-                return
-            }
-
-            const dadosL = Object.fromEntries(new FormData(formLogin).entries(), senhaAtual);
+            const dadosL = Object.fromEntries(new FormData(formLogin).entries());
             try {
-                const resp = await fetch("http://localhost:8080/auth/login", {
+                const resp = await fetch("http://localhost:8080/usuario", {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dadosL)

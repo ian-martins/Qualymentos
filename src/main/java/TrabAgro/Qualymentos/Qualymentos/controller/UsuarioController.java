@@ -10,15 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import TrabAgro.Qualymentos.Qualymentos.dto.propriedade.PropriedadeResponseDTO;
 import TrabAgro.Qualymentos.Qualymentos.dto.transporte.TransporteResponseDTO;
+import TrabAgro.Qualymentos.Qualymentos.dto.user.UpdateUserRequestDTO;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.GraoService;
 import TrabAgro.Qualymentos.Qualymentos.service.PropriedadeService;
 import TrabAgro.Qualymentos.Qualymentos.service.TransporteService;
+import TrabAgro.Qualymentos.Qualymentos.service.UsuarioService;
 
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
  
 @Controller
 @RequestMapping("/usuario")
@@ -27,6 +30,7 @@ public class UsuarioController {
     private final PropriedadeService propriedadeService;
     private final TransporteService transService;
     private final GraoService graoService;
+    private final UsuarioService userService;
 
     @GetMapping
     public String user(Authentication authentication, Model model){
@@ -71,8 +75,10 @@ public class UsuarioController {
     }
 
     @PutMapping
-    public String mudarsenha(){
+    public String mudarsenha(@RequestBody UpdateUserRequestDTO dto, Authentication authentication){
+        Usuario user = (Usuario) authentication.getPrincipal();
         
+        userService.altSenha(dto, user);
         return null;
     }
 }
