@@ -1,5 +1,9 @@
 package TrabAgro.Qualymentos.Qualymentos.controller;
 
+import java.util.Base64;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,14 +42,17 @@ public class HomeController {
         model.addAttribute("grao", grao);
         model.addAttribute("propriedade", propriedade);
         model.addAttribute("usuario", usuario);
+        byte[] imagem = qr.gerarQrCode(lote);
+        String base64 = Base64.getEncoder().encodeToString(imagem);
+        model.addAttribute("qr", base64);
 
         return "public/lote";
     }
 
-    @GetMapping("/lote/teste/{lote}")
-    public String getMethodName(@PathVariable String lote) {
-        qr.gerarQrCode(lote);
-        return null;
+    @GetMapping(value = "/qrcode/{lote}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> qrCode(@PathVariable String lote) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(qr.gerarQrCode(lote));
     }
-
 }
