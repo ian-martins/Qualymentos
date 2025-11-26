@@ -4,46 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QualyMentos - Login</title>
-    <meta http-equiv="refresh" content="100">
-    <link rel="stylesheet" th:href="@{/css/style-auth.css}">
+    <title>QualyMentos - Informações</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+       body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--cor-texto-principal);
+    -webkit-font-smoothing: antialiased;
+
+    /* CENTRALIZAÇÃO (voltou!) */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+
+    /* Imagem de fundo + overlay */
+    background-image:
+        linear-gradient(to bottom, rgba(230, 247, 233, 0.8), rgba(230, 247, 233, 0.8)),
+        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1932');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* mantém o fundo cobrindo toda a tela */
+}
+
+
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            width: 100%;
+            max-width: 450px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1aa34a;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #444;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1aa34a;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            border-left: 4px solid #1aa34a;
+            padding-left: 8px;
+        }
+
+        .info-list p {
+            margin: 4px 0;
+            font-size: 15px;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        img {
+            width: 180px;
+            height: 180px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="auth-container">
-        <div id="login-page">
-            <div class="auth-card">
 
-                <div class="auth-header">
-                    <span class="logo-text">QualyMentos</span>
-                    <h2>QualyMentos</h2>
-                    <p>QualyMentos QualyMentos QualyMentos</p>
-                </div>
-                <p th:text="'Responsavel: ' + ${usuario.nome}"></p>
-                <p th:text="'Email responsavel: '+ ${usuario.email}"></p>
-                <p th:text=" ${propriedade.nome}"></p>
-                <p th:text=" ${propriedade.areaTotal}"></p>
-                <p th:text=" ${propriedade.tipoSolo}"></p>
-                <p th:text=" ${propriedade.tipoCultura}"></p>
-                <p th:text=" ${grao.tipoGrao}   "></p>
-                <p th:text=" ${grao.subtipoGrao}"></p>
-                <p th:text=" ${grao.tipoGrao}   "></p>
-                <p th:text=" ${grao.subtipoGrao}"></p>
-                <p th:text=" ${safra.dataPlantio} "></p>
-                <p th:text=" ${safra.dataColheita}"></p>
-                <p th:text=" ${safra.quantidadeColhida}"></p>
-                <p th:text=" ${safra.qualidade}"></p>
-                <img th:src="'data:image/png;base64,' + ${qr}" />
+    <div class="card">
 
+        <h1>QualyMentos</h1>
+        <p class="subtitle">Informações do Lote</p>
 
+        <!-- SEÇÃO DO RESPONSÁVEL -->
+        <div class="section-title">Responsável</div>
+        <div class="info-list">
+            <p th:text="'Nome: ' + ${usuario.nome}"></p>
+            <p th:text="'E-mail: ' + ${usuario.email}"></p>
+        </div>
 
-            </div>
+        <!-- SEÇÃO DA PROPRIEDADE -->
+        <div class="section-title">Propriedade</div>
+        <div class="info-list">
+            <p th:text="'Nome da propriedade: ' + ${propriedade.nome}"></p>
+            <p th:text="'Área total: ' + ${propriedade.areaTotal} + ' hectares'"></p>
+            <p th:text="'Tipo de solo: ' + ${propriedade.tipoSolo}"></p>
+            <p th:text="'Cultura: ' + ${propriedade.tipoCultura}"></p>
+        </div>
+
+        <!-- SEÇÃO DOS GRÃOS -->
+        <div class="section-title">Grão</div>
+        <div class="info-list">
+            <p th:text="'Tipo do grão: ' + ${grao.tipoGrao}"></p>
+            <p th:text="'Subtipo: ' + ${grao.subtipoGrao}"></p>
+        </div>
+
+        <!-- SEÇÃO DA SAFRA -->
+        <div class="section-title">Safra</div>
+        <div class="info-list">
+            <p th:text="'Data de plantio: ' + ${safra.dataPlantio}"></p>
+            <p th:text="'Data de colheita: ' + ${safra.dataColheita}"></p>
+            <p th:text="'Quantidade colhida: ' + ${safra.quantidadeColhida} + ' kg'"></p>
+            <p th:text="'Qualidade: ' + ${safra.qualidade}"></p>
+        </div>
+
+        <!-- QR CODE -->
+        <div class="qr-container">
+            <img th:src="'data:image/png;base64,' + ${qr}" />
         </div>
 
     </div>
+
 </body>
 
 </html>
