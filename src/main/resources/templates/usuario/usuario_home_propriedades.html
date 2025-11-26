@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroTrace - Propriedades</title>
+    <title>QualyMentos - Propriedades</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,7 +79,7 @@
             <header class="content-header">
                 <h1>Propriedades Cadastradas</h1>
                 <div class="action-bar">
-                    <input type="search" class="search-input" placeholder="Buscar por nome ou CNPJ...">
+
                     <button class="btn btn-primary" onclick="prop_add()">
                         + Nova Propriedade
                     </button>
@@ -90,19 +90,17 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Nome da Fazenda</th>
-                            <th>Administrador</th>
-                            <th>Localização</th>
-                            <th>Status</th>
+                            <th>Nome da Fazenda</th>                       
+                            <th>Localização</th>                           
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="prop : ${propriedades}">
                             <td th:text="'Fazenda ' + ${prop.nome}"></td>
-                            <td></td>
+                            
                             <td th:text="${prop.cidade} + ' - ' + ${prop.estado}"></td>
-                            <td><span class="status status-active">Ativa</span></td>
+                            
                             <td class="actions">
                                 <button class="icon-btn" title="Editar" th:data-id="${prop.id}"
                                     onclick="prop_view(this)">
