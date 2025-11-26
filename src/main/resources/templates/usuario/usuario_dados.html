@@ -127,7 +127,8 @@
 
                 if (resp.ok) {
                     alert("Campo atualizado com sucesso!");
-                    window.location.reload();
+                    window.location.href = '/usuario/propriedades';
+
                 } else {
                     const erro = await resp.text();
                     alert("Erro ao atualizar: " + erro);
