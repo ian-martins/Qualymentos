@@ -16,7 +16,7 @@ public class TransporteService {
     private final TransportadoraRepository transRepository;
 
     public void salvarTrans(TransporteRequestDTO dto, Usuario user) {
-        Transporte newTrans = new Transporte(null, dto.nome(), dto.cnpj(), user);
+        Transporte newTrans = new Transporte(null, dto.nome(), dto.cnpj(), dto.telefone(), dto.email(), user);
         transRepository.save(newTrans);
     }
 
@@ -29,6 +29,8 @@ public class TransporteService {
         switch (campo) {
             case "nome" -> updateTrans.setNome(valor);
             case "cnpj" -> updateTrans.setCnpj(valor);
+            case "email" -> updateTrans.setEmail(valor); 
+            case "telefone" -> updateTrans.setTelefone(valor); 
         }
         transRepository.save(updateTrans);
     }

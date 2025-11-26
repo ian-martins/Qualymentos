@@ -31,8 +31,11 @@ public class Transporte {
     @Column(name = "cnpj", nullable = false)
     private String cnpj;
 
-/*     @Column(name = "telefone", nullable = false)
-    private String telefone; */
+    @Column(name = "telefone", nullable = false)
+    private String telefone;
+
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")

@@ -90,10 +90,10 @@
             <div class="content-body">
                 <div class="data-table">
                     <form class="content-body" th:action="@{/transporte/add}" method="post" th:object="${dto}">
-                        <input type="text" th:field="*{nome}" class="form-control" placeholder="Transportadora"
-                            required>
-                        <input type="text" th:field="*{cnpj}" class="form-control" placeholder="CNPJ/CPF"
-                            required>
+                        <input type="text" th:field="*{nome}" class="form-control" placeholder="Transportadora" required>
+                        <input type="text" th:field="*{cnpj}" class="form-control" placeholder="CNPJ/CPF" required>
+                        <input type="text" th:field="*{telefone}" class="form-control" placeholder="telefone" required>
+                        <input type="text" th:field="*{email}" class="form-control" placeholder="email" required>
                         <div class="form-actions mt-3">
                             <button type="submit" class="btn btn-success px-4">
                                 Confirmar

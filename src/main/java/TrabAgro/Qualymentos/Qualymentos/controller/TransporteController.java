@@ -30,18 +30,15 @@ public class TransporteController {
 
     @GetMapping
     public String telaTransporte(Model model,Authentication authentication) {
-        model.addAttribute("dto", new TransporteRequestDTO("", ""));
+        model.addAttribute("dto", new TransporteRequestDTO("", "", "", ""));
         return "transporte/transporte_cadastro";
     }
  
     @GetMapping("/{id}")
-    public String detailsTransporte(@PathVariable Long id,Authentication authentication, Model model) {
-           Usuario usuario = (Usuario) authentication.getPrincipal();
+    public String detailsTransporte(@PathVariable Long id, Authentication authentication, Model model) {
+        Usuario usuario = (Usuario) authentication.getPrincipal();
         model.addAttribute("usuario", usuario);
-        
         Transporte transporte = transService.getById(id);
-
-
         model.addAttribute("transportes", transporte);
 
         return "transporte/transporte_detalhes";
@@ -54,8 +51,7 @@ public class TransporteController {
     }
 
     @PostMapping("/add")
-    public String cadastrarTransporte (@ModelAttribute TransporteRequestDTO dto,
-            Authentication authentication) {
+    public String cadastrarTransporte (@ModelAttribute TransporteRequestDTO dto, Authentication authentication) {
         Usuario user = (Usuario) authentication.getPrincipal();
         transService.salvarTrans(dto, user);
 
