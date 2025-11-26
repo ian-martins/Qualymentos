@@ -9,6 +9,7 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Propriedade;
 import TrabAgro.Qualymentos.Qualymentos.entity.Safra;
 import TrabAgro.Qualymentos.Qualymentos.entity.Usuario;
 import TrabAgro.Qualymentos.Qualymentos.service.PropriedadeService;
+import TrabAgro.Qualymentos.Qualymentos.service.QRCodeGenerator;
 import TrabAgro.Qualymentos.Qualymentos.service.SafraService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class HomeController {
     private final SafraService safraService;
     private final PropriedadeService propriedadeService;
+    private final QRCodeGenerator qr;
 
     @GetMapping
     public String ola() {
@@ -35,8 +37,15 @@ public class HomeController {
         model.addAttribute("safra", safra);
         model.addAttribute("grao", grao);
         model.addAttribute("propriedade", propriedade);
-        model.addAttribute("usuario", usuario); 
-        
+        model.addAttribute("usuario", usuario);
+
         return "public/lote";
     }
+
+    @GetMapping("/lote/teste/{lote}")
+    public String getMethodName(@PathVariable String lote) {
+        qr.gerarQrCode(lote);
+        return null;
+    }
+
 }
