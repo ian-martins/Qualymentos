@@ -3,7 +3,6 @@ package TrabAgro.Qualymentos.Qualymentos.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,7 +45,7 @@ public class Transporte {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "transporte", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "transporte")
     private List<Safra> safra = new ArrayList<>();
 
 }

@@ -45,10 +45,10 @@
                                 <line x1="12" y1="6" x2="12" y2="12"></line>
                                 <line x1="12" y1="12" x2="16" y2="14"></line>
                             </svg>
-                            <span>Safras Planejadas</span>
+                            <span>Safra</span>
                         </a>
                     </li>
-                    <li id="sidebar-alte" onclick="openTab(event, 'alte')">
+                    <li id="sidebar-alte" onclick="lote(this)" th:data-id="${safra.lote}">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -57,7 +57,7 @@
                                 <line x1="12" y1="18" x2="12" y2="12"></line>
                                 <line x1="9" y1="15" x2="15" y2="15"></line>
                             </svg>
-                            <span>Alterar</span>
+                            <span>Visualivar Dados do Lote</span>
                         </a>
                     </li>
 
@@ -111,7 +111,7 @@
                 <div class="tabs-container">
                     <ul class="tabs">
                         <li id="li-safra" onclick="openTab(event, 'safra')" class="active"><a>Safra</a></li>
-                        <li id="li-alte" onclick="openTab(event, 'alte')"><a>Alterar</a></li>
+                        <!-- <li id="li-alte" onclick="openTab(event, 'alte')"><a>Alterar</a></li> -->
                     </ul>
                 </div>
 
@@ -151,13 +151,11 @@
                                         <div class="data-value hidden" id="hidden-divt">
                                             <select class="btn-icon btn-icon-save" id="transporte-select">
 
-                                                <!-- SE NÃO EXISTIR NENHUM TRANSPORTE NO SISTEMA -->
-                                                <option th:if="${#lists.isEmpty(transportes)}" value="">
+                                                <option th:if="${#lists.isEmpty(transporte)}" value="">
                                                     Nenhuma transportadora cadastrada
                                                 </option>
 
-                                                <!-- LISTAR TRANSPORTADORAS EXISTENTES -->
-                                                <option th:each="t : ${transportes}" th:value="${t.id}"
+                                                <option th:each="t : ${transporte}" th:value="${t.id}"
                                                     th:text="${t.nome}"
                                                     th:selected="${safra.transporte != null} ? ${t.id} == ${safra.transporte.id} : false">
                                                 </option>
@@ -299,11 +297,6 @@
                         <div class="details-container">
                             <div class="details-form">
                                 <br>
-                                <a onclick="lote(this)" th:data-id="${safra.lote}" href="javascript:void(0);">clicar</a>
-                                <a onclick="lote2(this)" th:data-id="${safra.lote}"
-                                    href="javascript:void(0);">clicar</a>
-
-
                                 <div class="content-body">
                                     <table class="data-table">
                                         <thead>

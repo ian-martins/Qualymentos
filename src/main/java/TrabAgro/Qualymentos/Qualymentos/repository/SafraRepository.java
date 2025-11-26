@@ -7,5 +7,7 @@ import TrabAgro.Qualymentos.Qualymentos.entity.Safra;
 
 @Repository
 public interface SafraRepository extends JpaRepository<Safra, String>{
+
+    boolean existsByTransporteId(Long id);
     
 }

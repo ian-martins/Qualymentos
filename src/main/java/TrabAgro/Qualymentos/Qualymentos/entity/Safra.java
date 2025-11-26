@@ -2,6 +2,9 @@ package TrabAgro.Qualymentos.Qualymentos.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +41,8 @@ public class Safra {
     private Propriedade propriedade;
 
     @ManyToOne
-    @JoinColumn(name = "transporte_id")
+    @JoinColumn(name = "transporte_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Transporte transporte;
 }
 

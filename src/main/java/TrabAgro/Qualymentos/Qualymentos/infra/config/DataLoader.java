@@ -79,7 +79,7 @@ public class DataLoader {
             Usuario admin = new Usuario(null, "Administrador do Sistema", adminEmail, adminPass, null, null);
             usuarioRepo.save(admin);
             System.out.println("👑 Novo ADMIN criado.");
-            Transporte t1 = new Transporte(null, adminPass, adminPass, adminPass, adminEmail, admin,new ArrayList<>());
+            Transporte t1 = new Transporte(null, "tra", "tra", "tra", "tra", admin,new ArrayList<>());
             transporteRepo.save(t1); 
             Propriedade p1 = new Propriedade(
                     null,
@@ -119,7 +119,7 @@ public class DataLoader {
             LocalDate pDate = now.toLocalDate();
             LocalDate cDate = now.toLocalDate();
 
-            Safra safra1 = new Safra(null, pDate, cDate, "500", "5", g1, p1, null);
+            Safra safra1 = new Safra(null, pDate, cDate, "500", "5", g1, p1, t1);
             Safra safra2 = new Safra(null, pDate, cDate, "600", "6", g1, p1,null);
 
             safraRepository.save(safra1);

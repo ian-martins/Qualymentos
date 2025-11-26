@@ -18,6 +18,7 @@ import TrabAgro.Qualymentos.Qualymentos.service.TransporteService;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
  
 @Controller
 @RequestMapping("/usuario")
@@ -27,12 +28,18 @@ public class UsuarioController {
     private final TransporteService transService;
     private final GraoService graoService;
 
-
     @GetMapping
+    public String user(Authentication authentication, Model model){
+        Usuario user = (Usuario) authentication.getPrincipal();
+        model.addAttribute("usuario", user);
+        return "usuario/usuario_dados";
+    }
+
+    @GetMapping("/dashboard")
     public String dashboard(Authentication authentication, Model model) {
         Usuario user = (Usuario) authentication.getPrincipal();
         model.addAttribute("usuario", user);
-        return "usuario/usuario_home";
+        return "usuario/usuario_home_dashboard";
     }
 
     @GetMapping("/propriedades")
@@ -63,11 +70,9 @@ public class UsuarioController {
         return "usuario/usuario_home_transportes";
     }
 
-    /* @PostMapping("{id}/AddGrao")
-    public ResponseEntity addGrao(@RequestBody RegisterGraoDTO dto, @PathVariable Long id) {
-        Propriedade propriedade = propriedadeService.getById(id);
-        graoService.salvarGrao(dto, propriedade);
-
-        return ResponseEntity.ok().build();
-    } */
+    @PutMapping
+    public String mudarsenha(){
+        
+        return null;
+    }
 }
