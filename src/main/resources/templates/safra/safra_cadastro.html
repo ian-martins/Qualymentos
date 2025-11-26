@@ -64,37 +64,40 @@
 
 
                 </div>
-                <div class="details-container">
-                    <div class="details-form">
+                <div class="content-body">
+                    <div class="data-table">
                          
                         <form class="content-body" th:action="@{/propriedade/{id}/safra/add(id=${propriedade.id})}" method="post" th:object="${dto}">
                            
                             <div class="form-group-display">
-                                <label>Tipo de Grão</label>
-                               <input type="date" th:field="*{dataPlantio}" class="form-control" required>
+                                <label>Data de Plantio</label>
+                               <input type="date"  th:field="*{dataPlantio}" class="form-control" required>
                             </div>
                             
                             <div class="form-group-display">
-                                <label>Area Plantada</label>
+                                <label>Data Colheita</label>
                                 <input type="date" th:field="*{dataColheita}" class="form-control">
                             </div>
                             
                             <div class="form-group-display">
-                                <label>Data do plantio</label>
-                                <input type="text" th:field="*{quantidadeColhida}"  required>
+                                <label>Quantidade Colhida</label>
+                                <input type="text" class="form-control" th:field="*{quantidadeColhida}"  required>
                             </div>
                            
                             <div class="form-group-display">
-                                <label>Data do plantio</label>
-                                <input type="text" th:field="*{qualidade}"  required>
+                                <label>Qualidade</label>
+                                <input type="text"  class="form-control" th:field="*{qualidade}"  required>
                             </div>
-                           
+                            
+                            <div class="form-group-display">
+                            <label>Tipo de Grão</label>
                             <select class="btn-icon" th:field="*{graoId}" required>
                                 <option value="">Selecione...</option>
                                 <option th:each="g : ${graos}" th:value="${g.id}" th:text="${g.tipoGrao} + ' ' + ${g.subtipoGrao}"></option>
                             </select>
-                            
-                            <button type="submit" >
+                            </div>
+                            <br>
+                            <button class="btn-icon" type="submit" >
                                 Confirmar
                             </button>
                         </form>
