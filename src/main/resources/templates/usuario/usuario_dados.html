@@ -26,15 +26,15 @@
 
                 <form id="form-Cadastro" class="auth-form">
                     <div class="form-group-display">
-                        <label>Proprietário:</label>
-                        <div class="data-value" th:text="${usuario.nome}"></div>
-
+                        
+                        <div class="data-value" th:text="|Proprietário: ${usuario.nome}|"></div>
+                        <br>
                         <button type="button" onclick="prop_edit(this)" data-campo="nome" data-id="${usuario.id}"
-                            class="btn-empty">
+                            class="btn-social">
                             Alterar nome
                         </button>
                     </div>
-
+                        
 
                     <div class="auth-footer">
                         <p><a onclick="togglePage()">Alterar senha</a></p>
@@ -127,7 +127,7 @@
 
                 if (resp.ok) {
                     alert("Campo atualizado com sucesso!");
-                    window.location.href = '/usuario/propriedades';
+                    window.location.href = '/usuario';
 
                 } else {
                     const erro = await resp.text();
